@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="IU-241.15989.150">
+    <data-source name="microservices_db@cluster0.hwlpkz2.mongodb.net" uuid="753e7ef2-6682-4145-8e2c-44b78a6bab34">
+      <database-info product="Mongo DB" version="7.0.11" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.18" dbms="MONGO" exact-version="7.0.11" exact-driver-version="1.18" />
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <user-name>kenidingh</user-name>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>

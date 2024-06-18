@@ -38,6 +38,7 @@
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.ServiceProductApplication.executor": "Run",
     "git-widget-placeholder": "keniding",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/USER/Documents/GitHub/Proyecto_Microservicios_Restaurante_Code_Hunters_2024/Proyecto_Microservicios_Restaurante/service_product",
@@ -90,7 +91,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1718674723557</updated>
-      <workItem from="1718674724807" duration="661000" />
+      <workItem from="1718674724807" duration="1536000" />
     </task>
     <servers />
   </component>
