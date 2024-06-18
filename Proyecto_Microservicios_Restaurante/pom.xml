@@ -4,8 +4,12 @@
   <groupId>com.keniding</groupId>
   <artifactId>Proyecto_Microservicios_Restaurante</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <name>Archetype - Proyecto_Microservicios_Restaurante</name>
   <url>http://maven.apache.org</url>
+  <modules>
+    <module>service_product</module>
+  </modules>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
