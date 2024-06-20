@@ -1,0 +1,115 @@
+:root {
+    --primary-color: #1bb020;
+    --secondary-color: #FF5722;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --card-bg-color: #fff;
+    --card-shadow-color: rgba(0, 0, 0, 0.1);
+    --font-family: 'Arial', sans-serif;
+    --font-size: clamp(17px, 1.6vw, 20px); /* Entre 15px y 20px, dependiendo del ancho de la ventana gráfica */
+    --input-bg-color: #fff;
+    --input-border-color: #ccc;
+    --input-focus-border-color: var(--primary-color);
+    --input-shadow-color: rgba(0, 0, 0, 0.1);
+    --input-text-color: #333;
+    --button-bg-color: var(--primary-color);
+    --button-hover-bg-color: var(--secondary-color);
+    --button-text-color: #fff;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    font-size: var(--font-size);
+}
+
+header {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    padding: 20px;
+    text-align: center;
+    color: white;
+    width: 100%;
+    position: fixed;
+} 
+
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 100px;
+}
+
+h1 {
+    margin-bottom: 50px;
+    font-size: 2.5em;
+    color: var(--primary-color);
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px var(--card-shadow-color);
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.2em;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 200px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px var(--card-shadow-color);
+}
+
+.card:active {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px var(--card-shadow-color);
+}
+
+footer {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
