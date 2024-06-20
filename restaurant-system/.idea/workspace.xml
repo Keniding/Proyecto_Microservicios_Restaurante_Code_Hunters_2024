@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d36f7f13-f297-4af7-b681-548263af9c72" name="Changes" comment="" />
+    <list default="true" id="d36f7f13-f297-4af7-b681-548263af9c72" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/753e7ef2-6682-4145-8e2c-44b78a6bab34.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/753e7ef2-6682-4145-8e2c-44b78a6bab34.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -18,11 +23,11 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2i23DMb6y1DTVOTPuhmFBhQFVpa" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -43,9 +48,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.ServiceProductApplication.executor": "Run",
-    "git-widget-placeholder": "keniding",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/Documents/GitHub/Proyecto_Microservicios_Restaurante_Code_Hunters_2024/Proyecto_Microservicios_Restaurante/service_product",
+    "last_opened_file_path": "C:/xampp/htdocs/Proyecto_Microservicios_Restaurante_Code_Hunters_2024/restaurant-system",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -96,6 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1718674723557</updated>
       <workItem from="1718674724807" duration="3233000" />
+      <workItem from="1718914177636" duration="524000" />
     </task>
     <servers />
   </component>
