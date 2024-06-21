@@ -1,5 +1,5 @@
 <?php
-require_once '../login/register.php';
+require_once '../db/register.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dni = $_POST['dni'];
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $register->registerUser($dni, $username, $password, $email, $telefono, $rol);
 
-    header('Location: ../../views/login/login.php');
+    header('Location: ../../../../frontend/app/login/login.php');
     exit();
 }
 ?>

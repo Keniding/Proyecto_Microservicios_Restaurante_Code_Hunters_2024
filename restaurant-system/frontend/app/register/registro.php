@@ -5,7 +5,7 @@
 </head>
 <body>
     <h2>Formulario de Registro</h2>
-    <form action="../../php/request/register_user.php" method="post">
+    <form action="../../../backend/api/register/controller/register_user.php" method="post">
         <label for="dni">DNI:</label><br>
         <input type="text" id="dni" name="dni" required><br>
         <label for="username">Nombre de usuario:</label><br>
