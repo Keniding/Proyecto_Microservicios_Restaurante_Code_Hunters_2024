@@ -15,7 +15,7 @@ class Database {
         $this->password = $_ENV['DB_PASSWORD'];
     }
 
-    public function getConnection() {
+    public  function getConnection() {
         $this->conn = null;
 
         try {
