@@ -1,4 +1,6 @@
-<?php
+<?php 
+//namespace App\Database;
+
 require_once 'env.php';
 
 class Database {

@@ -1,4 +1,6 @@
 <?php
+namespace App\Env;
+
 require_once __DIR__ . '/../vendor/autoload.php'; 
 
 use Dotenv\Dotenv;
