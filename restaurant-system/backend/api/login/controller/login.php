@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn = null;
     
-    // header('Location: ../../views/index.php');
-    // exit();
+    header('Location: ../../../../frontend/app/menu/menu.php');
+    exit();
 }
 ?>
