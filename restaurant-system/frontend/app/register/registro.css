@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #FF5722;
-    --secondary-color: #1bb020;
+    --primary-color: #1bb020;
+    --secondary-color: #FF5722;
     --tertiary-color: #FBC2EB;
     --background-color: rgba(255, 255, 255, 0.2);
     --font-family: Arial, sans-serif;
@@ -45,7 +45,7 @@ body {
     animation: bounce 2s infinite;
 }
 
-@keyframes bounce {
+@keyframes bounce { 
     0%, 20%, 50%, 80%, 100% {
         transform: translateY(0);
     }
@@ -62,12 +62,13 @@ body {
 }
 
 .login-container input[type="text"],
-.login-container input[type="password"] {
+.login-container input[type="password"],
+.login-container input[type="email"]{
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 8px;
+    margin: 8px 0;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 17px;
     box-sizing: border-box;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
@@ -75,7 +76,8 @@ body {
 }
 
 .login-container input[type="text"]:focus,
-.login-container input[type="password"]:focus {
+.login-container input[type="password"]:focus,
+.login-container input[type="email"]:focus {
     box-shadow: inset 0 0 5px var(--input-focus-color);
     border: 1px solid var(--input-focus-color);
     outline: none;
@@ -192,7 +194,7 @@ body {
 
 .login-container {
     background: var(--background-color);
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 30px 40px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -219,6 +221,10 @@ body {
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
+    }
+
+    .login-container {
+        margin-top: 370px;
     }
 
     .image-container {

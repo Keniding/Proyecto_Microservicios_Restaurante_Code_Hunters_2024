@@ -21,11 +21,11 @@
     </header>
 
     <div class="container">
-        <div class="hero grid-container">
-            <h1 class="hero-text grid-item"><img src="assets/icons/tomato.png" alt="Tomato Mascot" class="mascot">Bienvenido a Tomato</h1>
-            <div class="grid-item card-off">
+        <div class="hero features">
+            <h1 class="hero-text feature"><img src="assets/icons/tomato.png" alt="Tomato Mascot" class="mascot">Bienvenido a Tomato</h1>
+            <div class="feature">
                 <p>El sistema de gestión interna para tu restaurante.</p>
-                <a href="app/login/login.php" class="btn-primary">Iniciar Sesión</a>
+                <a href="app/login/login.php" class="btn-primary">Login</a>
                 <a href="app/register/registro.php" class="btn-secondary">Registrar</a>
             </div>
         </div>

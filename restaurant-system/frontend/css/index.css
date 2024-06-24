@@ -67,6 +67,7 @@
     justify-content: space-around;
     margin: 50px 0;
     padding: 0 20px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .feature {
@@ -77,6 +78,20 @@
     margin: 10px;
     flex: 1 1 calc(33.333% - 40px); 
     transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hero .hero-text {
+    background-color: none;
+    box-shadow: none;
+    padding: 20px;
+    margin: 10px;
+    flex: 1 1 calc(33.333% - 40px); 
+    transition: none;
+}
+
+.hero .hero-text:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 .feature:hover {
@@ -94,11 +109,31 @@
         flex: 1 1 80%;
     }
 
+    .hero .hero-text {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .features .feature a {
+        margin: 10px 0 10px 0;
+    }
+
     .hero h1 {
         font-size: 2.5em;
     }
 
     .hero p {
         font-size: 1em;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
