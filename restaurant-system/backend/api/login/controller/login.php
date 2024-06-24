@@ -19,6 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $result['password'])) {
             $_SESSION['username'] = $result['username'];
             echo "Inicio de sesión exitoso";
+            header('Location: ../../../../frontend/app/menu/menu.php');
+            exit();
         } else {
             echo "Contraseña incorrecta";
         }
@@ -28,7 +30,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn = null;
     
-    header('Location: ../../../../frontend/app/menu/menu.php');
-    exit();
 }
 ?>

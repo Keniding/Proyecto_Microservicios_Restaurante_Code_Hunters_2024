@@ -20,7 +20,7 @@
     margin: 20px 0;
 }
 
-.hero .btn-primary {
+.btn-primary {
     background-color: var(--primary-color);
     color: var(--button-text-color);
     padding: 10px 20px;
@@ -29,8 +29,23 @@
     transition: background-color 0.3s;
 }
 
-.hero .btn-primary:hover {
+.btn-primary:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+.btn-secondary {
     background-color: var(--secondary-color);
+    color: var(--button-text-color);
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
 }
 
 .hero-text {
