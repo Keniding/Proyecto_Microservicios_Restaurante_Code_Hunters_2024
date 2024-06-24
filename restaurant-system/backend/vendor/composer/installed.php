@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
-        'name' => 'sistem/restaurant',
+        'name' => 'system/restaurant',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '621167ce509ff6f7494332a1473723a4be5844e3',
+        'reference' => '6de65480546ff48a9dcdff762ff44e34b944e7b3',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -133,15 +133,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'sistem/restaurant' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '621167ce509ff6f7494332a1473723a4be5844e3',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'symfony/deprecation-contracts' => array(
             'pretty_version' => 'v3.5.0',
             'version' => '3.5.0.0',
@@ -175,6 +166,15 @@
             'reference' => '77fa7995ac1b21ab60769b7323d600a991a90433',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-php80',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'system/restaurant' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '6de65480546ff48a9dcdff762ff44e34b944e7b3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

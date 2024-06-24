@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/restaurant-system/css/styles.css">
-    <link rel="icon" href="/restaurant-system/assets/icons/restaurant.png" type="image/x-icon">
     <title>Sistema de Gestión de Restaurante</title>
 </head>
 <body>

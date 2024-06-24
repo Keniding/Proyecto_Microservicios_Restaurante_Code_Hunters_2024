@@ -6,7 +6,7 @@
     --card-bg-color: #fff;
     --card-shadow-color: rgba(0, 0, 0, 0.1);
     --font-family: 'Arial', sans-serif;
-    --font-size: clamp(17px, 1.6vw, 20px); /* Entre 15px y 20px, dependiendo del ancho de la ventana gráfica */
+    --font-size: clamp(17px, 1.6vw, 20px); 
     --input-bg-color: #fff;
     --input-border-color: #ccc;
     --input-focus-border-color: var(--primary-color);
@@ -68,6 +68,29 @@ h1 {
     margin-bottom: 50px;
     font-size: 2.5em;
     color: var(--primary-color);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.grid-item {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.card-off {
+    background: var(--background-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px var(--card-shadow-color);
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.2em;
 }
 
 .card-container {

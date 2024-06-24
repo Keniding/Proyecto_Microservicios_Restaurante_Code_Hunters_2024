@@ -1,12 +1,12 @@
 <?php
-require_once __DIR__ . '/../../vendor/autoload.php'; 
+require '../vendor/autoload.php';
+require 'Dbase.php';
+require '../includes/helpers.php';
 
 use Dotenv\Dotenv;
-//use App\Database\Database;
-require '../db.php';
 
 // Ruta al archivo .env
-$envPath = __DIR__ . '/../../';
+$envPath = __DIR__ . '/../';
 
 // Cargar las variables de entorno desde el archivo .env
 $dotenv = Dotenv::createImmutable($envPath);
@@ -18,7 +18,7 @@ echo 'DB_NAME: ' . $_ENV['DB_NAME'] . '<br>';
 echo 'DB_USERNAME: ' . $_ENV['DB_USERNAME'] . '<br>';
 echo 'DB_PASSWORD: ' . $_ENV['DB_PASSWORD'] . '<br>';
 
-$db = new Database();
+$db = new DatabaseConnection;
 $conn = $db->getConnection();
 
 if ($conn) {
@@ -26,4 +26,6 @@ if ($conn) {
 } else {
     echo "Error al conectar a la base de datos.<br>";
 }
+
+loadView('backend', 'auth.login');
 ?>

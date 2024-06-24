@@ -8,7 +8,8 @@ class Database {
     private $db_name;
     private $username;
     private $password;
-    public $conn;
+    private $charset = 'utf8mb4';
+    private $pdo;
 
     public function __construct() {
         $this->host = $_ENV['DB_HOST'];
@@ -17,18 +18,23 @@ class Database {
         $this->password = $_ENV['DB_PASSWORD'];
     }
 
-    public  function getConnection() {
-        $this->conn = null;
+    public function getConnection() {
+        $this->pdo = null;
+
+        $dsn = "mysql:host=$this->host;dbname=$this->db_name;charset=$this->charset";
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ];
 
         try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conn->exec("set names utf8");
+            $this->pdo = new PDO($dsn, $this->username, $this->password, $options);
             echo "Conexión exitosa a la base de datos<br>";
-        } catch(PDOException $exception) {
+        } catch (PDOException $exception) {
             echo "Connection error: " . $exception->getMessage() . "<br>";
         }
 
-        return $this->conn;
+        return $this->pdo;
     }
 }
