@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="registro.css">
     <title>Registro de Trabajadores</title>
 </head>
 <body>
-    <h2>Formulario de Registro</h2>
-    <form action="../../../backend/api/register/controller/register_user.php" method="post">
-        <label for="dni">DNI:</label><br>
-        <input type="text" id="dni" name="dni" required><br>
-        <label for="username">Nombre de usuario:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Contraseña:</label><br>
-        <input type="password" id="password" name="password" required><br>
-        <label for="email">Correo electrónico:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="telefono">Teléfono:</label><br>
-        <input type="text" id="telefono" name="telefono"><br>
-        <label for="rol">Rol:</label><br>
-        <input type="text" id="rol" name="rol" required><br><br>
-        <input type="submit" value="Registrarse">
-    </form>
+    <div class="container">
+        <div class="login-container">
+            <div class="avatar">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png" alt="Avatar">
+            </div>
+            <h2>Formulario de Registro</h2>
+            <form action="../../../backend/api/register/controller/register_user.php" method="post">
+                <input type="text" id="dni" name="dni" placeholder="DNI" required>
+                <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+                <input type="text" id="telefono" name="telefono" placeholder="Teléfono">
+                <input type="text" id="rol" name="rol" placeholder="Rol" required>
+                <button type="submit" class="login-btn">Registrarse</button>
+            </form>
+            <a class="register-btn" href="../login/login.php">Iniciar Sesión</a>
+        </div>
+        <div class="image-container">
+            <img src="../../assets/icons/tomato.png" alt="Tomato Mascot" class="mascot">
+        </div>
+    </div>
 </body>
 </html>
