@@ -25,14 +25,14 @@ class Register {
             $stmt->bindParam(':rol', $rol);
 
             if ($stmt->execute()) {
-                echo "Usuario registrado exitosamente.<br>";
+                return true; 
             } else {
-                echo "Error al registrar el usuario.<br>";
+                return false; 
             }
         } catch(PDOException $exception) {
             echo "Error: " . $exception->getMessage() . "<br>";
+            return false;
         }
     }
 }
 ?>
-
