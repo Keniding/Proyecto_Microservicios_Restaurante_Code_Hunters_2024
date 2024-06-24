@@ -15,7 +15,7 @@
                 <li><a href="#">Sobre Nosotros</a></li>
                 <li><a href="#">Servicios</a></li>
                 <li><a href="#">Contacto</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="app/login/login.php">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -26,6 +26,7 @@
             <div class="grid-item card-off">
                 <p>El sistema de gestión interna para tu restaurante.</p>
                 <a href="app/login/login.php" class="btn-primary">Iniciar Sesión</a>
+                <a href="app/register/registro.php" class="btn-secondary">Registrar</a>
             </div>
         </div>
 
