@@ -63,7 +63,8 @@ body {
 
 .login-container input[type="text"],
 .login-container input[type="password"],
-.login-container input[type="email"]{
+.login-container input[type="email"], 
+.login-container select {
     width: 100%;
     padding: 8px;
     margin: 8px 0;

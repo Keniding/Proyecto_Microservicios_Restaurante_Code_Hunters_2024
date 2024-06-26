@@ -19,7 +19,10 @@
                 <input type="password" id="password" name="password" placeholder="Contraseña" required>
                 <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
                 <input type="text" id="telefono" name="telefono" placeholder="Teléfono">
-                <input type="text" id="rol" name="rol" placeholder="Rol" required>
+                <label for="rol">Seleccione un Rol:</label>
+                <select name="rol" id="rol" required>
+                    <option value="">Elegir rol</option>
+                </select>
                 <button type="submit" class="login-btn">Registrarse</button>
             </form>
             <a class="register-btn" href="../login/login.php">Iniciar Sesión</a>
@@ -28,5 +31,6 @@
             <img src="../../assets/icons/tomato.png" alt="Tomato Mascot" class="mascot">
         </div>
     </div>
+    <script src="get_roles.js"></script>
 </body>
 </html>

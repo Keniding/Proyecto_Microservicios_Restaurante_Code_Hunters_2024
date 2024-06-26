@@ -1,0 +1,169 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --card-background: #fff;
+    --border-radius: 8px;
+    --transition-duration: 0.3s;
+    --card-width: 180px;
+    --card-height: 180px;
+    --font-size-small: clamp(12px, 2vw, 16px);
+    --font-size-medium: clamp(14px, 2.5vw, 18px);
+    --font-size-large: clamp(16px, 3vw, 20px);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    font-size: var(--font-size-medium); /* Tamaño de fuente base */
+}
+
+.container {
+    margin-top: 60px;
+    display: flex;
+    width: 100%;
+    padding: 20px;
+}
+
+#menu-container {
+    width: 20%;
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    margin-right: 20px;
+    overflow: hidden;
+}
+
+.categoria-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    padding-right: 20px;
+    cursor: pointer;
+    transition: background-color var(--transition-duration);
+    border-radius: 10px;
+    font-size: var(--font-size-medium); /* Tamaño de fuente para categorías */
+}
+
+.categoria-item:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.categoria-item h3 {
+    margin: 0;
+}
+
+#comidas-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex-grow: 1;
+    align-content: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 60px;
+}
+
+.comida-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: var(--card-width);
+    height: var(--card-height);
+    transition: transform var(--transition-duration);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    font-size: var(--font-size-small); /* Tamaño de fuente para cartas de comida */
+}
+
+.comida-card:hover {
+    transform: translateY(-10px);
+}
+
+.comida-card h3 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: var(--font-size-medium); /* Tamaño de fuente para títulos de cartas */
+}
+
+.comida-card p {
+    margin: 0;
+    color: var(--text-color);
+    font-size: var(--font-size-small); /* Tamaño de fuente para párrafos de cartas */
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: var(--font-size-large); /* Ajuste de tamaño de fuente para pantallas medianas */
+    }
+    
+    .container {
+        margin-top: 60px;
+    }
+    
+    #menu-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #comidas-container {
+        width: 100%;
+    }
+
+    .comida-card {
+        width: calc(100% - 40px);
+    }
+    
+    .categoria-item {
+        padding: 10px 15px 10px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: var(--font-size-large); /* Ajuste de tamaño de fuente para pantallas pequeñas */
+    }
+    
+    .container {
+        margin-top: 80px;
+    }
+    
+    .comida-card {
+        width: calc(100% - 20px);
+        padding: 10px;
+    }
+
+    .categoria-item {
+        padding: 10px 15px 10px 15px;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

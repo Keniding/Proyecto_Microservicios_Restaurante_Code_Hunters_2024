@@ -10,7 +10,7 @@ class Register {
 
     public function registerUser($dni, $username, $password, $email, $telefono, $rol) {
         try {
-            $query = "INSERT INTO users (dni, username, password, email, telefono, rol) VALUES (:dni, :username, :password, :email, :telefono, :rol)";
+            $query = "INSERT INTO users (dni, username, password, email, telefono, rol_id) VALUES (:dni, :username, :password, :email, :telefono, :rol)";
             $stmt = $this->conn->prepare($query);
 
             // Encriptar la contraseña

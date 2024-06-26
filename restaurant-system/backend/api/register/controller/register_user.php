@@ -1,5 +1,6 @@
 <?php
-require_once '../db/register.php';
+require_once '../../../database/db.php';
+require '../services/register.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dni = filter_input(INPUT_POST, 'dni', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
