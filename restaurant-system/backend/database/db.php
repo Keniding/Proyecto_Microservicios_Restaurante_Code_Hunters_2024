@@ -1,5 +1,4 @@
 <?php 
-//namespace App\Database;
 
 require_once 'env.php';
 
@@ -30,9 +29,9 @@ class Database {
 
         try {
             $this->pdo = new PDO($dsn, $this->username, $this->password, $options);
-            echo "Conexión exitosa a la base de datos<br>";
+            //echo "Conexión exitosa a la base de datos<br>";
         } catch (PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage() . "<br>";
+            //echo "Connection error: " . $exception->getMessage() . "<br>";
         }
 
         return $this->pdo;
