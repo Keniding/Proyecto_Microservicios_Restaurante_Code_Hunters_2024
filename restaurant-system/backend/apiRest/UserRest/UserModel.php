@@ -1,5 +1,5 @@
 <?php
-namespace apiRest\gestionUser;
+namespace apiRest\UserRest;
 
 use Conexion\Database;
 
