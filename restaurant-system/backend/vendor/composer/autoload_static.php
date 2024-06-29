@@ -22,6 +22,10 @@ class ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
+        'R' => 
+        array (
+            'Router\\' => 7,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
@@ -40,17 +44,10 @@ class ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa
             'GuzzleHttp\\' => 11,
             'GrahamCampbell\\ResultType\\' => 26,
         ),
-        'F' => 
-        array (
-            'Frontend\\' => 9,
-        ),
         'D' => 
         array (
             'Dotenv\\' => 7,
-        ),
-        'A' => 
-        array (
-            'App\\' => 4,
+            'Database\\' => 9,
         ),
     );
 
@@ -66,6 +63,10 @@ class ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Router\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/router',
         ),
         'Psr\\Log\\' => 
         array (
@@ -104,17 +105,13 @@ class ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
-        'Frontend\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/frontend',
-        ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
-        'App\\' => 
+        'Database\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/backend',
+            0 => __DIR__ . '/../..' . '/database',
         ),
     );
 

@@ -3,7 +3,7 @@
         'name' => 'system/restaurant',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '6de65480546ff48a9dcdff762ff44e34b944e7b3',
+        'reference' => '3ef7ec90483bf8c3a4ed5bbe35445ad2b2f973bc',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -172,7 +172,7 @@
         'system/restaurant' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '6de65480546ff48a9dcdff762ff44e34b944e7b3',
+            'reference' => '3ef7ec90483bf8c3a4ed5bbe35445ad2b2f973bc',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
