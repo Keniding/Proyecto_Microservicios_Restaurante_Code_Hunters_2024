@@ -1,7 +1,7 @@
 <?php
-namespace apiRest\gestionUser;
+namespace apiRest\UserRest;
 
-use \apiRest\gestionUser\UserModel as UserModel;
+use \apiRest\UserRest\UserModel as UserModel;
 
 class UserController
 {
