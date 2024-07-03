@@ -14,7 +14,8 @@
             "Microservices\\": "Microservices",
 
             "User\\": "Microservices/User",
-            "Rol\\": "Microservices/Rol"
+            "Rol\\": "Microservices/Rol",
+            "Category\\": "Microservices/Category"
         }
     }
 }
