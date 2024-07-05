@@ -16,7 +16,8 @@
             "User\\": "Microservices/User",
             "Rol\\": "Microservices/Rol",
             "Category\\": "Microservices/Category",
-            "Food\\": "Microservices/Food"
+            "Food\\": "Microservices/Food",
+            "Auth\\": "Auth"
         }
     }
 }

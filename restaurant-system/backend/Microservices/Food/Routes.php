@@ -4,51 +4,48 @@ namespace Microservices\Food;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require '../../Conexion/Database.php';
+require '../../Auth/Middleware.php';
 
 use Database\Database;
 use JsonException;
 use Router\Router;
+use Auth\Middleware;
 
-class Routes
+class Routes extends Router
 {
-
-    private Router $router;
     private Model $food;
 
     public function __construct() {
-        $this->router = new Router();
+        session_start();
+        parent::__construct();
         $this->food = new Model(new Database());
-        $this->run();
-        $this->router->header();
-        $this->router->request();
+        $this->initializeRoutes();
+        $this->header();
+        $this->request();
     }
 
-    public function run(): void
+    private function initializeRoutes(): void
     {
-
-        $this->router->addRoute("GET", "/allFoods", function() {
+        // Rutas protegidas con middleware
+        $this->addRoute("GET", "/allFoods", function() {
             $this->handleAllFoods();
-        });
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/foods", function() {
+        $this->get("/foods", function() {
             $this->handleAllFoods();
-        });
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/food/{id}", function($id) {
+        $this->get("/food/{id}", function($id) {
             $this->handleFood($id);
-        });
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/foodForCategory/{id}", function ($id) {
+        $this->get("/foodForCategory/{id}", function($id) {
             $this->handleFoodForCategory($id);
-        });
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->post("/food", function() {
+        $this->post("/food", function() {
             $this->handleStoreFood();
-        });
-
-        if (!isset($_SERVER['REQUEST_URI'])) {
-            $_SERVER['REQUEST_URI'] = '/allFoods';
-        }
+        }, [Middleware::class, 'checkAuth']);
     }
 
     private function handleAllFoods(): void
@@ -84,10 +81,8 @@ class Routes
     private function handleStoreFood(): void
     {
         $controller = new Controller($this->food);
-
-        $input = $this->router->input();
-
-        $this->router->error();
+        $input = $this->input();
+        $this->error();
 
         try {
             $data = [
