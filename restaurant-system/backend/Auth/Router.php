@@ -11,14 +11,22 @@ use Auth\Model as User;
 use Auth\Controller as Controller;
 use \Random\RandomException as RandomException;
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 class Router {
     private Controller $authController;
 
     public function __construct() {
-        ini_set('session.gc_maxlifetime', 3600);
-        ini_set('session.cookie_lifetime', 3600);
-
         if (session_status() == PHP_SESSION_NONE) {
+            ini_set('session.gc_maxlifetime', 3600);
+            ini_set('session.cookie_lifetime', 3600);
             session_start();
         }
         $database = new Database();
@@ -56,7 +64,8 @@ class Router {
     {
         $data = json_decode(file_get_contents("php://input"), true);
         try {
-            echo $this->authController->login($data['dni'], $data['password']);
+            $response = $this->authController->login($data['dni'], $data['password']);
+            echo $response;
         } catch (RandomException $e) {
             echo json_encode(['status' => 'error', 'message' => 'Error en la autenticación']);
         }
