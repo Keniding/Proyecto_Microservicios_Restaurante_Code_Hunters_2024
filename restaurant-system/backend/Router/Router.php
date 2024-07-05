@@ -2,41 +2,47 @@
 
 namespace Router;
 
-class Router implements IRouter
+use Auth\Middleware;
+
+abstract class Router implements IRouter
 {
     protected array $routes = [];
 
-    public function get($uri, $action): void
+    public function __construct()
     {
-        $this->addRoute('GET', $uri, $action);
     }
 
-    public function post($uri, $action): void
+    public function get($uri, $action, $middleware = null): void
     {
-        $this->addRoute('POST', $uri, $action);
+        $this->addRoute('GET', $uri, $action, $middleware);
     }
 
-    public function put($uri, $action): void
+    public function post($uri, $action, $middleware = null): void
     {
-        $this->addRoute('PUT', $uri, $action);
+        $this->addRoute('POST', $uri, $action, $middleware);
     }
 
-    public function delete($uri, $action): void
+    public function put($uri, $action, $middleware = null): void
     {
-        $this->addRoute('DELETE', $uri, $action);
+        $this->addRoute('PUT', $uri, $action, $middleware);
     }
 
-    public function addRoute($method, $uri, $action): void
+    public function delete($uri, $action, $middleware = null): void
+    {
+        $this->addRoute('DELETE', $uri, $action, $middleware);
+    }
+
+    public function addRoute($method, $uri, $action, $middleware = null): void
     {
         $route = strtoupper($method) . ' ' . rtrim($uri, '/');
-        $this->routes[$route] = $action;
+        $this->routes[$route] = ['action' => $action, 'middleware' => $middleware];
     }
 
     public function dispatch($method, $uri)
     {
         $route = strtoupper($method) . ' ' . rtrim($uri, '/');
 
-        foreach ($this->routes as $routePattern => $action) {
+        foreach ($this->routes as $routePattern => $routeInfo) {
             $pattern = preg_replace(
                 '/\{[^\}]+\}/',
                 '([^\/]+)',
@@ -46,7 +52,12 @@ class Router implements IRouter
 
             if (preg_match($pattern, $route, $matches)) {
                 array_shift($matches);
-                return call_user_func_array($action, $matches);
+
+                if ($routeInfo['middleware']) {
+                    call_user_func($routeInfo['middleware']);
+                }
+
+                return call_user_func_array($routeInfo['action'], $matches);
             }
         }
 

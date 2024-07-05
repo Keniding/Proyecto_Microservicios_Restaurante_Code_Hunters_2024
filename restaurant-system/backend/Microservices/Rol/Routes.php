@@ -4,44 +4,47 @@ namespace Microservices\Rol;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require '../../Conexion/Database.php';
+require '../../Auth/Middleware.php';
 
+use Auth\Middleware;
 use Database\Database;
 use JsonException;
 use Router\Router;
 
-class Routes
+class Routes extends Router
 {
-    private Router $router;
     private Model $rol;
 
     public function __construct() {
-        $this->router = new Router();
+        session_start();
+        parent::__construct();
         $this->rol = new Model(new Database());
         $this->initializeRoutes();
-        $this->router->header();
-        $this->router->request();
+        $this->header();
+        $this->request();
     }
 
     private function initializeRoutes(): void
     {
-        $this->router->addRoute("GET", "/allRoles", function() {
-            $this->handleAllUsers();
-        });
+        // Rutas protegidas con middleware
+        $this->addRoute("GET", "/allRoles", function() {
+            $this->handleAllRoles();
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/roles", function() {
-            $this->handleAllUsers();
-        });
+        $this->get("/roles", function() {
+            $this->handleAllRoles();
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/rol/{id}", function($id) {
-            $this->handleUser($id);
-        });
+        $this->get("/rol/{id}", function($id) {
+            $this->handleRol($id);
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->post("/rol", function() {
-            $this->handleStoreUser();
-        });
+        $this->post("/rol", function() {
+            $this->handleStoreRol();
+        }, [Middleware::class, 'checkAuth']);
     }
 
-    private function handleAllUsers(): void
+    private function handleAllRoles(): void
     {
         $controller = new Controller($this->rol);
         try {
@@ -51,7 +54,7 @@ class Routes
         }
     }
 
-    private function handleUser($id): void
+    private function handleRol($id): void
     {
         $controller = new Controller($this->rol);
         try {
@@ -61,11 +64,11 @@ class Routes
         }
     }
 
-    private function handleStoreUser(): void
+    private function handleStoreRol(): void
     {
         $controller = new Controller($this->rol);
-        $input = $this->router->input();
-        $this->router->error();
+        $input = $this->input();
+        $this->error();
 
         try {
             $data = [

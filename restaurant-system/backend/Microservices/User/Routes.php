@@ -4,43 +4,48 @@ namespace Microservices\User;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require '../../Conexion/Database.php';
+require '../../Auth/Middleware.php';
 
+use Auth\Middleware;
 use Database\Database;
 use JsonException;
 use Router\Router;
 
-class Routes
+class Routes extends Router
 {
-
-    private Router $router;
     private Model $user;
 
     public function __construct() {
-        $this->router = new Router();
+        session_start();
+        parent::__construct();
         $this->user = new Model(new Database());
         $this->run();
-        $this->router->header();
-        $this->router->request();
+        $this->header();
+        $this->request();
     }
 
     public function run(): void
     {
 
-        $this->router->addRoute("GET", "/allUsers", function() {
+        $this->addRoute("GET", "/allUsers", function() {
             $this->handleAllUsers();
-        });
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/users", function() {
+        $this->get("/users", function() {
             $this->handleAllUsers();
-        });
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/user/{id}", function($id) {
+        $this->get("/user/{id}", function($id) {
             $this->handleUser($id);
-        });
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->post("/user", function() {
+        $this->get("/userForRol/{id}", function($id) {
+            $this->handleUserForRol($id);
+        }, [Middleware::class, 'checkAuth']);
+
+        $this->post("/user", function() {
             $this->handleStoreUser();
-        });
+        }, [Middleware::class, 'checkAuth']);
 
         if (!isset($_SERVER['REQUEST_URI'])) {
             $_SERVER['REQUEST_URI'] = '/allUsers';
@@ -67,13 +72,23 @@ class Routes
         }
     }
 
+    private function handleUserForRol($id): void
+    {
+        $controller = new Controller($this->user);
+        try {
+            echo json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
     private function handleStoreUser(): void
     {
         $controller = new Controller($this->user);
 
-        $input = $this->router->input();
+        $input = $this->input();
 
-        $this->router->error();
+        $this->error();
 
         try {
             $data = [

@@ -43,4 +43,9 @@ class Model extends BaseModel
             return false;
         }
     }
+
+    public function getByCategory($id)
+    {
+        // TODO: Implement getByCategory() method.
+    }
 }

@@ -4,44 +4,47 @@ namespace Microservices\Category;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require '../../Conexion/Database.php';
+require '../../Auth/Middleware.php';
 
 use Database\Database;
 use JsonException;
 use Router\Router;
+use Auth\Middleware;
 
-class Routes
+class Routes extends Router
 {
-    private Router $router;
     private Model $category;
 
     public function __construct() {
-        $this->router = new Router();
+        session_start();
+        parent::__construct();
         $this->category = new Model(new Database());
         $this->initializeRoutes();
-        $this->router->header();
-        $this->router->request();
+        $this->header();
+        $this->request();
     }
 
     private function initializeRoutes(): void
     {
-        $this->router->addRoute("GET", "/allCategories", function() {
-            $this->handleAllUsers();
-        });
+        // Rutas protegidas
+        $this->addRoute("GET", "/allCategories", function() {
+            $this->handleAllCategories();
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/categories", function() {
-            $this->handleAllUsers();
-        });
+        $this->get("/categories", function() {
+            $this->handleAllCategories();
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->get("/category/{id}", function($id) {
-            $this->handleUser($id);
-        });
+        $this->get("/category/{id}", function($id) {
+            $this->handleCategory($id);
+        }, [Middleware::class, 'checkAuth']);
 
-        $this->router->post("/category", function() {
-            $this->handleStoreUser();
-        });
+        $this->post("/category", function() {
+            $this->handleStoreCategory();
+        }, [Middleware::class, 'checkAuth']);
     }
 
-    private function handleAllUsers(): void
+    private function handleAllCategories(): void
     {
         $controller = new Controller($this->category);
         try {
@@ -51,7 +54,7 @@ class Routes
         }
     }
 
-    private function handleUser($id): void
+    private function handleCategory($id): void
     {
         $controller = new Controller($this->category);
         try {
@@ -61,11 +64,11 @@ class Routes
         }
     }
 
-    private function handleStoreUser(): void
+    private function handleStoreCategory(): void
     {
         $controller = new Controller($this->category);
-        $input = $this->router->input();
-        $this->router->error();
+        $input = $this->input();
+        $this->error();
 
         try {
             $data = [
