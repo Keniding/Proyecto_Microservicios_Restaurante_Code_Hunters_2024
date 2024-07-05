@@ -23,6 +23,11 @@ abstract class BaseController
         return $this->model->getById($id);
     }
 
+    public function showForCategory($id)
+    {
+        return $this->model->getByCategory($id);
+    }
+
     public function store(array $data): bool
     {
         return $this->model->create($data);
