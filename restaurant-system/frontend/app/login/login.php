@@ -7,27 +7,34 @@
     <title>Login</title>
 </head>
 <body>
-    <div class="container">
-        <div class="image-container">
-            <img src="../../assets/icons/tomato.png" alt="Tomato Mascot" class="mascot">
-        </div>
-        <div class="login-container">
-            <div class="avatar">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png" alt="Avatar">
-            </div>
-            <form action="../../../backend/api/login/controller/login.php" method="post">
-                <input name="username" type="text" placeholder="Nick name" required>
-                <input name="password" type="password" placeholder="Password" required>
-                <div class="remember-me">
-                    <label>
-                        <input type="checkbox"> Remember me
-                    </label>
-                </div>    
-                <button type="submit" class="login-btn">LOGIN</button>
-                <a href="#" class="forgot-password">Forgot Password?</a>
-            </form>
-            <a  class="register-btn" href="../register/registro.php">Regístrate</a>
-        </div>
+<div class="container">
+    <div class="image-container">
+        <img src="../../assets/icons/tomato.png" alt="Tomato Mascot" class="mascot">
     </div>
+    <div class="login-container">
+        <div class="avatar">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png" alt="Avatar">
+        </div>
+        <form id="loginForm">
+            <label for="dni"></label><input id="dni" name="dni" type="text" placeholder="DNI" required>
+            <label for="password"></label><input id="password" name="password" type="password" placeholder="Password" required>
+            <div class="remember-me">
+                <label>
+                    <input type="checkbox"> Remember me
+                </label>
+            </div>
+            <button type="submit" class="login-btn">LOGIN</button>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+        </form>
+        <a class="register-btn" href="../register/registro.php" id="registerLink">Regístrate</a>
+    </div>
+</div>
+
+<div id="customAlert" class="custom-alert">
+    <p>Necesitas estar logueado como administrador para registrar nuevo usuario.</p>
+    <button onclick="closeAlert()">Cerrar</button>
+</div>
+
+<script src="login.js"></script>
 </body>
 </html>
