@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('../../../backend/api/register/services/get_roles.php')
+    fetch('http://localhost:8090/roles')
         .then(response => response.json())
         .then(data => {
             const rolSelect = document.getElementById('rol');
