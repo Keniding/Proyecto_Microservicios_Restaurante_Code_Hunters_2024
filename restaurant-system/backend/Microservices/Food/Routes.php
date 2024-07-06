@@ -26,26 +26,35 @@ class Routes extends Router
 
     private function initializeRoutes(): void
     {
-        // Rutas protegidas con middleware
         $this->addRoute("GET", "/allFoods", function() {
             $this->handleAllFoods();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->get("/foods", function() {
             $this->handleAllFoods();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->get("/food/{id}", function($id) {
             $this->handleFood($id);
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->get("/foodForCategory/{id}", function($id) {
             $this->handleFoodForCategory($id);
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->post("/food", function() {
             $this->handleStoreFood();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
     }
 
     private function handleAllFoods(): void

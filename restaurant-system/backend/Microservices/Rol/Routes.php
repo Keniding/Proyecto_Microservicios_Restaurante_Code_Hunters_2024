@@ -26,22 +26,29 @@ class Routes extends Router
 
     private function initializeRoutes(): void
     {
-        // Rutas protegidas con middleware
         $this->addRoute("GET", "/allRoles", function() {
             $this->handleAllRoles();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->get("/roles", function() {
             $this->handleAllRoles();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->get("/rol/{id}", function($id) {
             $this->handleRol($id);
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->post("/rol", function() {
             $this->handleStoreRol();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
     }
 
     private function handleAllRoles(): void

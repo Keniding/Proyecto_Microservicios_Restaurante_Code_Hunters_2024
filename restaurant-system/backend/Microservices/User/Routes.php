@@ -8,6 +8,7 @@ require '../../Auth/Middleware.php';
 
 use Auth\Middleware;
 use Database\Database;
+use Exception;
 use JsonException;
 use Router\Router;
 
@@ -45,7 +46,9 @@ class Routes extends Router
 
         $this->post("/user", function() {
             $this->handleStoreUser();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         if (!isset($_SERVER['REQUEST_URI'])) {
             $_SERVER['REQUEST_URI'] = '/allUsers';
@@ -85,7 +88,6 @@ class Routes extends Router
     private function handleStoreUser(): void
     {
         $controller = new Controller($this->user);
-
         $input = $this->input();
 
         $this->error();
@@ -99,10 +101,15 @@ class Routes extends Router
                 'telefono' => $input['telefono'],
                 'rol' => $input['rol']
             ];
+
             $result = $controller->store($data);
-            echo json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+
+            echo json_encode(['status' => 'success', 'message' => 'Registro exitoso', 'data' => $result], JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()]);
         }
     }
+
 }

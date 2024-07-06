@@ -26,13 +26,8 @@
             <button type="submit" class="login-btn">LOGIN</button>
             <a href="#" class="forgot-password">Forgot Password?</a>
         </form>
-        <a class="register-btn" href="../register/registro.php" id="registerLink">Regístrate</a>
+        <a class="register-btn" href="../register/registro.php">Regístrate</a>
     </div>
-</div>
-
-<div id="customAlert" class="custom-alert">
-    <p>Necesitas estar logueado como administrador para registrar nuevo usuario.</p>
-    <button onclick="closeAlert()">Cerrar</button>
 </div>
 
 <script src="login.js"></script>

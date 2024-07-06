@@ -26,22 +26,29 @@ class Routes extends Router
 
     private function initializeRoutes(): void
     {
-        // Rutas protegidas
         $this->addRoute("GET", "/allCategories", function() {
             $this->handleAllCategories();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->get("/categories", function() {
             $this->handleAllCategories();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->get("/category/{id}", function($id) {
             $this->handleCategory($id);
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
 
         $this->post("/category", function() {
             $this->handleStoreCategory();
-        }, [Middleware::class, 'checkAuth']);
+        }
+        //, [Middleware::class, 'checkAuth']
+        );
     }
 
     private function handleAllCategories(): void
