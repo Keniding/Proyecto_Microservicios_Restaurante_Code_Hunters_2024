@@ -31,6 +31,7 @@
         <img src="../../assets/icons/tomato.png" alt="Tomato Mascot" class="mascot">
     </div>
 </div>
+
 <script src="js/get_roles.js"></script>
 <script src="js/register.js"></script>
 </body>
