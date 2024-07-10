@@ -1,7 +1,3 @@
 RewriteEngine On
-
-# Reescribe las URLs que comienzan con api/login a la ruta real del script PHP
-RewriteRule ^api/login$ backend/api/login/controller/login.php [L]
-
-# Reescribe la URL de la página principal
-RewriteRule ^index$ frontend/index.php [L]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

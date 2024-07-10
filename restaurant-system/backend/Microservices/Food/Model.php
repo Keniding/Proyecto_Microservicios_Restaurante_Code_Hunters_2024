@@ -6,8 +6,6 @@ use Database\Database;
 use Model\BaseModel;
 use PDOException;
 
-require '../../Model/BaseModel.php';
-
 class Model extends BaseModel
 {
     public function __construct(Database $database) {

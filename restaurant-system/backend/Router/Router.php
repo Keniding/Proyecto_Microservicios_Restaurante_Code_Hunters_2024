@@ -3,6 +3,7 @@
 namespace Router;
 
 use Auth\Middleware;
+use JsonException;
 
 abstract class Router implements IRouter
 {

@@ -4,8 +4,6 @@ namespace Auth;
 
 use Random\RandomException;
 
-session_start();
-
 class Controller
 {
     private Model $userModel;
