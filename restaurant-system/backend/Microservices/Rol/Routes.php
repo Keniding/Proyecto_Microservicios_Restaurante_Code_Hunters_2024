@@ -2,80 +2,76 @@
 
 namespace Microservices\Rol;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-require '../../Conexion/Database.php';
-require '../../Auth/Middleware.php';
-
 use Auth\Middleware;
 use Database\Database;
 use JsonException;
 use Router\Router;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
     private Model $rol;
 
     public function __construct() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         parent::__construct();
         $this->rol = new Model(new Database());
-        $this->initializeRoutes();
         $this->header();
-        $this->request();
     }
 
-    private function initializeRoutes(): void
+    public function registerRoutes($app): void
     {
-        $this->addRoute("GET", "/allRoles", function() {
-            $this->handleAllRoles();
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->get('/allRoles', function(Request $request, Response $response) {
+            return $this->handleAllRoles($response);
+        });
 
-        $this->get("/roles", function() {
-            $this->handleAllRoles();
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->get('/roles', function(Request $request, Response $response) {
+            return $this->handleAllRoles($response);
+        });
 
-        $this->get("/rol/{id}", function($id) {
-            $this->handleRol($id);
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->get('/rol/{id}', function(Request $request, Response $response, array $args) {
+            return $this->handleRol($response, $args['id']);
+        });
 
-        $this->post("/rol", function() {
-            $this->handleStoreRol();
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->post('/rol', function(Request $request, Response $response) {
+            return $this->handleStoreRol($response, $request->getParsedBody());
+        });
     }
 
-    private function handleAllRoles(): void
+    private function handleAllRoles(Response $response): Response
     {
         $controller = new Controller($this->rol);
         try {
-            echo json_encode($controller->index(), JSON_THROW_ON_ERROR);
+            $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 
-    private function handleRol($id): void
+    private function handleRol(Response $response, $id): Response
     {
         $controller = new Controller($this->rol);
         try {
-            echo json_encode($controller->show($id), JSON_THROW_ON_ERROR);
+            $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 
-    private function handleStoreRol(): void
+    private function handleStoreRol(Response $response, array $input): Response
     {
         $controller = new Controller($this->rol);
-        $input = $this->input();
-        $this->error();
 
         try {
             $data = [
@@ -83,9 +79,13 @@ class Routes extends Router
                 'descripcion' => $input['descripcion']
             ];
             $result = $controller->store($data);
-            echo json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            $response->getBody()->write($success);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 }
