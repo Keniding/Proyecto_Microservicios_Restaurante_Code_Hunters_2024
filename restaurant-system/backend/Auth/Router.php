@@ -2,10 +2,6 @@
 
 namespace Auth;
 
-require_once '../Conexion/Database.php';
-require_once 'Model.php';
-require_once 'Controller.php';
-
 use Database\Database as Database;
 use Auth\Model as User;
 use Auth\Controller as Controller;
@@ -24,39 +20,42 @@ class Router {
     private Controller $authController;
 
     public function __construct() {
-        if (session_status() == PHP_SESSION_NONE) {
-            ini_set('session.gc_maxlifetime', 3600);
-            ini_set('session.cookie_lifetime', 3600);
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+
         $database = new Database();
         $db = $database->getConnection();
-        $userModel = new User($db);
-        $this->authController = new Controller($userModel);
+
+        if ($db) {
+            $userModel = new User($db);
+            $this->authController = new Controller($userModel);
+        } else {
+            $this->sendErrorResponse('No se pudo establecer una conexión con la base de datos', 500);
+            exit();
+        }
     }
 
     public function handleRequest(): void
     {
-        $request = $_SERVER['REQUEST_URI'];
+        $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = $_SERVER['REQUEST_METHOD'];
 
-        switch ($request) {
-            case '/api/login':
-                if ($method === 'POST') {
-                    $this->login();
-                }
-                break;
-            case '/api/logout':
-                if ($method === 'POST') {
-                    $this->logout();
-                }
-                break;
-            case '/api/protected-endpoint':
-                $this->protectedEndpoint();
-                break;
-            default:
+        $routes = [
+            '/auth/login' => ['POST' => 'login'],
+            '/auth/logout' => ['POST' => 'logout'],
+            '/auth/protected-endpoint' => ['GET' => 'protectedEndpoint', 'POST' => 'protectedEndpoint']
+        ];
+
+        if (isset($routes[$requestUri][$method])) {
+            $action = $routes[$requestUri][$method];
+            $this->$action();
+        } else {
+            if (isset($routes[$requestUri])) {
+                $this->methodNotAllowed();
+            } else {
                 $this->notFound();
-                break;
+            }
         }
     }
 
@@ -67,7 +66,7 @@ class Router {
             $response = $this->authController->login($data['dni'], $data['password']);
             echo $response;
         } catch (RandomException $e) {
-            echo json_encode(['status' => 'error', 'message' => 'Error en la autenticación']);
+            $this->sendErrorResponse('Error en la autenticación');
         }
     }
 
@@ -81,12 +80,23 @@ class Router {
         if ($this->authController->checkAuth()) {
             echo json_encode(['status' => 'success', 'message' => 'Acceso permitido']);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'No autorizado']);
+            $this->sendErrorResponse('No autorizado');
         }
     }
 
     private function notFound(): void
     {
-        echo json_encode(['status' => 'error', 'message' => 'Ruta no encontrada']);
+        $this->sendErrorResponse('Ruta no encontrada', 404);
+    }
+
+    private function methodNotAllowed(): void
+    {
+        $this->sendErrorResponse('Método no permitido', 405);
+    }
+
+    private function sendErrorResponse(string $message, int $statusCode = 400): void
+    {
+        http_response_code($statusCode);
+        echo json_encode(['status' => 'error', 'message' => $message]);
     }
 }

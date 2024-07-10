@@ -2,96 +2,94 @@
 
 namespace Microservices\Food;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-require '../../Conexion/Database.php';
-require '../../Auth/Middleware.php';
-
 use Database\Database;
 use JsonException;
 use Router\Router;
 use Auth\Middleware;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
     private Model $food;
 
     public function __construct() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         parent::__construct();
         $this->food = new Model(new Database());
-        $this->initializeRoutes();
         $this->header();
-        $this->request();
     }
 
-    private function initializeRoutes(): void
+    public function registerRoutes($app): void
     {
-        $this->addRoute("GET", "/allFoods", function() {
-            $this->handleAllFoods();
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->get('/allFoods', function(Request $request, Response $response) {
+            return $this->handleAllFoods($response);
+        });
 
-        $this->get("/foods", function() {
-            $this->handleAllFoods();
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->get('/foods', function(Request $request, Response $response) {
+            return $this->handleAllFoods($response);
+        });
 
-        $this->get("/food/{id}", function($id) {
-            $this->handleFood($id);
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->get('/food/{id}', function(Request $request, Response $response, array $args) {
+            return $this->handleFood($response, $args['id']);
+        });
 
-        $this->get("/foodForCategory/{id}", function($id) {
-            $this->handleFoodForCategory($id);
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->get('/foodForCategory/{id}', function(Request $request, Response $response, array $args) {
+            return $this->handleFoodForCategory($response, $args['id']);
+        });
 
-        $this->post("/food", function() {
-            $this->handleStoreFood();
-        }
-        //, [Middleware::class, 'checkAuth']
-        );
+        $app->post('/food', function(Request $request, Response $response) {
+            return $this->handleStoreFood($response, $request->getParsedBody());
+        });
     }
 
-    private function handleAllFoods(): void
+    private function handleAllFoods(Response $response): Response
     {
         $controller = new Controller($this->food);
         try {
-            echo json_encode($controller->index(), JSON_THROW_ON_ERROR);
+            $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 
-    private function handleFood($id): void
+    private function handleFood(Response $response, $id): Response
     {
         $controller = new Controller($this->food);
         try {
-            echo json_encode($controller->show($id), JSON_THROW_ON_ERROR);
+            $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 
-    private function handleFoodForCategory($id): void
+    private function handleFoodForCategory(Response $response, $id): Response
     {
         $controller = new Controller($this->food);
         try {
-            echo json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
+            $data = json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 
-    private function handleStoreFood(): void
+    private function handleStoreFood(Response $response, array $input): Response
     {
         $controller = new Controller($this->food);
-        $input = $this->input();
-        $this->error();
 
         try {
             $data = [
@@ -102,9 +100,13 @@ class Routes extends Router
                 'categoria_id' => $input['categoria_id']
             ];
             $result = $controller->store($data);
-            echo json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            $response->getBody()->write($success);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            echo json_encode(['error' => $e->getMessage()]);
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
         }
     }
 }
