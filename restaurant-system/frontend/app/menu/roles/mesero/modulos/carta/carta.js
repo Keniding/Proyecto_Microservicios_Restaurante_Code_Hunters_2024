@@ -1,4 +1,4 @@
-import {apiBase} from "../../../../../../config/config.js";
+import {apiBase} from "config/config";
 
 document.addEventListener('DOMContentLoaded', function() {
     let url = apiBase.apiBaseUrl;
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <p>${food.descripcion}</p>
                                 `;
                                 comidaCard.addEventListener('click', () => {
-                                    window.location.href = `orden.php?foodId=${food.id}`;
+                                    window.location.href = `http://localhost:8100/app/menu/roles/mesero/modulos/orden/orden.php?foodId=${food.id}`;
                                 });
                                 comidasContainer.appendChild(comidaCard);
                             })
