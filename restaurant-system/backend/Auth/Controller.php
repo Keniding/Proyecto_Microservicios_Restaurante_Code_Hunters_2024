@@ -19,7 +19,11 @@ class Controller
     public function login($dni, $password): bool|string
     {
         $user = $this->userModel->findByDNI($dni);
+        $estado = $user['estado'];
         if ($user && password_verify($password, $user['password'])) {
+            if ($estado === 0) {
+                return json_encode(['status' => 'error', 'message' => 'No habilitado']);
+            }
             $token = bin2hex(random_bytes(16));
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['token'] = $token;

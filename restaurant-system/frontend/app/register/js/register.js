@@ -1,3 +1,5 @@
+import {fetchData} from "../../../config/api.js";
+
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -11,28 +13,25 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     registerUser(dni, username, password, email, telefono, rol);
 });
 
-function registerUser(dni, username, password, email, telefono, rol) {
-    const url = 'http://localhost:8002/user';
+async function registerUser(dni, username, password, email, telefono, rol) {
     const data = { dni, username, password, email, telefono, rol };
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert(data.message);
-                window.location.href = 'http://localhost:8003/app/login/login.php';
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al registrar usuario');
+    try {
+        const response = await fetchData('/user', {
+            method: 'POST',
+            body: data
         });
+
+        if (typeof response === 'object' && response.status === 'success') {
+            alert(response.message);
+            window.location.href = 'http://localhost:8100/app/login/login.php';
+        } else if (typeof response === 'string') {
+            document.body.innerHTML = response;
+        } else {
+            alert('Error: ' + response.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al registrar usuario');
+    }
 }

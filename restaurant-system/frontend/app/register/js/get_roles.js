@@ -1,4 +1,4 @@
-import { fetchData } from '../../../config/api.js';
+import { fetchData } from "../../../config/api.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {

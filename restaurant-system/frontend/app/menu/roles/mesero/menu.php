@@ -6,4 +6,4 @@ include('../../../../includes/header.php');
 include('modulos/carta/carta.php');
 include('../../../../includes/footer.php')
 ?>
-<script src="modulos/carta/carta.js"></script>
+<script type="module" src="modulos/carta/carta.js"></script>

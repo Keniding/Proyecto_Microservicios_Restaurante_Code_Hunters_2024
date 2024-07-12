@@ -26,10 +26,11 @@ class Model extends BaseModel
     public function create(array $data): bool
     {
         try {
-            $query = "INSERT INTO users (dni, username, password, email, telefono, rol_id) VALUES (:dni, :username, :password, :email, :telefono, :rol_id)";
+            $query = "INSERT INTO users (dni, username, password, email, telefono, rol_id, estado) VALUES (:dni, :username, :password, :email, :telefono, :rol_id, :estado)";
             $stmt = $this->db->prepare($query);
 
             $hashed_password = password_hash($data['password'], PASSWORD_DEFAULT);
+            $estado = 0;
 
             $stmt->bindParam(':dni', $data['dni'], \PDO::PARAM_STR);
             $stmt->bindParam(':username', $data['username'], \PDO::PARAM_STR);
@@ -37,6 +38,7 @@ class Model extends BaseModel
             $stmt->bindParam(':telefono', $data['telefono'], \PDO::PARAM_STR);
             $stmt->bindParam(':password', $hashed_password, \PDO::PARAM_STR);
             $stmt->bindParam(':rol_id', $data['rol'], \PDO::PARAM_INT);
+            $stmt->bindParam(':estado', $estado, \PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 return true;

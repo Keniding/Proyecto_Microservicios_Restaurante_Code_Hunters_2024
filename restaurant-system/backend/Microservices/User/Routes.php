@@ -30,7 +30,7 @@ class Routes extends Router
         $group->get('/users', [$this, 'handleAllUsers'])->add(new Middleware());
         $group->get('/user/{id}', [$this, 'handleUser'])->add(new Middleware());
         $group->get('/userForRol/{id}', [$this, 'handleUserForRol'])->add(new Middleware());
-        $group->post('/user', [$this, 'handleStoreUser'])->add(new Middleware());
+        $group->post('/user', [$this, 'handleStoreUser']);
     }
 
     public function handleAllUsers(Request $request, Response $response): Response
@@ -78,17 +78,25 @@ class Routes extends Router
     public function handleStoreUser(Request $request, Response $response): Response
     {
         $controller = new Controller($this->user);
-        $input = $request->getParsedBody();
+        $input = json_decode($request->getBody()->getContents(), true);
+
+        error_log('Received data: ' . print_r($input, true));
 
         try {
             $data = [
-                'dni' => $input['dni'],
-                'username' => $input['username'],
-                'password' => $input['password'],
-                'email' => $input['email'],
-                'telefono' => $input['telefono'],
-                'rol' => $input['rol']
+                'dni' => $input['dni'] ?? null,
+                'username' => $input['username'] ?? null,
+                'password' => $input['password'] ?? null,
+                'email' => $input['email'] ?? null,
+                'telefono' => $input['telefono'] ?? null,
+                'rol' => $input['rol'] ?? null
             ];
+
+            foreach ($data as $key => $value) {
+                if ($value === null) {
+                    throw new Exception("Missing required field: $key");
+                }
+            }
 
             $result = $controller->store($data);
             $success = json_encode(['status' => 'success', 'message' => 'Registro exitoso', 'data' => $result], JSON_THROW_ON_ERROR);
