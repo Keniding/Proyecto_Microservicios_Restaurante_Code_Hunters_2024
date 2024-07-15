@@ -22,6 +22,11 @@
       "Rol\\": "Microservices/Rol/",
       "Category\\": "Microservices/Category/",
       "Food\\": "Microservices/Food/",
+      "Costumer\\": "Microservices/Costumer",
+      "CostumerType\\": "Microservices/CostumerType",
+      "Detalle\\": "Microservices/Detalle",
+      "Factura\\": "Microservices/Factura",
+
       "Auth\\": "Auth/"
     }
   }
