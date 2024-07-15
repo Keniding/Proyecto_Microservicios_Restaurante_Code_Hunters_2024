@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #e0f7fa;
-    margin: 100px;
+    margin: 120px;
     padding: 0;
     display: flex;
     justify-content: center;
@@ -21,6 +21,12 @@ body {
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    display: flex;
+    flex-direction: row;
+}
+
+.container-colum {
+    margin: 10px;
 }
 
 .container:hover {
