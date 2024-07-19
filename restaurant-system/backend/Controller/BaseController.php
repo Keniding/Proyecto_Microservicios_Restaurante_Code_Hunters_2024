@@ -33,4 +33,9 @@ abstract class BaseController
         return $this->model->create($data);
     }
 
+    public function destroy(mixed $id)
+    {
+        return $this->model->delete($id);
+    }
+
 }

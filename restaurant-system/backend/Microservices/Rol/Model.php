@@ -50,4 +50,9 @@ class Model extends BaseModel
     {
         // TODO: Implement getByCategory() method.
     }
+
+    public function delete($id): bool
+    {
+        // TODO: Implement delete() method.
+    }
 }

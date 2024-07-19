@@ -13,11 +13,11 @@ class Model extends BaseModel
     }
 
     public function getAll() {
-        return $this->db->query("SELECT * FROM detalleorden")->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->db->query("SELECT * FROM ordenes")->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM detalleorden WHERE FacturaID  = :id");
+        $stmt = $this->db->prepare("SELECT * FROM ordenes WHERE id  = :id");
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -25,7 +25,15 @@ class Model extends BaseModel
 
     public function getByCategory($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM detalleorden WHERE ComidaID=:id");
+        $stmt = $this->db->prepare("SELECT * FROM ordenes WHERE FacturaID=:id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getByFood($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM ordenes WHERE ComidaID=:id");
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -34,7 +42,7 @@ class Model extends BaseModel
     public function create(array $data): bool
     {
         try {
-            $query = "INSERT INTO detalleorden (FacturaID, ComidaID, Cantidad, Precio) VALUES (:factura, :comida, :cantidad, :precio)";
+            $query = "INSERT INTO ordenes (FacturaID, ComidaID, Cantidad, Precio) VALUES (:factura, :comida, :cantidad, :precio)";
             $stmt = $this->db->prepare($query);
 
             $stmt->bindParam(':factura', $data['factura'], \PDO::PARAM_STR);
@@ -51,5 +59,10 @@ class Model extends BaseModel
             echo "Error: " . $exception->getMessage() . "<br>";
             return false;
         }
+    }
+
+    public function delete($id): bool
+    {
+        // TODO: Implement delete() method.
     }
 }

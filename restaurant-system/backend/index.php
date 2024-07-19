@@ -19,6 +19,8 @@ AppFactory::setResponseFactory($psr17Factory);
 
 $app = AppFactory::create();
 
+$app->addBodyParsingMiddleware(); //Serialization
+
 $app->group('/api', function ($group) {
     (new CategoryRoutes())->registerRoutes($group);
     (new FoodRoutes())->registerRoutes($group);
