@@ -1,0 +1,107 @@
+import { apiBase } from "config/config";
+
+document.addEventListener('DOMContentLoaded', function() {
+    let url = apiBase.apiBaseUrl;
+    let endpoint = '/categories';
+
+    fetch(`${url}${endpoint}`)
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('categoryTableBody');
+
+            data.forEach(categoria => {
+                const row = document.createElement('tr');
+                row.setAttribute('data-id', categoria.id);
+
+                const idCell = document.createElement('td');
+                idCell.textContent = categoria.id;
+                row.appendChild(idCell);
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = categoria.nombre;
+                row.appendChild(nameCell);
+
+                const actionsCell = document.createElement('td');
+
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Editar';
+                editButton.addEventListener('click', () => editCategory(categoria.id));
+                actionsCell.appendChild(editButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.addEventListener('click', () => deleteCategory(categoria.id));
+                actionsCell.appendChild(deleteButton);
+
+                row.appendChild(actionsCell);
+
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error al obtener los datos:', error));
+});
+
+document.getElementById('addButton').addEventListener('click', () => {
+    let endpoint = '/category';
+    let nombre = document.getElementById('categoryName').value;
+
+    const data = {
+        nombre: nombre
+    };
+
+    const url = `${apiBase.apiBaseUrl}${endpoint}`;
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+
+    fetch(url, options)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+                console.log('Categoría creada exitosamente');
+            } else {
+                console.error('Error al crear la categoría:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+});
+
+function editCategory(id) {
+    // Lógica para editar la categoría con el ID proporcionado
+    console.log('Editar categoría con ID:', id);
+}
+
+function deleteCategory(id) {
+    let endpoint = `/foodForCategory/${id}`;
+    let eliminar = `/category/${id}`;
+    fetch(`${apiBase.apiBaseUrl}${endpoint}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                alert('No se puede eliminar esta categoría porque tiene dependencias.');
+            } else {
+                fetch(`${apiBase.apiBaseUrl}${eliminar}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Categoría eliminada con éxito');
+                            location.reload();
+                        } else {
+                            console.error('Error al eliminar la categoría');
+                        }
+                    })
+                    .catch(error => console.error('Error al eliminar la categoría:', error));
+            }
+        })
+        .catch(error => console.error('Error al comprobar dependencias:', error));
+}

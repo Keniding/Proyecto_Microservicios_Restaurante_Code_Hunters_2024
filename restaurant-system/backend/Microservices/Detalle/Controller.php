@@ -6,7 +6,12 @@ use Controller\BaseController;
 
 class Controller extends BaseController
 {
-    public function __construct(Model $food) {
-        parent::__construct($food);
+    public function __construct(Model $order) {
+        parent::__construct($order);
+    }
+
+    public function showForFood($id)
+    {
+        return $this->model->getByFood($id);
     }
 }

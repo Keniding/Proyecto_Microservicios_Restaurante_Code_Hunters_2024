@@ -53,4 +53,9 @@ class Model extends BaseModel
             return false;
         }
     }
+
+    public function delete($id): bool
+    {
+        // TODO: Implement delete() method.
+    }
 }

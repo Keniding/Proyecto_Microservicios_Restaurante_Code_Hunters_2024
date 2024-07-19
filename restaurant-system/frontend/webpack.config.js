@@ -5,7 +5,9 @@ module.exports = {
     entry: {
         main: './assets/js/main.js',
         carta: './app/menu/roles/mesero/modulos/carta/carta.js',
-        orden: './app/menu/roles/mesero/modulos/orden/js/script.js'
+        orden: './app/menu/roles/mesero/modulos/orden/js/script.js',
+
+        categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js'
     },
     output: {
         filename: '[name].bundle.js',

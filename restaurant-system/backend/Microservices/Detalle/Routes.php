@@ -36,6 +36,10 @@ class Routes extends Router
             return $this->handleDetalleForCategory($response, $args['id']);
         });
 
+        $app->get('/detalleForFood/{id}', function(Request $request, Response $response, array $args) {
+            return $this->handleDetalleForFood($response, $args['id']);
+        });
+
         $app->post('/detalle', function(Request $request, Response $response) {
             return $this->handleStoreDetalle($response, $request->getParsedBody());
         });
@@ -74,6 +78,20 @@ class Routes extends Router
         $controller = new Controller($this->detalle);
         try {
             $data = json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (JsonException $e) {
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+    private function handleDetalleForFood(Response $response, $id): Response
+    {
+        $controller = new Controller($this->detalle);
+        try {
+            $data = json_encode($controller->showForFood($id), JSON_THROW_ON_ERROR);
             $response->getBody()->write($data);
             return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {

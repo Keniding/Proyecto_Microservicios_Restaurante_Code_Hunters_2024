@@ -37,7 +37,7 @@ class Model extends BaseModel
                 return false;
             }
         } catch(PDOException $exception) {
-            echo "Error: " . $exception->getMessage() . "<br>";
+            error_log("Error: " . $exception->getMessage());
             return false;
         }
     }
@@ -45,5 +45,24 @@ class Model extends BaseModel
     public function getByCategory($id)
     {
         // TODO: Implement getByCategory() method.
+    }
+
+    public function delete($id): bool
+    {
+        try {
+            $query = "DELETE FROM categorias WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(PDOException $exception) {
+            error_log("Error: " . $exception->getMessage());
+            return false;
+        }
     }
 }

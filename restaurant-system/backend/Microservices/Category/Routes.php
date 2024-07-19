@@ -35,7 +35,11 @@ class Routes extends Router
         });
 
         $app->post('/category', function(Request $request, Response $response) {
-            return $this->handleStoreCategory($response, $request->getParsedBody());
+            return $this->handleStoreCategory($request, $response);
+        });
+
+        $app->delete('/category/{id}', function(Request $request, Response $response, array $args) {
+            return $this->handleDeleteCategory($response, $args['id']);
         });
     }
 
@@ -67,15 +71,37 @@ class Routes extends Router
         }
     }
 
-    private function handleStoreCategory(Response $response, array $input): Response
+    private function handleStoreCategory(Request $request, Response $response): Response
     {
         $controller = new Controller($this->category);
 
         try {
+            $input = $request->getParsedBody();
+
+            error_log('Datos recibidos: ' . print_r($input, true));
+
             $data = [
-                'nombre' => $input['nombre']
+                'nombre' => $input['nombre'] ?? null
             ];
+
+            error_log('Datos a almacenar: ' . print_r($data, true));
+
             $result = $controller->store($data);
+            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            $response->getBody()->write($success);
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (JsonException $e) {
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+    private function handleDeleteCategory(Response $response, mixed $id): Response
+    {
+        $controller = new Controller($this->category);
+        try {
+            $result = $controller->destroy($id);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
             $response->getBody()->write($success);
             return $response->withHeader('Content-Type', 'application/json');
