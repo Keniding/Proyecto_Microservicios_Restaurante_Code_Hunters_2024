@@ -3,40 +3,74 @@ import { apiBase } from "config/config";
 document.addEventListener('DOMContentLoaded', function() {
     let url = apiBase.apiBaseUrl;
     let endpoint = '/categories';
+    let currentPage = 1;
+    const rowsPerPage = 10;
 
     fetch(`${url}${endpoint}`)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('categoryTableBody');
+            const pagination = document.getElementById('pagination');
 
-            data.forEach(categoria => {
-                const row = document.createElement('tr');
-                row.setAttribute('data-id', categoria.id);
+            function renderTable(page) {
+                tableBody.innerHTML = '';
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                const pageData = data.slice(start, end);
 
-                const idCell = document.createElement('td');
-                idCell.textContent = categoria.id;
-                row.appendChild(idCell);
+                pageData.forEach(categoria => {
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-id', categoria.id);
 
-                const nameCell = document.createElement('td');
-                nameCell.textContent = categoria.nombre;
-                row.appendChild(nameCell);
+                    const idCell = document.createElement('td');
+                    idCell.textContent = categoria.id;
+                    row.appendChild(idCell);
 
-                const actionsCell = document.createElement('td');
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = categoria.nombre;
+                    row.appendChild(nameCell);
 
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Editar';
-                editButton.addEventListener('click', () => editCategory(categoria.id));
-                actionsCell.appendChild(editButton);
+                    const actionsCell = document.createElement('td');
 
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Eliminar';
-                deleteButton.addEventListener('click', () => deleteCategory(categoria.id));
-                actionsCell.appendChild(deleteButton);
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Editar';
+                    editButton.addEventListener('click', () => editCategory(categoria.id));
+                    actionsCell.appendChild(editButton);
 
-                row.appendChild(actionsCell);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.addEventListener('click', () => deleteCategory(categoria.id));
+                    actionsCell.appendChild(deleteButton);
 
-                tableBody.appendChild(row);
-            });
+                    row.appendChild(actionsCell);
+
+                    tableBody.appendChild(row);
+                });
+
+                renderPagination();
+            }
+
+            function renderPagination() {
+                pagination.innerHTML = '';
+                const pageCount = Math.ceil(data.length / rowsPerPage);
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.textContent = i;
+                    pageButton.addEventListener('click', () => {
+                        currentPage = i;
+                        renderTable(currentPage);
+                    });
+
+                    if (i === currentPage) {
+                        pageButton.classList.add('active');
+                    }
+
+                    pagination.appendChild(pageButton);
+                }
+            }
+
+            renderTable(currentPage);
         })
         .catch(error => console.error('Error al obtener los datos:', error));
 });

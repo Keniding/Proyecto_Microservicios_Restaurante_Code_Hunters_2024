@@ -7,7 +7,9 @@ module.exports = {
         carta: './app/menu/roles/mesero/modulos/carta/carta.js',
         orden: './app/menu/roles/mesero/modulos/orden/js/script.js',
 
-        categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js'
+        categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
+
+        img: './assets/icons/tomato.png'
     },
     output: {
         filename: '[name].bundle.js',
@@ -30,6 +32,18 @@ module.exports = {
                         presets: ['@babel/preset-env'],
                     },
                 },
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'images',
+                        },
+                    },
+                ],
             },
         ],
     },
