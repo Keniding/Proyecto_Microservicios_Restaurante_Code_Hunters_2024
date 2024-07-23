@@ -12,6 +12,8 @@ use Microservices\Costumer\Routes as CostumerRoutes;
 use Microservices\CostumerType\Routes as CostumerTypeRoutes;
 use Microservices\Factura\Routes  as FacturaRoutes;
 use Microservices\Detalle\Routes as DetalleRoutes;
+use Microservices\Modifications\Routes as ModificationRoutes;
+use Microservices\ModificationsOrders\Routes as ModificationOrderRoutes;
 
 $psr17Factory = new Psr17Factory();
 
@@ -30,6 +32,8 @@ $app->group('/api', function ($group) {
     (new CostumerTypeRoutes())->registerRoutes($group);
     (new FacturaRoutes())->registerRoutes($group);
     (new DetalleRoutes())->registerRoutes($group);
+    (new ModificationRoutes())->registerRoutes($group);
+    (new ModificationOrderRoutes())->registerRoutes($group);
 });
 
 $app->addErrorMiddleware(true, true, true);

@@ -38,7 +38,9 @@ class Database
 
         try {
             $this->pdo = new PDO($dsn, $this->username, $this->password, $options);
-        } catch (PDOException $exception) { }
+        } catch (PDOException $exception) {
+            error_log("Connection error in the database ", $exception->getMessage());
+        }
     }
 
     public function getConnection(): ?PDO {
@@ -51,5 +53,17 @@ class Database
 
     public function prepare($sql) {
         return $this->pdo->prepare($sql);
+    }
+
+    public function beginTransaction() {
+        return $this->pdo->beginTransaction();
+    }
+
+    public function commit() {
+        return $this->pdo->commit();
+    }
+
+    public function rollBack() {
+        return $this->pdo->rollBack();
     }
 }

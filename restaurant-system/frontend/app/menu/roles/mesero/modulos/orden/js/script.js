@@ -1,13 +1,12 @@
-
 import { apiBase } from 'config/config';
 
 document.addEventListener('DOMContentLoaded', function() {
     let url = apiBase.apiBaseUrl;
     let endpoint = '/food/';
     const id = document.getElementById('foodId');
-    const idFactura = document.getElementById('facturaId');
+    //const idFactura = document.getElementById('facturaId');
 
-    idFactura.value = `${generateUniqueId()}`;
+    //idFactura.value = `${generateUniqueId()}`;
 
     fetch(`${url}${endpoint}${id.value}`)
         .then(response => response.json())
@@ -15,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const precioElement = document.getElementById('unitPrice');
             const  cantidadElement = document.getElementById('quantity');
             const  totalElement = document.getElementById('totalPrice');
+            const   nombreElement = document.getElementById('foodId');
+            nombreElement.value = `${nombreElement.value} - ${data.nombre}`;
             if (precioElement) {
                 precioElement.value = `${data.precio}`;
                 cantidadElement.addEventListener('input', () => {
