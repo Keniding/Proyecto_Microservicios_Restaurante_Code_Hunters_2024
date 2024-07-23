@@ -22,6 +22,8 @@
       "Rol\\": "Microservices/Rol/",
       "Category\\": "Microservices/Category/",
       "Food\\": "Microservices/Food/",
+      "Modifications\\": "Microservices/Modifications",
+      ".ModificationsOders\\": "Microservices/ModificationsOrders",
       "Costumer\\": "Microservices/Costumer",
       "CostumerType\\": "Microservices/CostumerType",
       "Detalle\\": "Microservices/Detalle",

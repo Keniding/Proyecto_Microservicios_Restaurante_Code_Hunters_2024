@@ -1,12 +1,12 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #e0f7fa;
-    margin: 120px;
+    margin: 10px;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     animation: fadeIn 1s ease-in-out;
 }
 
@@ -17,7 +17,7 @@ body {
 
 .container {
     background-color: #ffffff;
-    padding: 30px;
+    padding: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -82,4 +82,51 @@ button:hover {
 .form-group {
     display: flex;
     flex-direction: column;
+}
+
+.category-button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    background-color: #ef8821;
+}
+
+.category-button:hover {
+    background-color: black;
+    color: white;
+}
+
+.tags-container {
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0 20px 0;
+}
+
+.tag {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.selected-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.selected-tag {
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background-color: #00796b;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.8em;
+}
+
+.tags-container input {
+    margin: 20px;
 }

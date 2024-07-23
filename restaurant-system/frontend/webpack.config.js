@@ -6,9 +6,8 @@ module.exports = {
         main: './assets/js/main.js',
         carta: './app/menu/roles/mesero/modulos/carta/carta.js',
         orden: './app/menu/roles/mesero/modulos/orden/js/script.js',
-
+        etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
         categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
-
         img: './assets/icons/tomato.png'
     },
     output: {
@@ -18,7 +17,6 @@ module.exports = {
     resolve: {
         alias: {
             config: path.resolve(__dirname, 'config/'),
-
         },
     },
     module: {
@@ -43,8 +41,35 @@ module.exports = {
                             outputPath: 'images',
                         },
                     },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 65
+                            },
+                            optipng: {
+                                enabled: true,
+                            },
+                            pngquant: {
+                                quality: [0.65, 0.90],
+                                speed: 4
+                            },
+                            gifsicle: {
+                                interlaced: false,
+                            },
+                            webp: {
+                                quality: 75
+                            }
+                        }
+                    },
                 ],
             },
         ],
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        },
     },
 };
