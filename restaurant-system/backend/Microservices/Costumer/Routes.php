@@ -36,7 +36,11 @@ class Routes extends Router
             return $this->handleCostumerForCategory($response, $args['id']);
         });
 
-        $app->post('/costumers', function(Request $request, Response $response) {
+        $app->get('/costumerForDni/{id}', function(Request $request, Response $response, array $args) {
+            return $this->handleCostumerForDni($response, $args['id']);
+        });
+
+        $app->post('/costumer', function(Request $request, Response $response) {
             return $this->handleStoreCostumer($response, $request->getParsedBody());
         });
     }
@@ -83,6 +87,20 @@ class Routes extends Router
         }
     }
 
+    private function handleCostumerForDni(Response $response, $id): Response
+    {
+        $controller = new Controller($this->costumer);
+        try {
+            $data = json_encode($controller->showForDni($id), JSON_THROW_ON_ERROR);
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (JsonException $e) {
+            $error = json_encode(['error' => $e->getMessage()]);
+            $response->getBody()->write($error);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+
     private function handleStoreCostumer(Response $response, array $input): Response
     {
         $controller = new Controller($this->costumer);
@@ -93,9 +111,7 @@ class Routes extends Router
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'telefono' => $input['telefono'],
-                'direccion' => $input['direccion'],
-                'cantidad' => $input['cantidad'],
-                'tipo' => $input['tipo']
+                'direccion' => $input['direccion']
             ];
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);

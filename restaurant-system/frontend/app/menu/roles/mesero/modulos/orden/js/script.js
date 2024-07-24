@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let url = apiBase.apiBaseUrl;
     let endpoint = '/food/';
     const id = document.getElementById('foodId');
-    //const idFactura = document.getElementById('facturaId');
+    const idFactura = document.getElementById('facturaId');
 
-    //idFactura.value = `${generateUniqueId()}`;
+    idFactura.value = `${generateUniqueId()}`;
 
     fetch(`${url}${endpoint}${id.value}`)
         .then(response => response.json())
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function generateRandomId(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {

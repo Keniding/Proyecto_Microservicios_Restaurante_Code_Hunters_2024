@@ -7,7 +7,9 @@ module.exports = {
         carta: './app/menu/roles/mesero/modulos/carta/carta.js',
         orden: './app/menu/roles/mesero/modulos/orden/js/script.js',
         etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
+        dni: './app/menu/roles/mesero/modulos/orden/js/verificarCliente.js',
         categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
+
         img: './assets/icons/tomato.png'
     },
     output: {
