@@ -50,6 +50,7 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
         ),
         'M' => 
         array (
+            'Modifications\\' => 14,
             'Model\\' => 6,
             'Microservices\\' => 14,
         ),
@@ -67,20 +68,30 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
             'Food\\' => 5,
             'Fig\\Http\\Message\\' => 17,
             'FastRoute\\' => 10,
+            'Factura\\' => 8,
         ),
         'D' => 
         array (
             'Dotenv\\' => 7,
+            'Detalle\\' => 8,
             'Database\\' => 9,
         ),
         'C' => 
         array (
+            'Costumer\\' => 9,
+            'CostumerType\\' => 13,
             'Controller\\' => 11,
             'Category\\' => 9,
         ),
         'A' => 
         array (
             'Auth\\' => 5,
+            'ApiReniec\\' => 10,
+            'ApiReniecDni\\' => 13,
+        ),
+        '.' => 
+        array (
+            '.ModificationsOders\\' => 20,
         ),
     );
 
@@ -147,6 +158,10 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
         array (
             0 => __DIR__ . '/..' . '/nyholm/psr7/src',
         ),
+        'Modifications\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Microservices/Modifications',
+        ),
         'Model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Model',
@@ -179,13 +194,29 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
+        'Factura\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Microservices/Factura',
+        ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
+        'Detalle\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Microservices/Detalle',
+        ),
         'Database\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Conexion',
+        ),
+        'Costumer\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Microservices/Costumer',
+        ),
+        'CostumerType\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Microservices/CostumerType',
         ),
         'Controller\\' => 
         array (
@@ -198,6 +229,18 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
         'Auth\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Auth',
+        ),
+        'ApiReniec\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Microservices/ApiReniec',
+        ),
+        'ApiReniecDni\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/ApiReniecDni',
+        ),
+        '.ModificationsOders\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Microservices/ModificationsOrders',
         ),
     );
 

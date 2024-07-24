@@ -14,10 +14,12 @@
     "psr-4": {
       "Database\\": "Conexion/",
       "Test\\": "Test/",
+      "ApiReniecDni\\": "ApiReniecDni/",
       "Model\\": "Model/",
       "Router\\": "Router/",
       "Controller\\": "Controller/",
       "Microservices\\": "Microservices/",
+      "ApiReniec\\": "Microservices/ApiReniec/",
       "User\\": "Microservices/User/",
       "Rol\\": "Microservices/Rol/",
       "Category\\": "Microservices/Category/",
