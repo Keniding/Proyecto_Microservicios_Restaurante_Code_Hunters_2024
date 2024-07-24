@@ -60,5 +60,6 @@ class Model extends BaseModel
     public function delete($id): bool
     {
         // TODO: Implement delete() method.
+        return false;
     }
 }

@@ -22,35 +22,30 @@
                 <input type="text" id="customerDni" name="customerDni" required>
             </div>
             -->
-            <div>
-                <div class="form-group">
-                    <label for="foodId">ID de la Comida:</label>
-                    <input type="text" id="foodId" name="foodId" value="<?php echo getId() ?>" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="quantity">Cantidad:</label>
-                    <input type="number" id="quantity" name="quantity" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="unitPrice">Precio Unitario:</label>
-                    <input type="number" id="unitPrice" name="unitPrice" step="0.01" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="totalPrice">Precio Total:</label>
-                    <input type="number" id="totalPrice" name="totalPrice" step="0.01" readonly>
-                </div>
-
+            <div class="form-group">
+                <label for="foodId">ID de la Comida:</label>
+                <input type="text" id="foodId" name="foodId" value="<?php echo getId() ?>" required>
             </div>
-            <div>
-                <div class="form-group">
-                    <div class="description">Descripción de la Orden:</div>
-                    <div class="tags-container" id="tags-container"></div>
-                    <div class="selected-tags-container" id="selected-tags-container"></div>
-                </div>
 
+            <div class="form-group">
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" name="quantity" required>
+            </div>
+
+            <div class="form-group">
+                <label for="unitPrice">Precio Unitario:</label>
+                <input type="number" id="unitPrice" name="unitPrice" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="totalPrice">Precio Total:</label>
+                <input type="number" id="totalPrice" name="totalPrice" step="0.01" readonly>
+            </div>
+
+            <div class="form-group">
+                <div class="description">Descripción de la Orden:</div>
+                <div class="tags-container" id="tags-container"></div>
+                <div class="selected-tags-container" id="selected-tags-container"></div>
             </div>
 
             <button type="submit">Agregar Orden</button>

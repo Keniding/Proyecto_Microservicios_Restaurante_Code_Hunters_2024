@@ -15,6 +15,8 @@ use Microservices\Detalle\Routes as DetalleRoutes;
 use Microservices\Modifications\Routes as ModificationRoutes;
 use Microservices\ModificationsOrders\Routes as ModificationOrderRoutes;
 
+use Microservices\ApiReniec\Routes as ApiReniecRoutes;
+
 $psr17Factory = new Psr17Factory();
 
 AppFactory::setResponseFactory($psr17Factory);
@@ -34,6 +36,7 @@ $app->group('/api', function ($group) {
     (new DetalleRoutes())->registerRoutes($group);
     (new ModificationRoutes())->registerRoutes($group);
     (new ModificationOrderRoutes())->registerRoutes($group);
+    (new ApiReniecRoutes())->registerRoutes($group);
 });
 
 $app->addErrorMiddleware(true, true, true);
