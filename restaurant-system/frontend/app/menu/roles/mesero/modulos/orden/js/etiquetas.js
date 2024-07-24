@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function generateTags(tags) {
+        tagsContainer.innerHTML = '';
+        selectedTagsContainer.innerHTML = '';
+
         const tagsByCategory = {};
 
         tags.forEach(tag => {
@@ -110,11 +113,37 @@ document.addEventListener('DOMContentLoaded', function () {
             const saveButton = document.createElement('button');
             saveButton.textContent = 'Guardar';
             saveButton.id = `save-button-${category}`;
-            saveButton.addEventListener('click', function () {
-                //saveCategory(category, inputElement.value);
+            saveButton.addEventListener( 'click', function (event) {
+                event.preventDefault();
+                const data = {
+                    name: inputElement.value,
+                    category: category
+                };
+                saveCategory(data);
+
             });
             container.appendChild(saveButton);
         }
+    }
+
+    function saveCategory(data) {
+        let endpoint = '/modification';
+
+        fetch(`${url}${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Success:', result);
+                fetchTags();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
     function removeInputAndSaveButton(category, container) {
