@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function generateTags(tags) {
+        const selectedTagNames = selectedTags.map(tag => tag.name);
+
         tagsContainer.innerHTML = '';
         selectedTagsContainer.innerHTML = '';
 
@@ -46,12 +48,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 tagElement.dataset.category = tag.category;
                 tagElement.dataset.color = tag.color;
 
+                if (selectedTagNames.includes(tag.name)) {
+                    tagElement.classList.add('selected');
+                    tagElement.style.backgroundColor = tag.color;
+                    tagElement.style.color = 'white';
+                    addSelectedTag(tag);
+                }
+
                 tagElement.addEventListener('click', function () {
                     if (this.classList.contains('selected')) {
                         this.classList.remove('selected');
                         this.style.backgroundColor = '#f0f0f0';
                         this.style.color = 'black';
-                        selectedTags = selectedTags.filter(t => t.name !== tag.name);
+                        selectedTags = selectedTags.filter(t => !(t.name === tag.name && t.category === tag.category));
                         removeSelectedTag(tag);
                     } else {
                         this.classList.add('selected');
@@ -61,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         selectedTags.push(tag);
                     }
+                    console.log(selectedTags)
                 });
 
                 categoryTagsContainer.appendChild(tagElement);
