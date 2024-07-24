@@ -31,6 +31,14 @@ class Model extends BaseModel
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function getByDni($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM clientes WHERE Dni=:id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
     public function create(array $data): bool
     {
         try {
@@ -38,13 +46,16 @@ class Model extends BaseModel
             VALUES (:dni, :name, :email, :telefono, :direccion, :cantidad, :tipo)";
             $stmt = $this->db->prepare($query);
 
+            $cantidadcomprada = 0;
+            $tipo = 1;
+
             $stmt->bindParam(':dni', $data['dni'], \PDO::PARAM_STR);
             $stmt->bindParam(':name', $data['name'], \PDO::PARAM_STR);
             $stmt->bindParam(':email', $data['email'], \PDO::PARAM_STR);
             $stmt->bindParam(':telefono', $data['telefono'], \PDO::PARAM_STR);
             $stmt->bindParam(':direccion', $data['direccion'], \PDO::PARAM_STR);
-            $stmt->bindParam(':cantidad', $data['cantidad'], \PDO::PARAM_INT);
-            $stmt->bindParam(':tipo', $data['tipo'], \PDO::PARAM_INT);
+            $stmt->bindParam(':cantidad', $cantidadcomprada, \PDO::PARAM_INT);
+            $stmt->bindParam(':tipo', $tipo, \PDO::PARAM_INT);
 
             if ($stmt->execute()) {
                 return true;
