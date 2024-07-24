@@ -78,7 +78,6 @@ class Routes extends Router
             $data = [
                 'name' => $input['name'] ?? null,
                 'category' => $input['category'] ?? null,
-                'color' => $input['color'] ?? null,
             ];
 
             error_log('Datos a almacenar: ' . print_r($data, true));

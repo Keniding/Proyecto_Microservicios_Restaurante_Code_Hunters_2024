@@ -26,6 +26,21 @@ class Model extends BaseModel
     public function create(array $data): bool
     {
         try {
+            switch ($data['category']) {
+                case 'quitar':
+                    $data['color'] = '#ff0000';
+                    break;
+                case 'agregar':
+                    $data['color'] = '#00ff00';
+                    break;
+                case 'modificar':
+                    $data['color'] = '#0000ff';
+                    break;
+                default:
+                    $data['color'] = '#000000';
+                    break;
+            }
+
             $query = "INSERT INTO modificaciones_plato (name, category, color) VALUES (:name, :category, :color)";
             $stmt = $this->db->prepare($query);
 
