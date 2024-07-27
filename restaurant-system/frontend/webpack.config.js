@@ -6,6 +6,7 @@ module.exports = {
         main: './assets/js/main.js',
         carta: './app/menu/roles/mesero/modulos/carta/carta.js',
         orden: './app/menu/roles/mesero/modulos/orden/js/script.js',
+        order: './app/menu/roles/mesero/modulos/orden/js/order.js',
         etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
         dni: './app/menu/roles/mesero/modulos/orden/js/verificarCliente.js',
         categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
