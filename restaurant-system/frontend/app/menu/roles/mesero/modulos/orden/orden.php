@@ -38,7 +38,7 @@
                 <div class="selected-tags-container" id="selected-tags-container"></div>
             </div>
 
-            <button type="submit">Agregar Orden</button>
+            <button id="AgregarOrden" type="submit">Agregar Orden</button>
         </form>
     </div>
     <div class="form-group">
@@ -49,11 +49,13 @@
         <label for="customerDni">DNI del Cliente:</label>
         <input type="text" id="customerDni" name="customerDni" required>
         <button id="verifyButton">Verificar</button>
+        <div id="result"></div>
     </div>
 </div>
 
 <script src="/assets/dist/orden.bundle.js"></script>
 <script src="/assets/dist/etiquetas.bundle.js"></script>
 <script src="/assets/dist/dni.bundle.js"></script>
+<script src="/assets/dist/order.bundle.js"></script>
 </body>
 </html>

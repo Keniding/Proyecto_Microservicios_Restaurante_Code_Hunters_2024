@@ -35,13 +35,13 @@ class Routes extends Router
             $response->getBody()->write($data);
             return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            $error = json_encode(['error' => 'Error al procesar los datos.']);
+            $response->getBody()->write($error, $e);
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         } catch (\Exception $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+            $error = json_encode(['error' => 'No existe persona o Error interno del servidor.']);
+            $response->getBody()->write($error, $e);
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
         }
     }
 
