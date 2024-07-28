@@ -28,7 +28,7 @@ abstract class BaseController
         return $this->model->getByCategory($id);
     }
 
-    public function store(array $data): bool
+    public function store(array $data)
     {
         return $this->model->create($data);
     }

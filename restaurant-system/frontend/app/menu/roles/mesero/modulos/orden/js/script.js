@@ -14,8 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const precioElement = document.getElementById('unitPrice');
             const  cantidadElement = document.getElementById('quantity');
             const  totalElement = document.getElementById('totalPrice');
-            const   nombreElement = document.getElementById('foodId');
-            nombreElement.value = `${nombreElement.value} - ${data.nombre}`;
+            const nombreElement  = document.getElementById('foodName');
+            nombreElement.innerHTML = `${data.nombre}`;
+            nombreElement.classList.add('text-center', 'label');
             if (precioElement) {
                 precioElement.value = `${data.precio}`;
                 cantidadElement.addEventListener('input', () => {

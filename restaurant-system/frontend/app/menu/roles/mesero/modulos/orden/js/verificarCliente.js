@@ -24,16 +24,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 await handleCustomerNotFound(url, endpointReniec, endpointPost, id.value);
             }
         } catch (error) {
-            console.error('Error en la solicitud:', error);
+            console.log('Error en la solicitud:', error.message);
         }
     });
 
     async function fetchCustomerData(baseUrl, endpoint, customerId) {
-        const response = await fetch(`${baseUrl}${endpoint}${customerId}`);
-        if (response.ok) {
+        try {
+            const response = await fetch(`${baseUrl}${endpoint}${customerId}`);
+            if (!response.ok) {
+                if (response.status === 500) {
+                    return null;
+                }
+                return null;
+            }
             return await response.json();
+        } catch (error) {
+            return null;
         }
-        return null;
     }
 
     function displayCustomerData(data) {
@@ -51,18 +58,14 @@ document.addEventListener('DOMContentLoaded', function () {
         clearResult();
         try {
             result.innerHTML = 'Cliente no encontrado, consultando Reniec...';
-            console.log('Cliente no encontrado, consultando Reniec...');
 
             const dataReniec = await fetchCustomerData(baseUrl, endpointReniec, customerId);
             if (dataReniec) {
-                console.log('Datos de Reniec obtenidos:', dataReniec);
                 await saveNewCustomer(baseUrl, endpointPost, dataReniec);
             } else {
-                console.log('No se encontraron datos en Reniec.');
                 result.innerHTML = 'No se encontraron datos en Reniec.';
             }
-        }catch (error) {
-            console.error('Error al consultar Reniec:', error);
+        } catch (error) {
             result.innerHTML = `Error al consultar Reniec: ${error.message}`;
         } finally {
             result.innerHTML = result.innerHTML.includes('consultando') ? 'Consulta completada.' : result.innerHTML;
@@ -100,11 +103,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('Nuevo cliente guardado exitosamente:', savedCustomerData);
             } else {
                 const responseText = await responsePost.json();
-                console.error('Error al guardar el nuevo cliente:', responseText.error);
                 result.innerHTML = `Error al guardar el nuevo cliente: ${responseText.error}`;
             }
         } catch (error) {
-            console.log('Error en la solicitud:', error);
             result.innerHTML = `Error en la solicitud: ${error.message}`;
         }
     }
