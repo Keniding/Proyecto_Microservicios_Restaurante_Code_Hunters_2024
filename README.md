@@ -1,6 +1,19 @@
 # 🐾 Proyecto Web para Restaurante 🐾
 
-## 🌟 Tecnologías Utilizadas 🌟
+# 📋 Contenido
+
+---
+
+### 🌟 **Índice de Secciones**
+
+1. [💻 **Tecnologías Utilizadas**](#-tecnologías-utilizadas)
+2. [📊 **Base de Datos**](#-base-de-datos)
+3. [🧪 **Cómo Probar el Proyecto**](#-cómo-probar-el-proyecto)
+4. [🗂️ **Estructura del Proyecto**](#-estructura-del-proyecto)
+5. [📞 **Contacto**](#-contacto)
+---
+
+## 💻 Tecnologías Utilizadas
 
 ### 🐶 Backend 🐶
 
@@ -34,3 +47,168 @@
 
 ## 🌈 ¡Gracias por visitar mi proyecto! 🌈
 Esperamos que disfrutes explorando mi código tanto como nosotros disfrutamos escribiéndolo. 🐾
+
+---
+
+## 📊 Base de Datos
+
+---
+
+El script de la base de datos en **MySQL** está incluido en este proyecto junto con el README. Solo necesitas importarlo. El script incluye:
+
+- 📁 **Creación de las tablas**
+- 📝 **Registros iniciales**
+- 🔄 **Rutinas utilizadas para automatizar procesos**
+
+---
+
+## 🧪 Cómo Probar el Proyecto
+
+### Backend
+
+Para iniciar el backend, sigue estos pasos:
+
+1. Navega a la carpeta del backend:
+    ```sh
+    cd /restaurant-system/backend
+    ```
+2. Inicia el servidor PHP:
+    ```sh
+    php -S localhost:8000
+    ```
+3. Las APIs se pueden consumir en:
+    ```
+    http://localhost:8000/api/{endpoint}
+    ```
+
+### Frontend
+
+Para iniciar el frontend, sigue estos pasos:
+
+1. Navega a la carpeta del frontend:
+    ```sh
+    cd /restaurant-system/frontend
+    ```
+2. Inicia el servidor PHP:
+    ```sh
+    php -S localhost:8100
+    ```
+3. Accede a la aplicación en:
+    ```
+    http://localhost:8100
+    ```
+
+---
+
+## 🗂️ Estructura del Proyecto
+
+---
+
+```plaintext
+/restaurant-system
+├── .idea
+├── backend
+│   ├── .idea
+│   ├── ApiReniecDni
+│   │   ├── Env.php
+│   │   └── PersonaReniec.php
+│   ├── Auth
+│   │   ├── Controller.php
+│   │   ├── index.php
+│   │   ├── Middleware.php
+│   │   ├── Model.php
+│   │   └── Router.php
+│   ├── Conexion
+│   │   ├── Database.php
+│   │   └── Env.php
+│   ├── Controller
+│   │   └── BaseController.php
+│   ├── Microservices
+│   │   ├── ApiReniec
+│   │   │   ├── Controller.php
+│   │   │   ├── Model.php
+│   │   │   └── Routes.php
+│   │   ├── Category
+│   │   ├── Costumer
+│   │   ├── CostumerType
+│   │   ├── Detalle
+│   │   ├── Factura
+│   │   ├── Food
+│   │   ├── Modifications
+│   │   ├── ModificationsOrders
+│   │   ├── Rol
+│   │   └── User
+│   ├── Model
+│   │   └── BaseModel.php
+│   ├── Router
+│   │   ├── IRouter.php
+│   │   └── Router.php
+│   ├── Test
+│   │   └── TestConexion.php
+│   ├── vendor
+│   ├── .env
+│   ├── composer.json
+│   ├── composer.lock
+│   └── index.php
+├── frontend
+│   ├── app
+│   │   ├── login
+│   │   ├── menu
+│   │   │   ├── roles
+│   │   │   │   ├── administrador
+│   │   │   │   └── mesero
+│   │   │   │      ├── modulos
+│   │   │   │      │   ├── carta
+│   │   │   │      │   └── orden
+│   │   │   │      │      ├── css
+│   │   │   │      │      ├── js
+│   │   │   │      │      ├── logica
+│   │   │   │      │      ├── orden.php
+│   │   │   │      │      └── resumen.php
+│   │   │   │      └── menu.php
+│   │   │   └── menu.php
+│   │   └── register
+│   ├── assets
+│   │   ├── dist
+│   │   │   ├── images
+│   │   │   │   └── tomato.png
+│   │   │   ├── carta.bundle.js
+│   │   │   ├── categoria.bundle.js
+│   │   │   ├── dni.bundle.js
+│   │   ├── icons
+│   │   └── js
+│   ├── config
+│   ├── css
+│   ├── includes
+│   │   ├── footer.php
+│   │   └── header.php
+│   ├── node_modules
+│   ├── .babelrc
+│   ├── index.php
+│   ├── package.json
+│   ├── package-lock.json
+│   └── webpack.config.js
+├── .gitattributes
+├── .hintrc
+├── .htaccess
+├── README.md
+└── restaurant_db.sql
+```
+
+---
+
+## 📞 **Contacto**
+
+---
+
+¿Tienes alguna duda o necesitas asistencia? ¡Estoy aquí para ayudarte!
+
+### 📧 **Correo Electrónico**
+ - Para consultas generales, puedes enviarme un correo a: [U20310552@utp.edu.pe](mailto:U20310552@utp.edu.pe)
+ - Mi correo personal: [kenidingh@gmail.com](mailto:kenidingh@gmail.com)
+
+### 📱 **Redes Sociales**
+Sígueme en mis redes sociales para estar al día con las últimas novedades:
+- [TikTok](https://www.tiktok.com/@henry.keniding.ta)
+- [LinkedIn](https://www.linkedin.com/in/henry-keniding-tarazona-lazaro-277726249)
+- [Facebook](https://www.facebook.com/henrykeniding.tarazonalazaro.3)
