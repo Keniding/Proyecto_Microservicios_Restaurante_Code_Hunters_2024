@@ -26,7 +26,9 @@ class Model extends BaseModel
     public function create(array $data): bool
     {
         try {
-            $query = "INSERT INTO facturas (id, Fecha, Total) VALUES (:id, :fecha, :total)";
+            $this->db->beginTransaction();
+
+            $query = "INSERT INTO facturas (id, Fecha, Total, dni_cliente) VALUES (:id, :fecha, :total, :dni)";
             $stmt = $this->db->prepare($query);
 
             $fecha_creacion = date('Y-m-d H:i:s');
@@ -34,13 +36,26 @@ class Model extends BaseModel
             $stmt->bindParam(':id', $data['id'], \PDO::PARAM_STR);
             $stmt->bindParam(':fecha', $fecha_creacion, \PDO::PARAM_STR);
             $stmt->bindParam(':total', $data['total'], \PDO::PARAM_STR);
+            $stmt->bindParam(':dni', $data['dni'], \PDO::PARAM_STR);
 
-            if ($stmt->execute()) {
-                return true;
-            } else {
+            if (!$stmt->execute()) {
+                $this->db->rollBack();
                 return false;
             }
+
+            $query = "SELECT incrementar_cantidad_compras(:dni)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':dni', $data['dni'], \PDO::PARAM_STR);
+
+            if (!$stmt->execute()) {
+                $this->db->rollBack();
+                return false;
+            }
+
+            $this->db->commit();
+            return true;
         } catch(PDOException $exception) {
+            $this->db->rollBack();
             echo "Error: " . $exception->getMessage() . "<br>";
             return false;
         }

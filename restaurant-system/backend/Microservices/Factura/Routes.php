@@ -72,7 +72,8 @@ class Routes extends Router
         try {
             $data = [
                 'id' => $input['id'],
-                'total' => $input['total']
+                'total' => $input['total'],
+                'dni' => $input['dni']
             ];
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);

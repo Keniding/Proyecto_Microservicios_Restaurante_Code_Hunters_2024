@@ -39,9 +39,11 @@ class Model extends BaseModel
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function create(array $data): bool
+    public function create(array $data): int
     {
         try {
+            $this->db->beginTransaction();
+
             $query = "INSERT INTO ordenes (FacturaID, ComidaID, Cantidad, Precio) VALUES (:factura, :comida, :cantidad, :precio)";
             $stmt = $this->db->prepare($query);
 
@@ -51,11 +53,15 @@ class Model extends BaseModel
             $stmt->bindParam(':precio', $data['precio'], \PDO::PARAM_STR);
 
             if ($stmt->execute()) {
-                return true;
+                $newDetalleId = (int)$this->db->lastInsertId();
+                $this->db->commit();
+                return $newDetalleId;
             } else {
+                $this->db->rollBack();
                 return false;
             }
         } catch(PDOException $exception) {
+            $this->db->rollBack();
             echo "Error: " . $exception->getMessage() . "<br>";
             return false;
         }

@@ -1,4 +1,4 @@
-<?php include 'logica/logica.php'; ?>
+<?php include 'logica/logica.php';?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<div class="container main-container">
+<div class="container main-container no-select">
     <div class="container-colum">
         <h1>Agregar Orden de Venta</h1>
         <form id="orderForm">
             <div class="form-group">
-                <label for="foodId">ID de la Comida:</label>
-                <input type="text" id="foodId" name="foodId" value="<?php echo getId() ?>" required>
+                <div id="foodName"></div>
+                <label for="foodId" class="no-select">ID de la Comida:</label>
+                <input type="text" id="foodId" name="foodId" value="<?php echo getId() ?>" required readonly>
             </div>
 
             <div class="form-group">
@@ -23,13 +24,13 @@
             </div>
 
             <div class="form-group">
-                <label for="unitPrice">Precio Unitario:</label>
-                <input type="number" id="unitPrice" name="unitPrice" step="0.01" required>
+                <label for="unitPrice" class="no-select">Precio Unitario:</label>
+                <input type="number" id="unitPrice" name="unitPrice" step="0.01" required readonly>
             </div>
 
             <div class="form-group">
-                <label for="totalPrice">Precio Total:</label>
-                <input type="number" id="totalPrice" name="totalPrice" step="0.01" readonly>
+                <label for="totalPrice" class="no-select">Precio Total:</label>
+                <input type="number" id="totalPrice" name="totalPrice" step="0.01" required readonly>
             </div>
 
             <div class="form-group ajuste">
@@ -41,10 +42,10 @@
             <button id="AgregarOrden" type="submit">Agregar Orden</button>
         </form>
     </div>
-    <div class="form-group">
+    <div class="form-group no-select">
         <h1>Datos extra</h1>
-        <label for="facturaId">ID de la Factura:</label>
-        <input type="text" id="facturaId" name="facturaId" required>
+        <label for="facturaId" class="no-select">ID de la Factura:</label>
+        <input type="text" id="facturaId" name="facturaId" required readonly>
 
         <label for="customerDni">DNI del Cliente:</label>
         <input type="text" id="customerDni" name="customerDni" required>
@@ -52,6 +53,10 @@
         <div id="result"></div>
     </div>
 </div>
+
+<script>
+    window.foodId = '<?php echo getId() ?>';
+</script>
 
 <script src="/assets/dist/orden.bundle.js"></script>
 <script src="/assets/dist/etiquetas.bundle.js"></script>

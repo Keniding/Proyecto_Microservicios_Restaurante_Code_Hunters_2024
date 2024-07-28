@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedTagsContainer = document.getElementById('selected-tags-container');
     let url = apiBase.apiBaseUrl;
     let endpoint = '/modifications';
-    let selectedTags = [];
+    window.selectedTags = [];
 
     async function fetchTags() {
         try {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         selectedTags.push(tag);
                     }
-                    console.log(selectedTags)
+                    console.log("List",selectedTags)
                 });
 
                 categoryTagsContainer.appendChild(tagElement);

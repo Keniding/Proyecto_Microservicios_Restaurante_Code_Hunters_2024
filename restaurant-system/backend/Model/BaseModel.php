@@ -15,6 +15,6 @@ abstract class BaseModel
     abstract public function getAll();
     abstract public function getById($id);
     abstract public function getByCategory($id);
-    abstract public function create(array $data): bool;
+    abstract public function create(array $data);
     abstract public function delete($id): bool;
 }

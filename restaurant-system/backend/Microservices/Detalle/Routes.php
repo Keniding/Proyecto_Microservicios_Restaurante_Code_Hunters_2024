@@ -113,7 +113,13 @@ class Routes extends Router
                 'precio' => $input['precio']
             ];
             $result = $controller->store($data);
-            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+
+            if (is_int($result)) {
+                $success = json_encode(['success' => true, 'id' => $result], JSON_THROW_ON_ERROR);
+            } else {
+                $success = json_encode(['success' => false], JSON_THROW_ON_ERROR);
+            }
+
             $response->getBody()->write($success);
             return $response->withHeader('Content-Type', 'application/json');
         } catch (JsonException $e) {
