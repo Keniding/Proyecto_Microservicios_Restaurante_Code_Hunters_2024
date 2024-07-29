@@ -58,10 +58,14 @@ class Model extends BaseModel
             $hora_inicio = new \DateTime('now', new \DateTimeZone('America/Lima'));
             $hora_inicio_str = $hora_inicio->format('Y-m-d H:i:s');
 
-            $stmt->bindParam(':fac', $data['factura_id'], \PDO::PARAM_INT);
-            $stmt->bindParam(':mesa', $data['mesa_id'], \PDO::PARAM_INT);
+            $factura_id = $data['factura_id'];
+            $mesa_id = $data['mesa_id'];
+            $hora_fin = null;
+
+            $stmt->bindParam(':fac', $factura_id, \PDO::PARAM_INT);
+            $stmt->bindParam(':mesa', $mesa_id, \PDO::PARAM_INT);
             $stmt->bindParam(':ini', $hora_inicio_str, \PDO::PARAM_STR);
-            $stmt->bindParam(':fin', $data['hora_fin'], \PDO::PARAM_STR);
+            $stmt->bindParam(':fin', $hora_fin, \PDO::PARAM_STR);
 
             if ($stmt->execute()) {
                 $newDetalleId = (int)$this->db->lastInsertId();
