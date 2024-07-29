@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-07-2024 a las 08:16:08
+-- Tiempo de generación: 29-07-2024 a las 05:11:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -135,6 +135,7 @@ INSERT INTO `clientes` (`Dni`, `Nombre`, `Email`, `Telefono`, `Direccion`, `Tipo
 ('73252134', 'REYNA YSABEL WILLYANA CHERO FARRO', '', '', '', 1, 0),
 ('73954521', 'ANA CLAUDIA AMAYA HUARCAYA', '', '', '', 1, 0),
 ('76234532', 'JUAN MANUEL HUILLCA CRUZ', '', '', '', 1, 0),
+('77234313', 'ANYELA LIZET CAYAO TORRES', '', '', '', 1, 1),
 ('77665544', 'ANGELO BOSCO AGUIRRE HIDALGO', '', '', '', 1, 0),
 ('87654321', 'María García', 'maria.garcia@example.com', '987654321', 'Avenida Siempre Viva 456', 2, 10);
 
@@ -178,6 +179,28 @@ INSERT INTO `comidas` (`id`, `nombre`, `descripcion`, `precio`, `disponibilidad`
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `estados_mesa`
+--
+
+CREATE TABLE `estados_mesa` (
+  `id_estado_mesa` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `estados_mesa`
+--
+
+INSERT INTO `estados_mesa` (`id_estado_mesa`, `nombre`, `descripcion`) VALUES
+(1, 'Disponible', 'Mesa lista para ser ocupada'),
+(2, 'Ocupada', 'Mesa actualmente en uso por clientes'),
+(3, 'Reservada', 'Mesa apartada para una reservación futura'),
+(4, 'En limpieza', 'Mesa siendo preparada para el próximo cliente');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `facturas`
 --
 
@@ -185,39 +208,79 @@ CREATE TABLE `facturas` (
   `id` varchar(100) NOT NULL,
   `Fecha` date NOT NULL,
   `Total` decimal(10,2) NOT NULL,
-  `dni_cliente` varchar(20) NOT NULL
+  `dni_cliente` varchar(20) NOT NULL,
+  `estado` varchar(50) NOT NULL DEFAULT 'Pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `facturas`
 --
 
-INSERT INTO `facturas` (`id`, `Fecha`, `Total`, `dni_cliente`) VALUES
-('28072024000624557X9JNSGURVZ', '2024-07-28', 42.00, '72893091'),
-('28072024001235568UU3ML6ZHL1', '2024-07-28', 42.00, '72893091'),
-('280720240013286345WWCHUPWID', '2024-07-28', 14.00, '72893091'),
-('28072024001513473H6VY2C976L', '2024-07-28', 14.00, '72893091'),
-('28072024001739206UO2VJ9LHVV', '2024-07-28', 28.00, '72893091'),
-('28072024001828216HARTR2PPR6', '2024-07-28', 42.00, '72893091'),
-('28072024002730039BY3O5C1TUB', '2024-07-28', 14.00, '72893091'),
-('28072024002939444UP6PO8E7YD', '2024-07-28', 28.00, '72893091'),
-('28072024003302927LX3FNPH9IP', '2024-07-28', 14.00, '72893091'),
-('2807202400352191091XBF5SG8X', '2024-07-28', 28.00, '72893091'),
-('28072024003724760MFXM67LP6A', '2024-07-28', 42.00, '72893091'),
-('28072024004119838H4RW9Q4T2R', '2024-07-28', 28.00, '72893091'),
-('28072024004541741TJZFFM347E', '2024-07-28', 28.00, '72893091'),
-('28072024004648602Y8OIGTLWN8', '2024-07-28', 14.00, '72893091'),
-('28072024005150147JB5OPCT7T9', '2024-07-28', 0.00, '72893091'),
-('28072024005235224Y7G2BFOHSL', '2024-07-28', 14.00, '72893091'),
-('280720240052498621TTF8IHC4F', '2024-07-28', 28.00, '72893091'),
-('28072024005303907S5H6AG20GA', '2024-07-28', 14.00, '72893091'),
-('28072024005345091ZSC2CDMVFY', '2024-07-28', 14.00, '72893091'),
-('28072024005407947FIV8IW1PMF', '2024-07-28', 70.00, '72893091'),
-('280720240101275822G6CM1439O', '2024-07-28', 14.00, '72893092'),
-('28072024010209404QM71ZQBIYC', '2024-07-28', 28.00, '72893091'),
-('F001', '2024-07-01', 150.75, '11223344'),
-('F002', '2024-07-02', 200.50, '12345678'),
-('F003', '2024-07-03', 300.00, '87654321');
+INSERT INTO `facturas` (`id`, `Fecha`, `Total`, `dni_cliente`, `estado`) VALUES
+('28072024000624557X9JNSGURVZ', '2024-07-28', 42.00, '72893091', 'Pendiente'),
+('28072024001235568UU3ML6ZHL1', '2024-07-28', 42.00, '72893091', 'Pendiente'),
+('280720240013286345WWCHUPWID', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('28072024001513473H6VY2C976L', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('28072024001739206UO2VJ9LHVV', '2024-07-28', 28.00, '72893091', 'Pendiente'),
+('28072024001828216HARTR2PPR6', '2024-07-28', 42.00, '72893091', 'Pendiente'),
+('28072024002730039BY3O5C1TUB', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('28072024002939444UP6PO8E7YD', '2024-07-28', 28.00, '72893091', 'Pendiente'),
+('28072024003302927LX3FNPH9IP', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('2807202400352191091XBF5SG8X', '2024-07-28', 28.00, '72893091', 'Pendiente'),
+('28072024003724760MFXM67LP6A', '2024-07-28', 42.00, '72893091', 'Pendiente'),
+('28072024004119838H4RW9Q4T2R', '2024-07-28', 28.00, '72893091', 'Pendiente'),
+('28072024004541741TJZFFM347E', '2024-07-28', 28.00, '72893091', 'Pendiente'),
+('28072024004648602Y8OIGTLWN8', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('28072024005150147JB5OPCT7T9', '2024-07-28', 0.00, '72893091', 'Pendiente'),
+('28072024005235224Y7G2BFOHSL', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('280720240052498621TTF8IHC4F', '2024-07-28', 28.00, '72893091', 'Pendiente'),
+('28072024005303907S5H6AG20GA', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('28072024005345091ZSC2CDMVFY', '2024-07-28', 14.00, '72893091', 'Pendiente'),
+('28072024005407947FIV8IW1PMF', '2024-07-28', 70.00, '72893091', 'Pendiente'),
+('280720240101275822G6CM1439O', '2024-07-28', 14.00, '72893092', 'Pendiente'),
+('28072024010209404QM71ZQBIYC', '2024-07-28', 28.00, '72893091', 'Pendiente'),
+('28072024220027581M01BHVDGL7', '2024-07-29', 12.00, '77234313', 'Pendiente'),
+('F001', '2024-07-01', 150.75, '11223344', 'Pendiente'),
+('F002', '2024-07-02', 200.50, '12345678', 'Pendiente'),
+('F003', '2024-07-03', 300.00, '87654321', 'Pendiente');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `mesas`
+--
+
+CREATE TABLE `mesas` (
+  `id_mesa` int(11) NOT NULL,
+  `capacidad` int(11) NOT NULL,
+  `id_estado_mesa` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `mesas`
+--
+
+INSERT INTO `mesas` (`id_mesa`, `capacidad`, `id_estado_mesa`) VALUES
+(41, 2, 1),
+(42, 2, 1),
+(43, 4, 1),
+(44, 4, 1),
+(45, 4, 1),
+(46, 4, 1),
+(47, 4, 1),
+(48, 4, 1),
+(49, 6, 1),
+(50, 6, 1),
+(51, 6, 1),
+(52, 6, 1),
+(53, 8, 1),
+(54, 8, 1),
+(55, 8, 1),
+(56, 10, 1),
+(57, 10, 1),
+(58, 12, 1),
+(59, 16, 1),
+(60, 20, 1);
 
 -- --------------------------------------------------------
 
@@ -238,7 +301,7 @@ CREATE TABLE `modificaciones_plato` (
 --
 
 INSERT INTO `modificaciones_plato` (`id`, `name`, `category`, `color`, `counter`) VALUES
-(1, 'Sin Sal', 'quitar', '#ff0000', 4),
+(1, 'Sin Sal', 'quitar', '#ff0000', 6),
 (2, 'Extra Picante', 'agregar', '#00ff00', 1),
 (3, 'Vegetariano', 'modificar', '#0000ff', 1),
 (4, 'Sin Gluten', 'quitar', '#ff0000', 2),
@@ -263,40 +326,44 @@ INSERT INTO `modificaciones_plato` (`id`, `name`, `category`, `color`, `counter`
 CREATE TABLE `ordenes` (
   `id` int(11) NOT NULL,
   `FacturaID` varchar(255) NOT NULL,
+  `hora_orden` datetime NOT NULL DEFAULT current_timestamp(),
   `ComidaID` int(11) NOT NULL,
   `Cantidad` int(11) NOT NULL,
-  `Precio` decimal(10,2) NOT NULL
+  `Precio` decimal(10,2) NOT NULL,
+  `estado` varchar(50) NOT NULL DEFAULT 'Completada'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `ordenes`
 --
 
-INSERT INTO `ordenes` (`id`, `FacturaID`, `ComidaID`, `Cantidad`, `Precio`) VALUES
-(1, 'F001', 1, 2, 12.50),
-(2, 'F001', 2, 1, 8.75),
-(3, 'F002', 3, 3, 7.25),
-(4, 'F003', 1, 1, 12.50),
-(5, 'F003', 2, 2, 8.75),
-(10, '28072024001513473H6VY2C976L', 5, 1, 14.00),
-(11, '28072024001739206UO2VJ9LHVV', 5, 2, 28.00),
-(12, '28072024001828216HARTR2PPR6', 5, 3, 42.00),
-(13, '28072024002730039BY3O5C1TUB', 5, 1, 14.00),
-(14, '28072024002939444UP6PO8E7YD', 5, 2, 28.00),
-(15, '28072024003302927LX3FNPH9IP', 5, 1, 14.00),
-(16, '2807202400352191091XBF5SG8X', 5, 2, 28.00),
-(17, '28072024003724760MFXM67LP6A', 5, 3, 42.00),
-(18, '28072024004119838H4RW9Q4T2R', 5, 2, 28.00),
-(19, '28072024004541741TJZFFM347E', 5, 2, 28.00),
-(20, '28072024004648602Y8OIGTLWN8', 5, 1, 14.00),
-(21, '28072024005150147JB5OPCT7T9', 5, 0, 0.00),
-(22, '28072024005235224Y7G2BFOHSL', 5, 1, 14.00),
-(23, '280720240052498621TTF8IHC4F', 5, 2, 28.00),
-(24, '28072024005303907S5H6AG20GA', 5, 1, 14.00),
-(25, '28072024005345091ZSC2CDMVFY', 5, 1, 14.00),
-(26, '28072024005407947FIV8IW1PMF', 5, 5, 70.00),
-(27, '280720240101275822G6CM1439O', 5, 1, 14.00),
-(28, '28072024010209404QM71ZQBIYC', 5, 2, 28.00);
+INSERT INTO `ordenes` (`id`, `FacturaID`, `hora_orden`, `ComidaID`, `Cantidad`, `Precio`, `estado`) VALUES
+(1, 'F001', '2024-07-28 21:19:41', 1, 2, 12.50, 'Completada'),
+(2, 'F001', '2024-07-28 21:19:41', 2, 1, 8.75, 'Completada'),
+(3, 'F002', '2024-07-28 21:19:41', 3, 3, 7.25, 'Completada'),
+(4, 'F003', '2024-07-28 21:19:41', 1, 1, 12.50, 'Completada'),
+(5, 'F003', '2024-07-28 21:19:41', 2, 2, 8.75, 'Completada'),
+(10, '28072024001513473H6VY2C976L', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(11, '28072024001739206UO2VJ9LHVV', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
+(12, '28072024001828216HARTR2PPR6', '2024-07-28 21:19:41', 5, 3, 42.00, 'Completada'),
+(13, '28072024002730039BY3O5C1TUB', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(14, '28072024002939444UP6PO8E7YD', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
+(15, '28072024003302927LX3FNPH9IP', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(16, '2807202400352191091XBF5SG8X', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
+(17, '28072024003724760MFXM67LP6A', '2024-07-28 21:19:41', 5, 3, 42.00, 'Completada'),
+(18, '28072024004119838H4RW9Q4T2R', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
+(19, '28072024004541741TJZFFM347E', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
+(20, '28072024004648602Y8OIGTLWN8', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(21, '28072024005150147JB5OPCT7T9', '2024-07-28 21:19:41', 5, 0, 0.00, 'Completada'),
+(22, '28072024005235224Y7G2BFOHSL', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(23, '280720240052498621TTF8IHC4F', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
+(24, '28072024005303907S5H6AG20GA', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(25, '28072024005345091ZSC2CDMVFY', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(26, '28072024005407947FIV8IW1PMF', '2024-07-28 21:19:41', 5, 5, 70.00, 'Completada'),
+(27, '280720240101275822G6CM1439O', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
+(28, '28072024010209404QM71ZQBIYC', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
+(29, '28072024220027581M01BHVDGL7', '2024-07-28 22:00:58', 7, 2, 12.00, 'Completada'),
+(30, '28072024220027581M01BHVDGL7', '2024-07-28 22:01:06', 7, 2, 12.00, 'Completada');
 
 -- --------------------------------------------------------
 
@@ -329,7 +396,40 @@ INSERT INTO `ordenes_modificaciones` (`id`, `orden_id`, `modificacion_id`) VALUE
 (22, 25, 2),
 (23, 26, 5),
 (24, 27, 3),
-(25, 28, 4);
+(25, 28, 4),
+(26, 29, 1),
+(27, 30, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reservas`
+--
+
+CREATE TABLE `reservas` (
+  `id_reserva` int(11) NOT NULL,
+  `id_mesa` int(11) DEFAULT NULL,
+  `dni_cliente` varchar(20) DEFAULT NULL,
+  `hora_reserva` datetime NOT NULL,
+  `numero_invitados` int(11) NOT NULL,
+  `estado` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `reservas`
+--
+
+INSERT INTO `reservas` (`id_reserva`, `id_mesa`, `dni_cliente`, `hora_reserva`, `numero_invitados`, `estado`) VALUES
+(21, 41, '12345678', '2024-07-30 19:00:00', 4, 'Confirmada'),
+(22, 42, '72363424', '2024-07-30 20:30:00', 2, 'Pendiente'),
+(23, 43, '72712421', '2024-07-31 18:00:00', 6, 'Confirmada'),
+(24, 44, '72893091', '2024-07-31 19:30:00', 2, 'Cancelada'),
+(25, 45, '72893092', '2024-08-01 20:00:00', 8, 'Confirmada'),
+(26, 41, '72893099', '2024-08-01 18:30:00', 3, 'Pendiente'),
+(27, 42, '72893301', '2024-08-02 19:00:00', 4, 'Confirmada'),
+(28, 43, '72893421', '2024-08-02 20:30:00', 5, 'Confirmada'),
+(29, 44, '72893453', '2024-08-03 18:00:00', 2, 'Pendiente'),
+(30, 45, '73078411', '2024-08-03 19:30:00', 7, 'Confirmada');
 
 -- --------------------------------------------------------
 
@@ -419,6 +519,38 @@ INSERT INTO `users` (`id`, `dni`, `username`, `password`, `email`, `telefono`, `
 (30, '32345678', 'Johana Martinez', '$2y$10$AJD.ullt825hEd40EvRlQudfHnM3jDuLGTHEpVb9dMyn.RxLRyRcS', 'johana@examples.com', '2434566580', 1, 0),
 (31, '728930912', 'keniding', '$2y$10$aWEEOm2Uqp1.5QRGUlIBeOoFTKfBpQsc3m50muQmZ3Gku4e0pJrJi', 'kenidingh@gmail.com', '51998760722', 1, 0);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `uso_mesa`
+--
+
+CREATE TABLE `uso_mesa` (
+  `id_uso` int(11) NOT NULL,
+  `id_factura` varchar(255) DEFAULT NULL,
+  `id_mesa` int(11) DEFAULT NULL,
+  `hora_inicio` datetime NOT NULL,
+  `hora_fin` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `uso_mesa`
+--
+
+INSERT INTO `uso_mesa` (`id_uso`, `id_factura`, `id_mesa`, `hora_inicio`, `hora_fin`) VALUES
+(6, '28072024000624557X9JNSGURVZ', 41, '2024-07-28 00:06:24', '2024-07-28 02:06:24'),
+(7, '28072024001235568UU3ML6ZHL1', 42, '2024-07-28 00:12:35', '2024-07-28 02:12:35'),
+(8, '280720240013286345WWCHUPWID', 43, '2024-07-28 00:13:28', '2024-07-28 02:13:28'),
+(9, '28072024001513473H6VY2C976L', 44, '2024-07-28 00:15:13', '2024-07-28 02:15:13'),
+(10, '28072024001739206UO2VJ9LHVV', 45, '2024-07-28 00:17:39', '2024-07-28 02:17:39'),
+(11, '28072024000624557X9JNSGURVZ', 41, '2024-07-28 00:06:24', '2024-07-28 02:06:24'),
+(12, '28072024001235568UU3ML6ZHL1', 42, '2024-07-28 00:12:35', '2024-07-28 02:12:35'),
+(13, '280720240013286345WWCHUPWID', 43, '2024-07-28 00:13:28', '2024-07-28 01:13:28'),
+(14, '28072024001513473H6VY2C976L', 43, '2024-07-28 01:15:13', '2024-07-28 02:15:13'),
+(15, '28072024001739206UO2VJ9LHVV', 43, '2024-07-28 02:17:39', '2024-07-28 03:17:39'),
+(16, '28072024001828216HARTR2PPR6', 44, '2024-07-28 00:18:28', '2024-07-28 01:48:28'),
+(17, '28072024002730039BY3O5C1TUB', 45, '2024-07-28 00:27:30', '2024-07-28 01:57:30');
+
 --
 -- Índices para tablas volcadas
 --
@@ -444,11 +576,24 @@ ALTER TABLE `comidas`
   ADD KEY `categoria_id` (`categoria_id`);
 
 --
+-- Indices de la tabla `estados_mesa`
+--
+ALTER TABLE `estados_mesa`
+  ADD PRIMARY KEY (`id_estado_mesa`);
+
+--
 -- Indices de la tabla `facturas`
 --
 ALTER TABLE `facturas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_dni_cliente` (`dni_cliente`);
+
+--
+-- Indices de la tabla `mesas`
+--
+ALTER TABLE `mesas`
+  ADD PRIMARY KEY (`id_mesa`),
+  ADD KEY `idx_estado_mesa` (`id_estado_mesa`);
 
 --
 -- Indices de la tabla `modificaciones_plato`
@@ -473,6 +618,14 @@ ALTER TABLE `ordenes_modificaciones`
   ADD KEY `modificacion_id` (`modificacion_id`);
 
 --
+-- Indices de la tabla `reservas`
+--
+ALTER TABLE `reservas`
+  ADD PRIMARY KEY (`id_reserva`),
+  ADD KEY `idx_reserva_mesa` (`id_mesa`),
+  ADD KEY `idx_reserva_cliente` (`dni_cliente`);
+
+--
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -492,6 +645,14 @@ ALTER TABLE `users`
   ADD KEY `rol_id` (`rol_id`);
 
 --
+-- Indices de la tabla `uso_mesa`
+--
+ALTER TABLE `uso_mesa`
+  ADD PRIMARY KEY (`id_uso`),
+  ADD KEY `idx_uso_mesa_factura` (`id_factura`),
+  ADD KEY `idx_uso_mesa_mesa` (`id_mesa`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -508,6 +669,18 @@ ALTER TABLE `comidas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT de la tabla `estados_mesa`
+--
+ALTER TABLE `estados_mesa`
+  MODIFY `id_estado_mesa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `mesas`
+--
+ALTER TABLE `mesas`
+  MODIFY `id_mesa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
 -- AUTO_INCREMENT de la tabla `modificaciones_plato`
 --
 ALTER TABLE `modificaciones_plato`
@@ -517,13 +690,19 @@ ALTER TABLE `modificaciones_plato`
 -- AUTO_INCREMENT de la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `ordenes_modificaciones`
 --
 ALTER TABLE `ordenes_modificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT de la tabla `reservas`
+--
+ALTER TABLE `reservas`
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -542,6 +721,12 @@ ALTER TABLE `tiposclientes`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT de la tabla `uso_mesa`
+--
+ALTER TABLE `uso_mesa`
+  MODIFY `id_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Restricciones para tablas volcadas
@@ -566,6 +751,12 @@ ALTER TABLE `facturas`
   ADD CONSTRAINT `fk_dni_cliente` FOREIGN KEY (`dni_cliente`) REFERENCES `clientes` (`Dni`);
 
 --
+-- Filtros para la tabla `mesas`
+--
+ALTER TABLE `mesas`
+  ADD CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`id_estado_mesa`) REFERENCES `estados_mesa` (`id_estado_mesa`);
+
+--
 -- Filtros para la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
@@ -580,10 +771,24 @@ ALTER TABLE `ordenes_modificaciones`
   ADD CONSTRAINT `ordenes_modificaciones_ibfk_2` FOREIGN KEY (`modificacion_id`) REFERENCES `modificaciones_plato` (`id`);
 
 --
+-- Filtros para la tabla `reservas`
+--
+ALTER TABLE `reservas`
+  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_mesa`) REFERENCES `mesas` (`id_mesa`),
+  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`dni_cliente`) REFERENCES `clientes` (`Dni`);
+
+--
 -- Filtros para la tabla `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
+
+--
+-- Filtros para la tabla `uso_mesa`
+--
+ALTER TABLE `uso_mesa`
+  ADD CONSTRAINT `uso_mesa_ibfk_1` FOREIGN KEY (`id_factura`) REFERENCES `facturas` (`id`),
+  ADD CONSTRAINT `uso_mesa_ibfk_2` FOREIGN KEY (`id_mesa`) REFERENCES `mesas` (`id_mesa`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

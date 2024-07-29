@@ -9,6 +9,7 @@
 1. [💻 **Tecnologías Utilizadas**](#-tecnologías-utilizadas)
 2. [📊 **Base de Datos**](#-base-de-datos)
 3. [🧪 **Cómo Probar el Proyecto**](#-cómo-probar-el-proyecto)
+3. [🧪 **Configuraciones Finales**](#-configuraciones-finales)
 4. [🗂️ **Estructura del Proyecto**](#-estructura-del-proyecto)
 5. [📞 **Contacto**](#-contacto)
 ---
@@ -92,6 +93,42 @@ Para iniciar el frontend, sigue estos pasos:
 2. Inicia el servidor PHP:
     ```sh
     php -S localhost:8100
+    ```
+3. Accede a la aplicación en:
+    ```
+    http://localhost:8100
+    ```
+
+---
+
+## 🧪 Configuraciones Finales
+
+---
+
+### Backend
+
+Es necesario configurar en composer:
+
+1. Navega a la carpeta del backend:
+    ```sh
+    cd /restaurant-system/backend
+    ```
+2. Actualice el composer:
+    ```sh
+    composer update
+    ```
+
+### Frontend
+
+No es necesario, pero para serializar los archivos js:
+
+1. Navega a la carpeta del frontend:
+    ```sh
+    cd /restaurant-system/frontend
+    ```
+2. Use npm:
+    ```sh
+    npm run buil
     ```
 3. Accede a la aplicación en:
     ```

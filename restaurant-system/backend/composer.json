@@ -31,6 +31,8 @@
       "Detalle\\": "Microservices/Detalle",
       "Factura\\": "Microservices/Factura",
 
+      "EstadoMesa": "Microservices/EstadoMesa",
+
       "Auth\\": "Auth/"
     }
   }
