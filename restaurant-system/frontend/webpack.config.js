@@ -11,12 +11,11 @@ module.exports = {
         dni: './app/menu/roles/mesero/modulos/orden/js/verificarCliente.js',
         categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
         mesas: './app/menu/roles/mesero/modulos/mesas/js/script.js',
-
-        img: './assets/icons/tomato.png'
     },
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'assets/dist'),
+        assetModuleFilename: 'images/[name][ext]'
     },
     resolve: {
         alias: {
@@ -36,38 +35,8 @@ module.exports = {
                 },
             },
             {
-                test: /\.(png|jpe?g|gif)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].[ext]',
-                            outputPath: 'images',
-                        },
-                    },
-                    {
-                        loader: 'image-webpack-loader',
-                        options: {
-                            mozjpeg: {
-                                progressive: true,
-                                quality: 65
-                            },
-                            optipng: {
-                                enabled: true,
-                            },
-                            pngquant: {
-                                quality: [0.65, 0.90],
-                                speed: 4
-                            },
-                            gifsicle: {
-                                interlaced: false,
-                            },
-                            webp: {
-                                quality: 75
-                            }
-                        }
-                    },
-                ],
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: 'asset/resource',
             },
         ],
     },

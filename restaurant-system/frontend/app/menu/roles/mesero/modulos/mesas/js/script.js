@@ -2,8 +2,15 @@ import { apiBase } from 'config/config';
 
 const restaurantElement = document.getElementById('restaurant');
 
+const inputData = localStorage.getItem('inputData');
+if (inputData) {
+    document.getElementById('inputData').value = inputData;
+}
+
 let tables = [];
 let statusMap = {};
+
+let stateChangedFrom1To2 = false;
 
 function renderTables() {
     restaurantElement.innerHTML = '';
@@ -15,7 +22,8 @@ function renderTables() {
         }
         const tableElement = document.createElement('div');
         tableElement.className = `table ${statusName.replace(' ', '-')}`;
-        tableElement.textContent = `Mesa ${table.id_mesa}`;
+        tableElement.textContent = `Mesa ${table.id_mesa}`;;
+        tableElement.setAttribute('data-table-id', table.id_mesa);
         tableElement.onclick = () => changeTableStatus(table.id_mesa);
         restaurantElement.appendChild(tableElement);
     });
@@ -47,6 +55,12 @@ function changeTableStatus(tableId) {
         switch (table.id_estado_mesa) {
             case 1:
                 table.id_estado_mesa = 2;
+                localStorage.setItem('selectedTable', JSON.stringify(table));
+                const redirectUrl = localStorage.getItem('redirectUrl');
+                if (redirectUrl) {
+                    console.log(`Redirigiendo a: ${redirectUrl}`);
+                    window.location.href = redirectUrl;
+                }
                 break;
             case 2:
                 table.id_estado_mesa = 3;

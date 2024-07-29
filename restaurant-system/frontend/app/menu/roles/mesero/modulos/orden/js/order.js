@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const result = document.getElementById('result');
 
+    const botonMesa = document.getElementById('openModalBtn');
+
     const   idElement = document.getElementById('foodId');
 
     const list = window.selectedTags;
@@ -21,10 +23,17 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             event.preventDefault();
             console.log('Selected Tags:', list);
+            console.log(data)
 
             const fields = [idFactura, dni, total, cantidad];
 
             fields.forEach(field => field.classList.remove('highlight'));
+
+            if (data === null) {
+                result.innerHTML = 'Seleccione mesa';
+                botonMesa.style.backgroundColor = 'red';
+                return;
+            }
 
             let hasEmptyFields = false;
             fields.forEach(field => {
