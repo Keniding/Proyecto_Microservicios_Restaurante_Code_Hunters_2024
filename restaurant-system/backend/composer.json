@@ -32,6 +32,9 @@
       "Factura\\": "Microservices/Factura",
 
       "EstadoMesa": "Microservices/EstadoMesa",
+      "Mesa": "Microservices/Mesa",
+      "UsoMesa": "Microservices/UsoMesa",
+      "Reserva": "Microservices/Reserva",
 
       "Auth\\": "Auth/"
     }
