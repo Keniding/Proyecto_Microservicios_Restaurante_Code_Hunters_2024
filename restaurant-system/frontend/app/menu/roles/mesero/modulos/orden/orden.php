@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orden de Venta</title>
     <link rel="stylesheet" href="css/styles.css">
+    <title>Orden de Venta</title>
 </head>
 <body>
 <div class="container main-container no-select">
+
     <div class="container-colum">
         <h1>Agregar Orden de Venta</h1>
         <form id="orderForm">
@@ -42,6 +43,7 @@
             <button id="AgregarOrden" type="submit">Agregar Orden</button>
         </form>
     </div>
+
     <div class="form-group no-select">
         <h1>Datos extra</h1>
         <label for="facturaId" class="no-select">ID de la Factura:</label>
@@ -51,6 +53,12 @@
         <input type="text" id="customerDni" name="customerDni" required>
         <button id="verifyButton">Verificar</button>
         <div id="result"></div>
+
+
+        <div class="modal-container">
+            <div id="mesaNumber"></div>
+            <button id="openModalBtn">Ver Sistema de Mesas</button>
+        </div>
     </div>
 </div>
 
@@ -58,6 +66,7 @@
     window.foodId = '<?php echo getId() ?>';
 </script>
 
+<script src="js/mesas.js"></script>
 <script src="/assets/dist/orden.bundle.js"></script>
 <script src="/assets/dist/etiquetas.bundle.js"></script>
 <script src="/assets/dist/dni.bundle.js"></script>

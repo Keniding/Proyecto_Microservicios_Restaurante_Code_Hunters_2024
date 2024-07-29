@@ -7,9 +7,11 @@
       <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
-    <div class="legend" id="legend"></div>
-    <div class="restaurant-layout" id="restaurant"></div>
+    <div>
+        <div class="legend" id="legend"></div>
+        <div class="restaurant-layout" id="restaurant"></div>
+    </div>
 
-      <script src="/assets/dist/mesas.bundle.js"></script>
+    <script src="/assets/dist/mesas.bundle.js"></script>
   </body>
   </html>
