@@ -10,6 +10,7 @@ module.exports = {
         etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
         dni: './app/menu/roles/mesero/modulos/orden/js/verificarCliente.js',
         categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
+        mesas: './app/menu/roles/mesero/modulos/mesas/js/script.js',
 
         img: './assets/icons/tomato.png'
     },
