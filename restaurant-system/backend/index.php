@@ -15,6 +15,9 @@ use Microservices\Detalle\Routes as DetalleRoutes;
 use Microservices\Modifications\Routes as ModificationRoutes;
 use Microservices\ModificationsOrders\Routes as ModificationOrderRoutes;
 use Microservices\EstadoMesa\Routes as EstadoMesaRoutes;
+use Microservices\Mesa\Routes  as MesaRoutes;
+use Microservices\UsoMesa\Routes  as UsoMesaRoutes;
+use Microservices\Reserva\Routes as ReservationRoutes;
 
 use Microservices\ApiReniec\Routes as ApiReniecRoutes;
 
@@ -39,6 +42,9 @@ $app->group('/api', function ($group) {
     (new ModificationOrderRoutes())->registerRoutes($group);
     (new ApiReniecRoutes())->registerRoutes($group);
     (new EstadoMesaRoutes())->registerRoutes($group);
+    (new MesaRoutes())->registerRoutes($group);
+    (new UsoMesaRoutes())->registerRoutes($group);
+    (new ReservationRoutes())->registerRoutes($group);
 });
 
 $app->addErrorMiddleware(true, true, true);

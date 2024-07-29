@@ -17,7 +17,7 @@ class Model extends BaseModel
     }
 
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM estados_mesa WHERE id = :id");
+        $stmt = $this->db->prepare("SELECT * FROM estados_mesa WHERE id_estado_mesa = :id");
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -45,7 +45,10 @@ class Model extends BaseModel
 
     public function getByCategory($id)
     {
-        // TODO: Implement getByCategory() method.
+        $stmt = $this->db->prepare("SELECT * FROM estados_mesa WHERE id_estado_mesa=:id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function delete($id): bool
