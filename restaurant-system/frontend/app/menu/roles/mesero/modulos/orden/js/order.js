@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const url = apiBase.apiBaseUrl;
     const endpointFactura = '/factura';
     const endpointDetalle = '/detalle';
+    const endpointMesa = '/usoMesa';
     const endpointModificationOrder = '/modificationOrder';
     const orderButton = document.getElementById('AgregarOrden');
     const idFactura= document.getElementById('facturaId');
@@ -96,6 +97,44 @@ document.addEventListener('DOMContentLoaded', function () {
                     const newDetalleId = detalleData.id;
 
                     console.log(detalleData)
+
+                    let dataObj;
+
+                    try {
+                        dataObj = JSON.parse(data);
+                        console.log('Datos convertidos a objeto:', dataObj);
+                    } catch (error) {
+                        console.error('Error al parsear JSON:', error);
+                        result.innerHTML = 'Error al procesar los datos de la mesa';
+                        botonMesa.style.backgroundColor = 'red';
+                        return;
+                    }
+
+                    const dataMesaUso = {
+                        factura_id: idFactura.value,
+                        mesa_id: dataObj.id_mesa
+                    };
+
+                    console.log('Datos para uso de mesa:', dataMesaUso);
+
+                    try {
+                        const responseMesaUso = await fetch(`${url}${endpointMesa}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(dataMesaUso)
+                        });
+
+                        if (!responseMesaUso.ok) {
+                            throw new Error('Error en la creación del detalle de la mesa');
+                        }
+
+                        const responseMesa = await responseMesaUso.json();
+                        console.log('Respuesta del servidor:', responseMesa);
+                    } catch (error) {
+                        console.log('Error en la solicitud:', error);
+                    }
 
                     for (let i = 0; i < list.length; i++) {
                         const dataModificationOrder = {

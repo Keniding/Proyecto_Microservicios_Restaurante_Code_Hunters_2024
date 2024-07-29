@@ -105,8 +105,7 @@ class Routes extends Router
         try {
             $data = [
                 'factura_id' => $input['factura_id'],
-                'mesa_id' => $input['mesa_id'],
-                'hora_fin' => $input['hora_fin']
+                'mesa_id' => $input['mesa_id']
             ];
 
             $result = $controller->store($data);
