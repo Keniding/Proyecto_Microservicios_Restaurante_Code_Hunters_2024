@@ -36,6 +36,8 @@
       "UsoMesa": "Microservices/UsoMesa",
       "Reserva": "Microservices/Reserva",
 
+      "MessagesService": "Microservices/MessagesService",
+
       "Auth\\": "Auth/"
     }
   }
