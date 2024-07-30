@@ -8,7 +8,8 @@
     "nyholm/psr7": "^1.8",
     "http-interop/http-factory-guzzle": "^1.2",
     "guzzlehttp/psr7": "^2.6",
-    "slim/psr7": "^1.7"
+    "slim/psr7": "^1.7",
+    "cboden/ratchet": "^0.4.4"
   },
   "autoload": {
     "psr-4": {
@@ -31,12 +32,12 @@
       "Detalle\\": "Microservices/Detalle",
       "Factura\\": "Microservices/Factura",
 
-      "EstadoMesa": "Microservices/EstadoMesa",
-      "Mesa": "Microservices/Mesa",
-      "UsoMesa": "Microservices/UsoMesa",
-      "Reserva": "Microservices/Reserva",
+      "EstadoMesa\\": "Microservices/EstadoMesa",
+      "Mesa\\": "Microservices/Mesa",
+      "UsoMesa\\": "Microservices/UsoMesa",
+      "Reserva\\": "Microservices/Reserva",
 
-      "MessagesService": "Microservices/MessagesService",
+      "MessagesService\\": "Microservices/MessagesService",
 
       "Auth\\": "Auth/"
     }
