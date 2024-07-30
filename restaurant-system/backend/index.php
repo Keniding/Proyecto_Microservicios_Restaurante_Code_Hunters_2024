@@ -21,6 +21,8 @@ use Microservices\Reserva\Routes as ReservationRoutes;
 
 use Microservices\ApiReniec\Routes as ApiReniecRoutes;
 
+use Microservices\MessagesService\Routes\Routes as MessageServiceRoutes;
+
 $psr17Factory = new Psr17Factory();
 
 AppFactory::setResponseFactory($psr17Factory);
@@ -45,6 +47,7 @@ $app->group('/api', function ($group) {
     (new MesaRoutes())->registerRoutes($group);
     (new UsoMesaRoutes())->registerRoutes($group);
     (new ReservationRoutes())->registerRoutes($group);
+    (new MessageServiceRoutes())->registerRoutes($group);
 });
 
 $app->addErrorMiddleware(true, true, true);
