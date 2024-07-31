@@ -9,9 +9,13 @@
 1. [💻 **Tecnologías Utilizadas**](#-tecnologías-utilizadas)
 2. [📊 **Base de Datos**](#-base-de-datos)
 3. [🧪 **Cómo Probar el Proyecto**](#-cómo-probar-el-proyecto)
-3. [🧪 **Configuraciones Finales**](#-configuraciones-finales)
-4. [🗂️ **Estructura del Proyecto**](#-estructura-del-proyecto)
-5. [📞 **Contacto**](#-contacto)
+   4. **Backend**
+      5. API REST
+      6. Web socket
+   5. **Frontend**
+5. [🧪 **Configuraciones Finales**](#-configuraciones-finales)
+5. [🗂️ **Estructura del Proyecto**](#-estructura-del-proyecto)
+6. [📞 **Contacto**](#-contacto)
 ---
 
 ## 💻 Tecnologías Utilizadas
@@ -80,6 +84,10 @@ Para iniciar el backend, sigue estos pasos:
 3. Las APIs se pueden consumir en:
     ```
     http://localhost:8000/api/{endpoint}
+    ```
+4. Levantar el servicio de web socket para mensajeria en otro puerto
+   ```sh
+    php websocket_server.php
     ```
 
 ### Frontend

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-07-2024 a las 05:11:54
+-- Tiempo de generación: 31-07-2024 a las 10:18:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -102,6 +102,55 @@ INSERT INTO `categorias` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `chats`
+--
+
+CREATE TABLE `chats` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `type` enum('general','role','restricted') NOT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `chats`
+--
+
+INSERT INTO `chats` (`id`, `name`, `type`, `role_id`, `created_at`) VALUES
+(1, 'Chat General del Restaurante', 'general', NULL, '2024-07-30 21:34:55'),
+(2, 'Chat de Gerencia', 'role', 1, '2024-07-30 21:34:55'),
+(3, 'Chat de Cocina', 'role', 3, '2024-07-30 21:34:55'),
+(4, 'Chat de Servicio', 'role', 9, '2024-07-30 21:34:55'),
+(5, 'Chat de Bebidas', 'restricted', NULL, '2024-07-30 21:34:55');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `chat_permissions`
+--
+
+CREATE TABLE `chat_permissions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `chat_id` int(11) NOT NULL,
+  `granted_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `chat_permissions`
+--
+
+INSERT INTO `chat_permissions` (`id`, `user_id`, `chat_id`, `granted_by`, `created_at`) VALUES
+(1, 2, 5, 6, '2024-07-30 21:39:50'),
+(2, 3, 5, 6, '2024-07-30 21:39:50'),
+(3, 5, 5, 6, '2024-07-30 21:39:50'),
+(4, 4, 5, 6, '2024-07-30 21:39:50');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `clientes`
 --
 
@@ -125,7 +174,7 @@ INSERT INTO `clientes` (`Dni`, `Nombre`, `Email`, `Telefono`, `Direccion`, `Tipo
 ('21223344', 'Pepe Pérez', '', '', '', 1, 0),
 ('72363424', 'LUZ MELINDA TOLENTINO ARANDA', '', '', '', 1, 0),
 ('72712421', 'MELANNY IVETT VILLEGAS CHAVEZ', '', '', '', 1, 0),
-('72893091', 'HENRY KENIDING TARAZONA LAZARO', '', '', '', 2, 7),
+('72893091', 'HENRY KENIDING TARAZONA LAZARO', '', '', '', 2, 15),
 ('72893092', 'RODRIGO JUANDIEGO TEJADA GAITAN', '', '', '', 1, 1),
 ('72893099', 'EVITA NERY VELASQUEZ PABLO', '', '', '', 1, 0),
 ('72893301', 'GREG GIANCARLOS ARCELA SEDANO', '', '', '', 1, 0),
@@ -196,7 +245,7 @@ INSERT INTO `estados_mesa` (`id_estado_mesa`, `nombre`, `descripcion`) VALUES
 (1, 'Disponible', 'Mesa lista para ser ocupada'),
 (2, 'Ocupada', 'Mesa actualmente en uso por clientes'),
 (3, 'Reservada', 'Mesa apartada para una reservación futura'),
-(4, 'En limpieza', 'Mesa siendo preparada para el próximo cliente');
+(4, 'Limpieza', 'Mesa siendo preparada para el próximo cliente');
 
 -- --------------------------------------------------------
 
@@ -240,6 +289,14 @@ INSERT INTO `facturas` (`id`, `Fecha`, `Total`, `dni_cliente`, `estado`) VALUES
 ('280720240101275822G6CM1439O', '2024-07-28', 14.00, '72893092', 'Pendiente'),
 ('28072024010209404QM71ZQBIYC', '2024-07-28', 28.00, '72893091', 'Pendiente'),
 ('28072024220027581M01BHVDGL7', '2024-07-29', 12.00, '77234313', 'Pendiente'),
+('29072024033121033RQV3IOGTQG', '2024-07-29', 14.00, '72893091', 'Pendiente'),
+('29072024033625608RXH1DAA7P1', '2024-07-29', 7.00, '72893091', 'Pendiente'),
+('29072024033825494Z0G837A309', '2024-07-29', 7.00, '72893091', 'Pendiente'),
+('29072024034525932Q2YUINVL2A', '2024-07-29', 7.00, '72893091', 'Pendiente'),
+('29072024034806311VBC8FMA0AC', '2024-07-29', 7.00, '72893091', 'Pendiente'),
+('29072024035146964M1WRR5K631', '2024-07-29', 7.00, '72893091', 'Pendiente'),
+('29072024035341233184IZHCOR0', '2024-07-29', 7.00, '72893091', 'Pendiente'),
+('29072024035911462FYTY2X1DM3', '2024-07-29', 7.00, '72893091', 'Pendiente'),
 ('F001', '2024-07-01', 150.75, '11223344', 'Pendiente'),
 ('F002', '2024-07-02', 200.50, '12345678', 'Pendiente'),
 ('F003', '2024-07-03', 300.00, '87654321', 'Pendiente');
@@ -261,12 +318,12 @@ CREATE TABLE `mesas` (
 --
 
 INSERT INTO `mesas` (`id_mesa`, `capacidad`, `id_estado_mesa`) VALUES
-(41, 2, 1),
+(41, 2, 2),
 (42, 2, 1),
 (43, 4, 1),
 (44, 4, 1),
-(45, 4, 1),
-(46, 4, 1),
+(45, 4, 2),
+(46, 4, 2),
 (47, 4, 1),
 (48, 4, 1),
 (49, 6, 1),
@@ -275,12 +332,46 @@ INSERT INTO `mesas` (`id_mesa`, `capacidad`, `id_estado_mesa`) VALUES
 (52, 6, 1),
 (53, 8, 1),
 (54, 8, 1),
-(55, 8, 1),
+(55, 8, 2),
 (56, 10, 1),
 (57, 10, 1),
 (58, 12, 1),
 (59, 16, 1),
 (60, 20, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `chat_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `messages`
+--
+
+INSERT INTO `messages` (`id`, `chat_id`, `user_id`, `content`, `created_at`) VALUES
+(31, 1, 2, '¡Bienvenidos al nuevo sistema de chat del restaurante! Aquí podremos comunicarnos mejor entre todos los departamentos.', '2024-07-30 21:38:35'),
+(32, 1, 3, 'Gracias por la implementación. Recordemos usarlo para mejorar nuestra coordinación.', '2024-07-30 21:38:35'),
+(33, 2, 2, 'Reunión de gerencia mañana a las 9:00 AM para discutir los resultados del mes.', '2024-07-30 21:38:35'),
+(34, 2, 3, 'Entendido, prepararé el informe de ventas para la reunión.', '2024-07-30 21:38:35'),
+(35, 3, 2, 'Atención equipo de cocina: hemos actualizado el menú para el evento del viernes.', '2024-07-30 21:38:35'),
+(36, 3, 3, 'Recibido, Chef. ¿Podemos revisar juntos los nuevos platos esta tarde?', '2024-07-30 21:38:35'),
+(37, 4, 5, 'Recordatorio: siempre pregunten por alergias o restricciones dietéticas al tomar la orden.', '2024-07-30 21:38:35'),
+(38, 4, 4, 'Entendido. También informo que tenemos una reserva grande para el sábado, 20 personas.', '2024-07-30 21:38:35'),
+(39, 5, 6, 'Nuevo café especial disponible desde hoy. Pruébenlo para poder recomendarlo a los clientes.', '2024-07-30 21:38:35'),
+(40, 5, 5, 'Gracias por el aviso. Por cierto, estamos por agotar el whisky premium, ¿podemos hacer un pedido?', '2024-07-30 21:38:35'),
+(44, 1, 3, 'hi', '2024-07-30 22:15:42'),
+(46, 1, 5, 'hi', '2024-07-30 22:17:04'),
+(48, 1, 5, 'q tal', '2024-07-30 22:29:20'),
+(125, 1, 5, 'hola', '2024-07-31 07:57:31');
 
 -- --------------------------------------------------------
 
@@ -301,20 +392,20 @@ CREATE TABLE `modificaciones_plato` (
 --
 
 INSERT INTO `modificaciones_plato` (`id`, `name`, `category`, `color`, `counter`) VALUES
-(1, 'Sin Sal', 'quitar', '#ff0000', 6),
+(1, 'Sin Sal', 'quitar', '#ff0000', 7),
 (2, 'Extra Picante', 'agregar', '#00ff00', 1),
 (3, 'Vegetariano', 'modificar', '#0000ff', 1),
 (4, 'Sin Gluten', 'quitar', '#ff0000', 2),
 (5, 'Papas', 'quitar', '#ff0000', 1),
 (10, 'Sal', 'agregar', '#00ff00', 1),
-(11, 'A lo pobre', 'modificar', '#0000ff', 0),
+(11, 'A lo pobre', 'modificar', '#0000ff', 1),
 (12, 'Salsa ostion', 'agregar', '#00ff00', 1),
 (13, 'Platano', 'quitar', '#ff0000', 0),
-(14, 'Taypa', 'modificar', '#0000ff', 2),
+(14, 'Taypa', 'modificar', '#0000ff', 5),
 (15, 'Tallarin', 'quitar', '#ff0000', 0),
 (16, 'Huevo', 'agregar', '#00ff00', 1),
 (17, 'Platano', 'agregar', '#00ff00', 0),
-(18, 'Jugoso', 'modificar', '#0000ff', 0),
+(18, 'Jugoso', 'modificar', '#0000ff', 1),
 (19, 'Crocante', 'modificar', '#0000ff', 0);
 
 -- --------------------------------------------------------
@@ -363,7 +454,15 @@ INSERT INTO `ordenes` (`id`, `FacturaID`, `hora_orden`, `ComidaID`, `Cantidad`, 
 (27, '280720240101275822G6CM1439O', '2024-07-28 21:19:41', 5, 1, 14.00, 'Completada'),
 (28, '28072024010209404QM71ZQBIYC', '2024-07-28 21:19:41', 5, 2, 28.00, 'Completada'),
 (29, '28072024220027581M01BHVDGL7', '2024-07-28 22:00:58', 7, 2, 12.00, 'Completada'),
-(30, '28072024220027581M01BHVDGL7', '2024-07-28 22:01:06', 7, 2, 12.00, 'Completada');
+(30, '28072024220027581M01BHVDGL7', '2024-07-28 22:01:06', 7, 2, 12.00, 'Completada'),
+(31, '29072024033121033RQV3IOGTQG', '2024-07-29 03:31:50', 8, 2, 14.00, 'Completada'),
+(32, '29072024033625608RXH1DAA7P1', '2024-07-29 03:36:36', 8, 1, 7.00, 'Completada'),
+(33, '29072024033825494Z0G837A309', '2024-07-29 03:38:36', 8, 1, 7.00, 'Completada'),
+(34, '29072024034525932Q2YUINVL2A', '2024-07-29 03:45:43', 8, 1, 7.00, 'Completada'),
+(35, '29072024034806311VBC8FMA0AC', '2024-07-29 03:48:19', 8, 1, 7.00, 'Completada'),
+(36, '29072024035146964M1WRR5K631', '2024-07-29 03:52:08', 8, 1, 7.00, 'Completada'),
+(37, '29072024035341233184IZHCOR0', '2024-07-29 03:53:54', 8, 1, 7.00, 'Completada'),
+(38, '29072024035911462FYTY2X1DM3', '2024-07-29 03:59:26', 8, 1, 7.00, 'Completada');
 
 -- --------------------------------------------------------
 
@@ -398,7 +497,13 @@ INSERT INTO `ordenes_modificaciones` (`id`, `orden_id`, `modificacion_id`) VALUE
 (24, 27, 3),
 (25, 28, 4),
 (26, 29, 1),
-(27, 30, 1);
+(27, 30, 1),
+(28, 33, 14),
+(29, 34, 14),
+(30, 36, 11),
+(31, 36, 14),
+(32, 37, 1),
+(33, 38, 18);
 
 -- --------------------------------------------------------
 
@@ -549,7 +654,23 @@ INSERT INTO `uso_mesa` (`id_uso`, `id_factura`, `id_mesa`, `hora_inicio`, `hora_
 (14, '28072024001513473H6VY2C976L', 43, '2024-07-28 01:15:13', '2024-07-28 02:15:13'),
 (15, '28072024001739206UO2VJ9LHVV', 43, '2024-07-28 02:17:39', '2024-07-28 03:17:39'),
 (16, '28072024001828216HARTR2PPR6', 44, '2024-07-28 00:18:28', '2024-07-28 01:48:28'),
-(17, '28072024002730039BY3O5C1TUB', 45, '2024-07-28 00:27:30', '2024-07-28 01:57:30');
+(17, '28072024002730039BY3O5C1TUB', 45, '2024-07-28 00:27:30', '2024-07-28 01:57:30'),
+(18, '28072024000624557X9JNSGURVZ', 41, '2024-07-29 03:44:52', NULL),
+(19, '29072024035146964M1WRR5K631', 45, '2024-07-29 03:52:09', NULL),
+(20, '29072024035341233184IZHCOR0', 46, '2024-07-29 03:53:54', NULL),
+(21, '29072024035911462FYTY2X1DM3', 55, '2024-07-29 03:59:27', NULL);
+
+--
+-- Disparadores `uso_mesa`
+--
+DELIMITER $$
+CREATE TRIGGER `after_insert_uso_mesa` AFTER INSERT ON `uso_mesa` FOR EACH ROW BEGIN
+    UPDATE mesas
+    SET id_estado_mesa = 2 -- Aquí 2 representa el estado de "en uso"
+    WHERE id_mesa = NEW.id_mesa;
+END
+$$
+DELIMITER ;
 
 --
 -- Índices para tablas volcadas
@@ -560,6 +681,21 @@ INSERT INTO `uso_mesa` (`id_uso`, `id_factura`, `id_mesa`, `hora_inicio`, `hora_
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `chats`
+--
+ALTER TABLE `chats`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `chat_permissions`
+--
+ALTER TABLE `chat_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `chat_id` (`chat_id`),
+  ADD KEY `granted_by` (`granted_by`);
 
 --
 -- Indices de la tabla `clientes`
@@ -594,6 +730,14 @@ ALTER TABLE `facturas`
 ALTER TABLE `mesas`
   ADD PRIMARY KEY (`id_mesa`),
   ADD KEY `idx_estado_mesa` (`id_estado_mesa`);
+
+--
+-- Indices de la tabla `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `chat_id` (`chat_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indices de la tabla `modificaciones_plato`
@@ -663,6 +807,18 @@ ALTER TABLE `categorias`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
+-- AUTO_INCREMENT de la tabla `chats`
+--
+ALTER TABLE `chats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `chat_permissions`
+--
+ALTER TABLE `chat_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `comidas`
 --
 ALTER TABLE `comidas`
@@ -681,6 +837,12 @@ ALTER TABLE `mesas`
   MODIFY `id_mesa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
+-- AUTO_INCREMENT de la tabla `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+
+--
 -- AUTO_INCREMENT de la tabla `modificaciones_plato`
 --
 ALTER TABLE `modificaciones_plato`
@@ -690,13 +852,13 @@ ALTER TABLE `modificaciones_plato`
 -- AUTO_INCREMENT de la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `ordenes_modificaciones`
 --
 ALTER TABLE `ordenes_modificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `reservas`
@@ -726,11 +888,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `uso_mesa`
 --
 ALTER TABLE `uso_mesa`
-  MODIFY `id_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `chat_permissions`
+--
+ALTER TABLE `chat_permissions`
+  ADD CONSTRAINT `chat_permissions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `chat_permissions_ibfk_2` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`),
+  ADD CONSTRAINT `chat_permissions_ibfk_3` FOREIGN KEY (`granted_by`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `clientes`
@@ -755,6 +925,13 @@ ALTER TABLE `facturas`
 --
 ALTER TABLE `mesas`
   ADD CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`id_estado_mesa`) REFERENCES `estados_mesa` (`id_estado_mesa`);
+
+--
+-- Filtros para la tabla `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`),
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `ordenes`
