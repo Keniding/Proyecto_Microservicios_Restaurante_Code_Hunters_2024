@@ -24,8 +24,9 @@ class Controller
     public function getMessages(Request $request, Response $response, array $args): Response
     {
         $chatId = $args['chat_id'];
-        $limit = $request->getQueryParams()['limit'] ?? 50;
-        $messages = $this->chatService->getMessages($chatId, $limit);
+        $page = $request->getQueryParams()['page'] ?? 1;
+        $limit = $request->getQueryParams()['limit'] ?? 10;
+        $messages = $this->chatService->getMessages($chatId, $page, $limit);
         $response->getBody()->write(json_encode($messages));
         return $response->withHeader('Content-Type', 'application/json');
     }
