@@ -36,11 +36,11 @@ class WampServer implements MessageComponentInterface, WsServerInterface {
     /**
      * {@inheritdoc}
      */
-    public function onMessage(ConnectionInterface $conn, $msg) {
+    public function onMessage(ConnectionInterface $from, $msg) {
         try {
-            $this->wampProtocol->onMessage($conn, $msg);
+            $this->wampProtocol->onMessage($from, $msg);
         } catch (Exception $we) {
-            $conn->close(1007);
+            $from->close(1007);
         }
     }
 

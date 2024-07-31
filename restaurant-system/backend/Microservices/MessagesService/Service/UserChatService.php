@@ -34,4 +34,18 @@ class UserChatService
         $stmt->bindParam(':roleId', $roleId, \PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function isUserInChat($userId, $chatId): bool
+    {
+        $sql = "SELECT 1 FROM chats c
+                JOIN users u ON u.rol_id = c.role_id OR c.type = 'general'
+                LEFT JOIN chat_permissions cp ON cp.user_id = u.id AND cp.chat_id = c.id
+                WHERE u.id = :userId AND c.id = :chatId 
+                AND (u.estado = 1 OR c.type = 'restricted' OR cp.id IS NOT NULL)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->bindParam(':chatId', $chatId, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn() !== false;
+    }
 }
