@@ -23,10 +23,8 @@
 ### 🐶 Backend 🐶
 
 - PDO (PHP Data Objects) es una extensión de PHP que define una interfaz ligera y consistente para acceder a bases de datos. 💾
-- Slim es una herramienta de PHP que ayuda a escribir aplicaciones web simples y rápidas. 🏃
 - MySQL es un sistema de gestión de bases de datos relacional de código abierto. 🐬
 - JSON (JavaScript Object Notation) es un formato ligero de intercambio de datos. 📑
-- Slim PSR-7 es una implementación de PSR-7 para Slim. 🏃
 - Las sesiones en PHP permiten almacenar datos de usuario en el servidor para ser utilizados en múltiples páginas. 🐾
 - PSR HTTP Message es un estándar de PHP-FIG para representar mensajes HTTP. 📨
 - Los encabezados HTTP en PHP se utilizan para enviar encabezados HTTP sin formato directamente al cliente. 📬

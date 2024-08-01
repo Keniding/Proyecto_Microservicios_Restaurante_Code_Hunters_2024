@@ -2,12 +2,9 @@
 
 namespace Microservices\Rol;
 
-use Auth\Middleware;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -22,55 +19,41 @@ class Routes extends Router
         $this->header();
     }
 
-    public function registerRoutes($app): void
-    {
-        $app->get('/allRoles', function(Request $request, Response $response) {
-            return $this->handleAllRoles($response);
+    public function registerRoutes($app): void {
+        $app->get('/roles', function() {
+            return $this->handleAllRoles();
         });
 
-        $app->get('/roles', function(Request $request, Response $response) {
-            return $this->handleAllRoles($response);
+        $app->get('/rol/{id}', function($id) {
+            return $this->handleRol($id);
         });
 
-        $app->get('/rol/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleRol($response, $args['id']);
-        });
-
-        $app->post('/rol', function(Request $request, Response $response) {
-            return $this->handleStoreRol($response, $request->getParsedBody());
+        $app->post('/rol', function() {
+            return $this->handleStoreRol($this->input());
         });
     }
 
-    private function handleAllRoles(Response $response): Response
-    {
+    private function handleAllRoles() {
         $controller = new Controller($this->rol);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleRol(Response $response, $id): Response
-    {
+    private function handleRol($id) {
         $controller = new Controller($this->rol);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleStoreRol(Response $response, array $input): Response
-    {
+    private function handleStoreRol(array $input) {
         $controller = new Controller($this->rol);
 
         try {
@@ -80,12 +63,15 @@ class Routes extends Router
             ];
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }

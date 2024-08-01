@@ -5,9 +5,6 @@ namespace Microservices\ApiReniec;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Auth\Middleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -21,28 +18,28 @@ class Routes extends Router
 
     public function registerRoutes($app): void
     {
-        $app->get('/dniReniec/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleDni($response, $args['id']);
+        $app->get('/dniReniec/{id}', function($id) {
+            return $this->handleDni($id);
         });
-
     }
 
-    private function handleDni(Response $response, $id): Response
-    {
+    private function handleDni($id) {
         $controller = new Controller($this->model);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
             $error = json_encode(['error' => 'Error al procesar los datos.']);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+            return $this->createResponse(400, $error);
         } catch (\Exception $e) {
             $error = json_encode(['error' => 'No existe persona o Error interno del servidor.']);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+            return $this->createResponse(500, $error);
         }
     }
 
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
+    }
 }

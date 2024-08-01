@@ -2,15 +2,29 @@
 
 namespace Router;
 
-use Auth\Middleware;
-use JsonException;
+use GuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class Router implements IRouter
 {
     protected array $routes = [];
+    protected array $middlewares = [];
+    protected string $prefix = '';
 
     public function __construct()
     {
+    }
+
+    public function setPrefix(string $prefix): void
+    {
+        $this->prefix = $prefix;
+    }
+
+    public function addMiddleware($middleware): void
+    {
+        $this->middlewares[] = $middleware;
     }
 
     public function get($uri, $action, $middleware = null): void
@@ -35,12 +49,20 @@ abstract class Router implements IRouter
 
     public function addRoute($method, $uri, $action, $middleware = null): void
     {
+        $uri = $this->prefix . rtrim($uri, '/');
         $route = strtoupper($method) . ' ' . rtrim($uri, '/');
         $this->routes[$route] = ['action' => $action, 'middleware' => $middleware];
     }
 
     public function dispatch($method, $uri)
     {
+        $request = ServerRequest::fromGlobals();
+        $response = new Response();
+
+        foreach ($this->middlewares as $middleware) {
+            $response = call_user_func($middleware, $request, $response);
+        }
+
         $route = strtoupper($method) . ' ' . rtrim($uri, '/');
 
         foreach ($this->routes as $routePattern => $routeInfo) {
@@ -55,15 +77,16 @@ abstract class Router implements IRouter
                 array_shift($matches);
 
                 if ($routeInfo['middleware']) {
-                    call_user_func($routeInfo['middleware']);
+                    $response = call_user_func($routeInfo['middleware'], $request, $response);
                 }
 
-                return call_user_func_array($routeInfo['action'], $matches);
+                return call_user_func_array($routeInfo['action'], array_merge([$request, $response], $matches));
             }
         }
 
-        http_response_code(404);
-        echo json_encode(['error' => 'Route not found']);
+        $response = $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(json_encode(['error' => 'Route not found']));
+        $this->sendResponse($response);
     }
 
     public function header(): void
@@ -89,7 +112,7 @@ abstract class Router implements IRouter
 
     public function input()
     {
-        return json_decode(file_get_contents('php://input'), true);
+        return $_POST;
     }
 
     public function error(): void
@@ -98,5 +121,16 @@ abstract class Router implements IRouter
             echo json_encode(['error' => 'Invalid JSON input']);
             return;
         }
+    }
+
+    protected function sendResponse(ResponseInterface $response): void
+    {
+        http_response_code($response->getStatusCode());
+        foreach ($response->getHeaders() as $name => $values) {
+            foreach ($values as $value) {
+                header(sprintf('%s: %s', $name, $value), false);
+            }
+        }
+        echo $response->getBody();
     }
 }

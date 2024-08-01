@@ -2,11 +2,15 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Slim\Factory\AppFactory;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Microservices\Category\Routes as CategoryRoutes;
-use Microservices\Food\Routes as FoodRoutes;
+require_once 'Router/Router.php';
+require_once 'Conexion/Database.php';
+require_once 'Middleware/BodyParsingMiddleware.php';
+
+use Database\Database as Database;
+use Router\Router;
+use Middleware\BodyParsingMiddleware;
 use Microservices\Rol\Routes as RolRoutes;
+use Microservices\UsoMesa\Routes as UsoMesaRoutes;
 use Microservices\User\Routes as UserRoutes;
 use Microservices\Costumer\Routes as CostumerRoutes;
 use Microservices\CostumerType\Routes as CostumerTypeRoutes;
@@ -16,40 +20,40 @@ use Microservices\Modifications\Routes as ModificationRoutes;
 use Microservices\ModificationsOrders\Routes as ModificationOrderRoutes;
 use Microservices\EstadoMesa\Routes as EstadoMesaRoutes;
 use Microservices\Mesa\Routes  as MesaRoutes;
-use Microservices\UsoMesa\Routes  as UsoMesaRoutes;
 use Microservices\Reserva\Routes as ReservationRoutes;
-
+use Microservices\Category\Routes as CategoryRoutes;
+use Microservices\Food\Routes as FoodRoutes;
 use Microservices\ApiReniec\Routes as ApiReniecRoutes;
-
 use Microservices\MessagesService\Routes\Routes as MessageServiceRoutes;
 
-$psr17Factory = new Psr17Factory();
+$db = new Database();
 
-AppFactory::setResponseFactory($psr17Factory);
+$router = new class extends Router {
+    public function __construct() {
+        parent::__construct();
+    }
+};
 
-$app = AppFactory::create();
+$router->setPrefix('/api');
 
-$app->addBodyParsingMiddleware(); //Serialization
+$router->addMiddleware(new BodyParsingMiddleware());
 
-$app->group('/api', function ($group) {
-    (new CategoryRoutes())->registerRoutes($group);
-    (new FoodRoutes())->registerRoutes($group);
-    (new RolRoutes())->registerRoutes($group);
-    (new UserRoutes())->registerRoutes($group);
-    (new CostumerRoutes())->registerRoutes($group);
-    (new CostumerTypeRoutes())->registerRoutes($group);
-    (new FacturaRoutes())->registerRoutes($group);
-    (new DetalleRoutes())->registerRoutes($group);
-    (new ModificationRoutes())->registerRoutes($group);
-    (new ModificationOrderRoutes())->registerRoutes($group);
-    (new ApiReniecRoutes())->registerRoutes($group);
-    (new EstadoMesaRoutes())->registerRoutes($group);
-    (new MesaRoutes())->registerRoutes($group);
-    (new UsoMesaRoutes())->registerRoutes($group);
-    (new ReservationRoutes())->registerRoutes($group);
-    (new MessageServiceRoutes())->registerRoutes($group);
-});
+(new CategoryRoutes())->registerRoutes($router);
+(new FoodRoutes())->registerRoutes($router);
+(new RolRoutes())->registerRoutes($router);
+(new UserRoutes())->registerRoutes($router);
+(new CostumerRoutes())->registerRoutes($router);
+(new CostumerTypeRoutes())->registerRoutes($router);
+(new FacturaRoutes())->registerRoutes($router);
+(new DetalleRoutes())->registerRoutes($router);
+(new ModificationRoutes())->registerRoutes($router);
+(new ModificationOrderRoutes())->registerRoutes($router);
+(new ApiReniecRoutes())->registerRoutes($router);
+(new EstadoMesaRoutes())->registerRoutes($router);
+(new MesaRoutes())->registerRoutes($router);
+(new UsoMesaRoutes())->registerRoutes($router);
+(new ReservationRoutes())->registerRoutes($router);
+(new MessageServiceRoutes())->registerRoutes($router);
 
-$app->addErrorMiddleware(true, true, true);
-
-$app->run();
+$router->header();
+$router->request();

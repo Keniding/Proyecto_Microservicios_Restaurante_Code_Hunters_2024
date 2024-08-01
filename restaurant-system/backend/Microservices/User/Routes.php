@@ -7,9 +7,6 @@ use Database\Database;
 use Exception;
 use JsonException;
 use Router\Router;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Routing\RouteCollectorProxy;
 
 class Routes extends Router
 {
@@ -24,61 +21,61 @@ class Routes extends Router
         $this->header();
     }
 
-    public function registerRoutes(RouteCollectorProxy $group): void
+    public function registerRoutes($app): void
     {
-        $group->get('/allUsers', [$this, 'handleAllUsers'])->add(new Middleware());
-        $group->get('/users', [$this, 'handleAllUsers'])->add(new Middleware());
-        $group->get('/user/{id}', [$this, 'handleUser'])->add(new Middleware());
-        $group->get('/userForRol/{id}', [$this, 'handleUserForRol'])->add(new Middleware());
-        $group->post('/user', [$this, 'handleStoreUser']);
+        $app->get('/allUsers', function() {
+            return $this->handleAllUsers();
+        });
+
+        $app->get('/users', function() {
+            return $this->handleAllUsers();
+        });
+
+        $app->get('/user/{id}', function($id) {
+            return $this->handleUser($id);
+        });
+
+        $app->get('/userForRol/{id}', function($id) {
+            return $this->handleUserForRol($id);
+        }); //Auth midd
+
+        $app->post('/user', function() {
+            return $this->handleStoreUser($this->input());
+        });
     }
 
-    public function handleAllUsers(Request $request, Response $response): Response
-    {
+    private function handleAllUsers() {
         $controller = new Controller($this->user);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    public function handleUser(Request $request, Response $response, array $args): Response
-    {
+    private function handleUser($id) {
         $controller = new Controller($this->user);
         try {
-            $data = json_encode($controller->show($args['id']), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    public function handleUserForRol(Request $request, Response $response, array $args): Response
-    {
+    private function handleUserForRol($id) {
         $controller = new Controller($this->user);
         try {
-            $data = json_encode($controller->showForCategory($args['id']), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            $data = json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    public function handleStoreUser(Request $request, Response $response): Response
-    {
+    private function handleStoreUser(array $input) {
         $controller = new Controller($this->user);
-        $input = json_decode($request->getBody()->getContents(), true);
 
         error_log('Received data: ' . print_r($input, true));
 
@@ -100,16 +97,17 @@ class Routes extends Router
 
             $result = $controller->store($data);
             $success = json_encode(['status' => 'success', 'message' => 'Registro exitoso', 'data' => $result], JSON_THROW_ON_ERROR);
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         } catch (Exception $e) {
-            $error = json_encode(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }

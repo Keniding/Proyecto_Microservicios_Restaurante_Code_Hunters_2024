@@ -4,18 +4,18 @@
     "ext-pdo": "*",
     "ext-json": "*",
     "psr/http-message": "^2.0",
-    "slim/slim": "^4.14",
     "nyholm/psr7": "^1.8",
     "http-interop/http-factory-guzzle": "^1.2",
     "guzzlehttp/psr7": "^2.6",
-    "slim/psr7": "^1.7",
     "cboden/ratchet": "^0.4.4",
-    "react/event-loop": "^1.5"
+    "react/event-loop": "^1.5",
+    "nyholm/psr7-server": "^1.1"
   },
   "autoload": {
     "psr-4": {
       "Database\\": "Conexion/",
       "Test\\": "Test/",
+      "Middleware\\": "Middleware",
       "ApiReniecDni\\": "ApiReniecDni/",
       "Model\\": "Model/",
       "Router\\": "Router/",

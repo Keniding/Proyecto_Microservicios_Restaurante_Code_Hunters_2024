@@ -5,9 +5,6 @@ namespace Microservices\Reserva;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Auth\Middleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -21,85 +18,68 @@ class Routes extends Router
 
     public function registerRoutes($app): void
     {
-        $app->get('/reservas', function(Request $request, Response $response) {
-            return $this->handleAllReservas($response);
+        $app->get('/reservas', function() {
+            return $this->handleAllReservas();
         });
 
-        $app->get('/reserva/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleReserva($response, $args['id']);
+        $app->get('/reserva/{id}', function($id) {
+            return $this->handleReserva($id);
         });
 
-        $app->get('/reservasForMesa/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleReservasForMesa($response, $args['id']);
+        $app->get('/reservasForMesa/{id}', function($id) {
+            return $this->handleReservasForMesa($id);
         });
 
-        $app->get('/reservasForCliente/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleReservasForCliente($response, $args['id']);
+        $app->get('/reservasForCliente/{id}', function($id) {
+            return $this->handleReservasForCliente($id);
         });
 
-        $app->post('/reserva', function(Request $request, Response $response) {
-            return $this->handleStoreReserva($response, $request->getParsedBody());
+        $app->post('/reserva', function() {
+            return $this->handleStoreReserva($this->input());
         });
     }
 
-    private function handleAllReservas(Response $response): Response
-    {
+    private function handleAllReservas() {
         $controller = new Controller($this->reserva);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleReserva(Response $response, $id): Response
-    {
+    private function handleReserva($id) {
         $controller = new Controller($this->reserva);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleReservasForMesa(Response $response, $id): Response
-    {
+    private function handleReservasForMesa($id) {
         $controller = new Controller($this->reserva);
         try {
             $data = json_encode($controller->showForMesa($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleReservasForCliente(Response $response, $id): Response
-    {
+    private function handleReservasForCliente($id) {
         $controller = new Controller($this->reserva);
         try {
             $data = json_encode($controller->showForCliente($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleStoreReserva(Response $response, array $input): Response
-    {
+    private function handleStoreReserva(array $input) {
         $controller = new Controller($this->reserva);
 
         try {
@@ -119,12 +99,15 @@ class Routes extends Router
                 $success = json_encode(['success' => false], JSON_THROW_ON_ERROR);
             }
 
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }
