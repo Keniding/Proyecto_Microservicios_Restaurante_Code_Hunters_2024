@@ -86,4 +86,17 @@ class ChatService
 
         return array_reverse($messages);
     }
+
+    public function getChatsForUser($userId)
+    {
+        $sql = "SELECT c.* FROM chats c
+            JOIN users u ON u.rol_id = c.role_id OR c.type = 'general'
+            LEFT JOIN chat_permissions cp ON cp.user_id = u.id AND cp.chat_id = c.id
+            WHERE u.id = :userId AND (u.estado = 1 OR c.type = 'restricted' OR cp.id IS NOT NULL)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 }

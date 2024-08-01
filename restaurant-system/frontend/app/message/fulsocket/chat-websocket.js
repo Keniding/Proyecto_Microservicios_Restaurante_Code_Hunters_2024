@@ -15,7 +15,8 @@ class ChatWebSocket {
             'chat': this.handleChat.bind(this),
             'error': this.handleError.bind(this),
             'initial_messages': this.handleInitialMessages.bind(this),
-            'more_messages': this.handleMoreMessages.bind(this)
+            'more_messages': this.handleMoreMessages.bind(this),
+            'chat_list': this.handleChatList.bind(this)
         };
     }
 
@@ -23,7 +24,7 @@ class ChatWebSocket {
         this.authenticate();
     }
 
-    handleAuthSuccess(data) {
+    handleAuthSuccess() {
         console.log('Autenticación exitosa');
         if (this.onConnectCallback) {
             this.onConnectCallback();
@@ -56,6 +57,12 @@ class ChatWebSocket {
     }
 
     handleMoreMessages(data) {
+        if (this.onMessageCallback) {
+            this.onMessageCallback(data);
+        }
+    }
+
+    handleChatList(data) {
         if (this.onMessageCallback) {
             this.onMessageCallback(data);
         }
@@ -133,24 +140,6 @@ class ChatWebSocket {
         }
     }
 
-    getOtherMessages(chatId, page, limit) {
-        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-            const message = JSON.stringify({
-                type: 'other_messages',
-                chat_id: chatId,
-                page: page,
-                limit: limit
-            });
-            console.log('Solicitando historial de mensajes:', message);
-            this.socket.send(message);
-        } else {
-            console.error('WebSocket no está abierto. Estado actual:', this.socket ? this.socket.readyState : 'no socket');
-            if (this.onErrorCallback) {
-                this.onErrorCallback('No se puede solicitar el historial de mensajes: la conexión está cerrada');
-            }
-        }
-    } 
-
     getMessages(chatId, page, limit) {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             const message = JSON.stringify({
@@ -167,8 +156,26 @@ class ChatWebSocket {
                 this.onErrorCallback('No se puede solicitar el historial de mensajes: la conexión está cerrada');
             }
         }
-    } 
-    
+    }
+
+    getChats(callback) {
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+            const message = JSON.stringify({
+                type: 'get_chats',
+                user_id: this.userId
+            });
+            console.log('Solicitando lista de chats:', message);
+            this.socket.send(message);
+
+            this.on('chat_list', callback);
+        } else {
+            console.error('WebSocket no está abierto. Estado actual:', this.socket ? this.socket.readyState : 'no socket');
+            if (this.onErrorCallback) {
+                this.onErrorCallback('No se puede solicitar la lista de chats: la conexión está cerrada');
+            }
+        }
+    }
+
     on(messageType, handler) {
         this.messageHandlers[messageType] = handler;
     }

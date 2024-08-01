@@ -48,4 +48,14 @@ class UserChatService
         $stmt->execute();
         return $stmt->fetchColumn() !== false;
     }
+
+    public function isUserAuthenticated($userId): bool
+    {
+        $sql = "SELECT 1 FROM users WHERE id = :userId AND estado = 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn() !== false;
+    }
+
 }
