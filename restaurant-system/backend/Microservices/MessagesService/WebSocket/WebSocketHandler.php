@@ -54,8 +54,8 @@ class WebSocketHandler implements MessageComponentInterface
             case 'get_messages':
                 $this->handleGetMessages($wrappedConn, $data);
                 break;
-            case 'other_messages':
-                $this->handleOtherMessages($wrappedConn, $data);
+            case 'get_chats':
+                $this->handleGetChats($wrappedConn, $data);
                 break;
             default:
                 $this->sendError($wrappedConn, "Tipo de mensaje desconocido");
@@ -215,4 +215,33 @@ class WebSocketHandler implements MessageComponentInterface
             echo "Error al obtener mensajes: " . $e->getMessage() . "\n";
         }
     }
+
+    protected function handleGetChats($conn, $data)
+    {
+        echo "Datos recibidos para obtener chats: ";
+        print_r($data);
+
+        try {
+            $userId = $data['user_id'];
+
+            if (!$this->userChatService->isUserAuthenticated($userId)) {
+                $this->sendError($conn, "Usuario no autenticado");
+                return;
+            }
+
+            $chats = $this->chatService->getChatsForUser($userId);
+            echo "Chats obtenidos: " . count($chats) . "\n";
+            print_r($chats);
+
+            $response = [
+                'type' => 'chat_list',
+                'chats' => $chats
+            ];
+            $conn->send(json_encode($response));
+        } catch (\Exception $e) {
+            $this->sendError($conn, "Error al obtener chats: " . $e->getMessage());
+            echo "Error al obtener chats: " . $e->getMessage() . "\n";
+        }
+    }
+
 }

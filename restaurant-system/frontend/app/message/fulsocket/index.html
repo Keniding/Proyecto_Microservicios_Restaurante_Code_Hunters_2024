@@ -7,16 +7,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="chat-container">
-        <div id="chat-messages"></div>
-        <div id="chat-input">
-            <input type="text" id="message-input" placeholder="Escribe un mensaje...">
-            <button id="send-button">Enviar</button>
-        </div>
+<div id="chat-container">
+    <label for="chat-options">Selecciona un chat:</label>
+    <select id="chat-options">
+        <option value="">Selecciona un chat</option>
+    </select>
+    <div id="chat-messages"></div>
+    <div id="chat-input">
+        <label for="message-input"></label><input type="text" id="message-input" placeholder="Escribe un mensaje...">
+        <button id="send-button">Enviar</button>
     </div>
-    <div id="error-message" style="display: none; color: red;"></div>
+</div>
+<div id="error-message" style="display: none; color: red;"></div>
 
-    <script src="app.js"></script>
-    <script src="chat-websocket.js"></script>
+<script src="app.js"></script>
+<script src="chat-websocket.js"></script>
 </body>
 </html>

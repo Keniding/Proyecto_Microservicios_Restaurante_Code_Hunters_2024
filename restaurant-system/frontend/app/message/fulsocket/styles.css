@@ -90,7 +90,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-button {
+section button {
     background-color: #007bff;
     color: white;
     border: none;
@@ -100,6 +100,6 @@ button {
     transition: background 0.3s;
 }
 
-button:hover {
+section:hover button:hover {
     background-color: #0056b3;
 }
