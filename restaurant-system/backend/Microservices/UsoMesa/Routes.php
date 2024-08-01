@@ -5,9 +5,6 @@ namespace Microservices\UsoMesa;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Auth\Middleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -19,87 +16,69 @@ class Routes extends Router
         $this->header();
     }
 
-    public function registerRoutes($app): void
-    {
-        $app->get('/usosMesa', function(Request $request, Response $response) {
-            return $this->handleAllUsosMesa($response);
+    public function registerRoutes($app): void {
+        $app->get('/usosMesa', function() {
+            return $this->handleAllUsosMesa();
         });
 
-        $app->get('/usoMesa/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleUsoMesa($response, $args['id']);
+        $app->get('/usoMesa/{id}', function($id) {
+            return $this->handleUsoMesa($id);
         });
 
-        $app->get('/usoMesaForMesa/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleUsoMesaForMesa($response, $args['id']);
+        $app->get('/usoMesaForMesa/{id}', function($id) {
+            return $this->handleUsoMesaForMesa($id);
         });
 
-        $app->get('/usoMesaForFecha/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleUsoMesaForFactura($response, $args['id']);
+        $app->get('/usoMesaForFecha/{id}', function($fecha) {
+            return $this->handleUsoMesaForFactura($fecha);
         });
 
-        $app->post('/usoMesa', function(Request $request, Response $response) {
-            return $this->handleStoreUsoMesa($response, $request->getParsedBody());
+        $app->post('/usoMesa', function() {
+            return $this->handleStoreUsoMesa($this->input());
         });
     }
 
-    private function handleAllUsosMesa(Response $response): Response
-    {
+    private function handleAllUsosMesa() {
         $controller = new Controller($this->usoMesa);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleUsoMesa(Response $response, $id): Response
-    {
+    private function handleUsoMesa($id) {
         $controller = new Controller($this->usoMesa);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleUsoMesaForMesa(Response $response, $id): Response
-    {
+    private function handleUsoMesaForMesa($id) {
         $controller = new Controller($this->usoMesa);
         try {
             $data = json_encode($controller->showForMesa($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleUsoMesaForFactura(Response $response, $fecha): Response
-    {
+    private function handleUsoMesaForFactura($fecha) {
         $controller = new Controller($this->usoMesa);
         try {
             $data = json_encode($controller->showForFactura($fecha), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleStoreUsoMesa(Response $response, array $input): Response
-    {
+    private function handleStoreUsoMesa(array $input) {
         $controller = new Controller($this->usoMesa);
 
         try {
@@ -116,12 +95,15 @@ class Routes extends Router
                 $success = json_encode(['success' => false], JSON_THROW_ON_ERROR);
             }
 
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }

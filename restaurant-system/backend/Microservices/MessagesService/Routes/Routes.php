@@ -2,12 +2,13 @@
 
 namespace Microservices\MessagesService\Routes;
 
+use Microservices\MessagesService\Controller\ChatController;
 use Microservices\MessagesService\Controller\Controller;
 use Microservices\MessagesService\Service\ChatService;
 use Microservices\MessagesService\Service\PermissionService;
 use Microservices\MessagesService\Service\UserChatService;
-use Slim\Routing\RouteCollectorProxy;
 use Database\Database;
+use Router\Router;
 
 class Routes
 {
@@ -16,7 +17,7 @@ class Routes
         $this->header();
     }
 
-    public function registerRoutes(RouteCollectorProxy $group): void
+    public function registerRoutes($group): void
     {
         $db = new Database();
         $chatService = new ChatService($db);
@@ -30,6 +31,11 @@ class Routes
         $group->get('/users/{user_id}/chats', [$controller, 'getUserChats']);
         $group->post('/chats', [$controller, 'createChat']);
         $group->post('/chat-permissions', [$controller, 'grantChatPermission']);
+
+
+        $group->addRoute('POST', '/create-message', [$this, 'createMessage']);
+        $group->addRoute('GET', '/get-messages', [$this, 'getMessages']);
+        $group->addRoute('GET', '/get-chats-for-user', [$this, 'getChatsForUser']);
     }
 
     public function header(): void
@@ -44,5 +50,26 @@ class Routes
             http_response_code(204);
             exit;
         }
+    }
+
+    public function createMessage($params)
+    {
+        $db = new Database();
+        $controller = new ChatController($db);
+        $controller->createMessage($params['user_id'], $params['chat_id'], $params['content']);
+    }
+
+    public function getMessages($params)
+    {
+        $db = new Database();
+        $controller = new ChatController($db);
+        $controller->getMessages($params['chat_id'], $params['page'], $params['limit']);
+    }
+
+    public function getChatsForUser($params)
+    {
+        $db = new Database();
+        $controller = new ChatController($db);
+        $controller->getChatsForUser($params['user_id']);
     }
 }

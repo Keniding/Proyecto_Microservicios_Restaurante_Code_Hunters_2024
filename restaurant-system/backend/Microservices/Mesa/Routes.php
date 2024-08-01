@@ -5,9 +5,6 @@ namespace Microservices\Mesa;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Auth\Middleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -24,67 +21,54 @@ class Routes extends Router
 
     public function registerRoutes($app): void
     {
-        $app->get('/mesas', function(Request $request, Response $response) {
-            return $this->handleAllMesas($response);
+        $app->get('/mesas', function() {
+            return $this->handleAllMesas();
         });
 
-        $app->get('/mesa/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleMesa($response, $args['id']);
+        $app->get('/mesa/{id}', function($id) {
+            return $this->handleMesa($id);
         });
 
-        $app->get('/mesaForEstado/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleMesaForEstado($response, $args['id']);
+        $app->get('/mesaForEstado/{id}', function($id) {
+            return $this->handleMesaForEstado($id);
         });
 
-        $app->post('/mesa', function(Request $request, Response $response) {
-            return $this->handleStoreMesa($response, $request->getParsedBody());
+        $app->post('/mesa', function() {
+            return $this->handleStoreMesa($this->input());
         });
     }
 
-    private function handleAllMesas(Response $response): Response
-    {
+    private function handleAllMesas() {
         $controller = new Controller($this->mesa);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleMesa(Response $response, $id): Response
-    {
+    private function handleMesa($id) {
         $controller = new Controller($this->mesa);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleMesaForEstado(Response $response, $id): Response
-    {
+    private function handleMesaForEstado($id) {
         $controller = new Controller($this->mesa);
         try {
             $data = json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleStoreMesa(Response $response, array $input): Response
-    {
+    private function handleStoreMesa(array $input) {
         $controller = new Controller($this->mesa);
 
         try {
@@ -94,12 +78,15 @@ class Routes extends Router
             ];
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }

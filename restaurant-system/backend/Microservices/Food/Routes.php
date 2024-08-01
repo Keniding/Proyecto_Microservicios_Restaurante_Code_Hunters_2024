@@ -5,9 +5,6 @@ namespace Microservices\Food;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Auth\Middleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -24,71 +21,58 @@ class Routes extends Router
 
     public function registerRoutes($app): void
     {
-        $app->get('/allFoods', function(Request $request, Response $response) {
-            return $this->handleAllFoods($response);
+        $app->get('/allFoods', function() {
+            return $this->handleAllFoods();
         });
 
-        $app->get('/foods', function(Request $request, Response $response) {
-            return $this->handleAllFoods($response);
+        $app->get('/foods', function() {
+            return $this->handleAllFoods();
         });
 
-        $app->get('/food/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleFood($response, $args['id']);
+        $app->get('/food/{id}', function($id) {
+            return $this->handleFood($id);
         });
 
-        $app->get('/foodForCategory/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleFoodForCategory($response, $args['id']);
+        $app->get('/foodForCategory/{id}', function($id) {
+            return $this->handleFoodForCategory($id);
         });
 
-        $app->post('/food', function(Request $request, Response $response) {
-            return $this->handleStoreFood($response, $request->getParsedBody());
+        $app->post('/food', function() {
+            return $this->handleStoreFood($this->input());
         });
     }
 
-    private function handleAllFoods(Response $response): Response
-    {
+    private function handleAllFoods() {
         $controller = new Controller($this->food);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleFood(Response $response, $id): Response
-    {
+    private function handleFood($id) {
         $controller = new Controller($this->food);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleFoodForCategory(Response $response, $id): Response
-    {
+    private function handleFoodForCategory($id) {
         $controller = new Controller($this->food);
         try {
             $data = json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleStoreFood(Response $response, array $input): Response
-    {
+    private function handleStoreFood(array $input) {
         $controller = new Controller($this->food);
 
         try {
@@ -101,12 +85,15 @@ class Routes extends Router
             ];
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }

@@ -5,9 +5,6 @@ namespace Microservices\Modifications;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Auth\Middleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -21,90 +18,74 @@ class Routes extends Router
 
     public function registerRoutes($app): void
     {
-        $app->get('/modifications', function(Request $request, Response $response) {
-            return $this->handleAllModifications($response);
+        $app->get('/modifications', function() {
+            return $this->handleAllModifications();
         });
 
-        $app->get('/modification/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleModifications($response, $args['id']);
+        $app->get('/modification/{id}', function($id) {
+            return $this->handleModifications($id);
         });
 
-        $app->post('/modification', function(Request $request, Response $response) {
-            return $this->handleStoreModifications($request, $response);
+        $app->post('/modification', function() {
+            return $this->handleStoreModifications($this->input());
         });
 
-        $app->delete('/modification/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleDeleteModifications($response, $args['id']);
+        $app->delete('/modification/{id}', function($id) {
+            return $this->handleDeleteModifications($id);
         });
     }
 
-    private function handleAllModifications(Response $response): Response
-    {
+    private function handleAllModifications() {
         $controller = new Controller($this->model);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleModifications(Response $response, $id): Response
-    {
+    private function handleModifications($id) {
         $controller = new Controller($this->model);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleStoreModifications(Request $request, Response $response): Response
-    {
+    private function handleStoreModifications(array $input) {
         $controller = new Controller($this->model);
 
         try {
-            $input = $request->getParsedBody();
-
-            error_log('Datos recibidos: ' . print_r($input, true));
-
             $data = [
                 'name' => $input['name'] ?? null,
                 'category' => $input['category'] ?? null,
             ];
 
-            error_log('Datos a almacenar: ' . print_r($data, true));
-
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleDeleteModifications(Response $response, mixed $id): Response
-    {
+    private function handleDeleteModifications($id) {
         $controller = new Controller($this->model);
         try {
             $result = $controller->destroy($id);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }

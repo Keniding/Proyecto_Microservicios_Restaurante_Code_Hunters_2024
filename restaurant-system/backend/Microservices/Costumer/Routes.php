@@ -5,9 +5,6 @@ namespace Microservices\Costumer;
 use Database\Database;
 use JsonException;
 use Router\Router;
-use Auth\Middleware;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Routes extends Router
 {
@@ -24,85 +21,68 @@ class Routes extends Router
 
     public function registerRoutes($app): void
     {
-        $app->get('/costumers', function(Request $request, Response $response) {
-            return $this->handleAllCostumers($response);
+        $app->get('/costumers', function() {
+            return $this->handleAllCostumers();
         });
 
-        $app->get('/costumer/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleCostumer($response, $args['id']);
+        $app->get('/costumer/{id}', function($id) {
+            return $this->handleCostumer($id);
         });
 
-        $app->get('/costumerForCategory/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleCostumerForCategory($response, $args['id']);
+        $app->get('/costumerForCategory/{id}', function($id) {
+            return $this->handleCostumerForCategory($id);
         });
 
-        $app->get('/costumerForDni/{id}', function(Request $request, Response $response, array $args) {
-            return $this->handleCostumerForDni($response, $args['id']);
+        $app->get('/costumerForDni/{id}', function($id) {
+            return $this->handleCostumerForDni($id);
         });
 
-        $app->post('/costumer', function(Request $request, Response $response) {
-            return $this->handleStoreCostumer($response, $request->getParsedBody());
+        $app->post('/costumer', function() {
+            return $this->handleStoreCostumer($this->input());
         });
     }
 
-    private function handleAllCostumers(Response $response): Response
-    {
+    private function handleAllCostumers() {
         $controller = new Controller($this->costumer);
         try {
             $data = json_encode($controller->index(), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleCostumer(Response $response, $id): Response
-    {
+    private function handleCostumer($id) {
         $controller = new Controller($this->costumer);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleCostumerForCategory(Response $response, $id): Response
-    {
+    private function handleCostumerForCategory($id) {
         $controller = new Controller($this->costumer);
         try {
             $data = json_encode($controller->showForCategory($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleCostumerForDni(Response $response, $id): Response
-    {
+    private function handleCostumerForDni($id) {
         $controller = new Controller($this->costumer);
         try {
             $data = json_encode($controller->showForDni($id), JSON_THROW_ON_ERROR);
-            $response->getBody()->write($data);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(200, $data);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
-    private function handleStoreCostumer(Response $response, array $input): Response
-    {
+    private function handleStoreCostumer(array $input) {
         $controller = new Controller($this->costumer);
 
         try {
@@ -115,12 +95,15 @@ class Routes extends Router
             ];
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
-            $response->getBody()->write($success);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
-            $error = json_encode(['error' => $e->getMessage()]);
-            $response->getBody()->write($error);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
+    }
+
+    private function createResponse($status, $body) {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo $body;
     }
 }
