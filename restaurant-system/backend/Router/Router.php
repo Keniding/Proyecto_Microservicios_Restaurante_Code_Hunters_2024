@@ -56,12 +56,6 @@ abstract class Router implements IRouter
 
     public function dispatch($method, $uri)
     {
-        $request = ServerRequest::fromGlobals();
-        $response = new Response();
-
-        foreach ($this->middlewares as $middleware) {
-            $response = call_user_func($middleware, $request, $response);
-        }
 
         $route = strtoupper($method) . ' ' . rtrim($uri, '/');
 
@@ -77,16 +71,15 @@ abstract class Router implements IRouter
                 array_shift($matches);
 
                 if ($routeInfo['middleware']) {
-                    $response = call_user_func($routeInfo['middleware'], $request, $response);
+                    call_user_func($routeInfo['middleware']);
                 }
 
-                return call_user_func_array($routeInfo['action'], array_merge([$request, $response], $matches));
+                return call_user_func_array($routeInfo['action'], $matches);
             }
         }
 
-        $response = $response->withStatus(404)->withHeader('Content-Type', 'application/json');
-        $response->getBody()->write(json_encode(['error' => 'Route not found']));
-        $this->sendResponse($response);
+        http_response_code(404);
+        echo json_encode(['error' => 'Route not found']);
     }
 
     public function header(): void
@@ -112,8 +105,12 @@ abstract class Router implements IRouter
 
     public function input()
     {
+        if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
+            return json_decode(file_get_contents('php://input'), true);
+        }
         return $_POST;
     }
+
 
     public function error(): void
     {
