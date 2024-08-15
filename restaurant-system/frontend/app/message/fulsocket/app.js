@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorElement = document.getElementById('error-message');
     const chatOptions = document.getElementById('chat-options');
 
-    const currentUserId = localStorage.getItem('user_id');
+    const currentUserId = localStorage.getItem('user_id') || 5;
     let currentChatId = null;
 
     let currentPage = 1;
