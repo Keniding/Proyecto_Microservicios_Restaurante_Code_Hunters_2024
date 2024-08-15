@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<script type="module" src="js/get_roles.js"></script>
-<script type="module" src="js/register.js"></script>
+<script src="/assets/dist/getroles.bundle.js"></script>
+<script src="/assets/dist/register.bundle.js"></script>
 </body>
 </html>

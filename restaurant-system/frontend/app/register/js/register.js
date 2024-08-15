@@ -1,4 +1,4 @@
-import {fetchData} from "../../../config/api.js";
+import { apiBase } from 'config/config';
 
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -14,22 +14,34 @@ document.getElementById('registerForm').addEventListener('submit', function(even
 });
 
 async function registerUser(dni, username, password, email, telefono, rol) {
-    const data = { dni, username, password, email, telefono, rol };
+
+    let url = apiBase.apiBaseUrl;
+    let endpoint = '/user';
+
+    const data = {
+        dni: dni,
+        username: username,
+        password: password,
+        email: email,
+        telefono: telefono,
+        rol: rol
+    };
 
     try {
-        const response = await fetchData('/user', {
+        const response = await fetch(`${url}${endpoint}`, {
             method: 'POST',
-            body: data
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         });
 
-        if (typeof response === 'object' && response.status === 'success') {
-            alert(response.message);
-            window.location.href = 'http://localhost:8100/app/login/login.php';
-        } else if (typeof response === 'string') {
-            document.body.innerHTML = response;
-        } else {
-            alert('Error: ' + response.message);
+        if (!response.ok) {
+            throw new Error('Error en la creación de la usuario');
         }
+        window.location.href = 'http://localhost:8100/app/login/login.php';
+
+
     } catch (error) {
         console.error('Error:', error);
         alert('Error al registrar usuario');
