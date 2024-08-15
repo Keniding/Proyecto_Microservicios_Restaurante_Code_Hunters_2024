@@ -37,7 +37,7 @@ async function registerUser(dni, username, password, email, telefono, rol) {
         });
 
         if (!response.ok) {
-            throw new Error('Error en la creación de la factura');
+            throw new Error('Error en la creación de la usuario');
         }
         window.location.href = 'http://localhost:8100/app/login/login.php';
 
