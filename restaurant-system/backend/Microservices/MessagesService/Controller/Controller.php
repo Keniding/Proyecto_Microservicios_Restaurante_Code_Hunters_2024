@@ -5,8 +5,6 @@ namespace Microservices\MessagesService\Controller;
 use Microservices\MessagesService\Service\ChatService;
 use Microservices\MessagesService\Service\PermissionService;
 use Microservices\MessagesService\Service\UserChatService;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Controller
 {
@@ -21,56 +19,46 @@ class Controller
         $this->permissionService = $permissionService;
     }
 
-    public function getMessages(Request $request, Response $response, array $args): Response
+    public function getMessages(array $queryParams, array $args)
     {
         $chatId = $args['chat_id'];
-        $page = $request->getQueryParams()['page'] ?? 1;
-        $limit = $request->getQueryParams()['limit'] ?? 10;
+        $page = $queryParams['page'] ?? 1;
+        $limit = $queryParams['limit'] ?? 10;
         $messages = $this->chatService->getMessages($chatId, $page, $limit);
-        $response->getBody()->write(json_encode($messages));
-        return $response->withHeader('Content-Type', 'application/json');
+
+        return json_encode($messages);
     }
 
-    public function createMessage(Request $request, Response $response): Response
+    public function createMessage(array $data)
     {
-        $data = $request->getParsedBody();
         try {
             $result = $this->chatService->createMessage($data['user_id'], $data['chat_id'], $data['content']);
-            $response->getBody()->write(json_encode(['success' => $result]));
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+            return json_encode(['success' => $result]);
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+            return json_encode(['error' => $e->getMessage()]);
         }
     }
 
-
-    public function getUserChats(Request $request, Response $response, array $args): Response
+    public function getUserChats(array $args)
     {
         $userId = $args['user_id'];
         $chats = $this->userChatService->getUserChats($userId);
-        $response->getBody()->write(json_encode($chats));
-        return $response->withHeader('Content-Type', 'application/json');
+        return json_encode($chats);
     }
 
-    public function createChat(Request $request, Response $response): Response
+    public function createChat(array $data)
     {
-        $data = $request->getParsedBody();
         $result = $this->userChatService->createChat($data['name'], $data['type'], $data['role_id'] ?? null);
-        $response->getBody()->write(json_encode(['success' => $result]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus($result ? 201 : 400);
+        return json_encode(['success' => $result]);
     }
 
-    public function grantChatPermission(Request $request, Response $response): Response
+    public function grantChatPermission(array $data)
     {
-        $data = $request->getParsedBody();
         try {
             $result = $this->permissionService->grantChatPermission($data['admin_id'], $data['user_id'], $data['chat_id']);
-            $response->getBody()->write(json_encode(['success' => $result]));
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+            return json_encode(['success' => $result]);
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+            return json_encode(['error' => $e->getMessage()]);
         }
     }
 }

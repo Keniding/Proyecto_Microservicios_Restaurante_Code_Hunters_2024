@@ -35,6 +35,10 @@ class Routes extends Router
             return $this->handleUser($id);
         });
 
+        $app->get('/userForDni/{id}', function($id) {
+            return $this->handleUserDni($id);
+        });
+
         $app->get('/userForRol/{id}', function($id) {
             return $this->handleUserForRol($id);
         }); //Auth midd
@@ -58,6 +62,16 @@ class Routes extends Router
         $controller = new Controller($this->user);
         try {
             $data = json_encode($controller->show($id), JSON_THROW_ON_ERROR);
+            return $this->createResponse(200, $data);
+        } catch (JsonException $e) {
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
+        }
+    }
+
+    private function handleUserDni($id) {
+        $controller = new Controller($this->user);
+        try {
+            $data = json_encode($controller->showForDni($id), JSON_THROW_ON_ERROR);
             return $this->createResponse(200, $data);
         } catch (JsonException $e) {
             return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));

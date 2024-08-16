@@ -9,6 +9,15 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     login(dni, password);
 });
 
+function getdata(dni) {
+    const url = `${apiBase.apiBaseUrl}/userForDni/${dni}`;
+    fetch(url)
+        .then(r => r.json())
+        .then(data => {
+            localStorage.setItem('user_id', data.id);
+        })
+}
+
 function login(dni, password) {
     const url = `${authBase.apiBaseUrl}/login`;
     const data = { dni: dni, password: password };
@@ -24,6 +33,7 @@ function login(dni, password) {
         .then(data => {
             if (data.status === 'success') {
                 alert('Inicio de sesión exitoso');
+                getdata(dni);
                 pageforRol();
             } else {
                 alert('Error: ' + data.message);

@@ -1,4 +1,4 @@
-class ChatWebSocket {
+export class ChatWebSocket {
     constructor(url, userId) {
         this.url = url;
         this.userId = userId;
