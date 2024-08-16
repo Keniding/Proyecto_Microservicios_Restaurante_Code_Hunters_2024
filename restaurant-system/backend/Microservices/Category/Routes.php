@@ -38,6 +38,10 @@ class Routes extends Router
         $app->delete('/category/{id}', function($id) {
             return $this->handleDeleteCategory($id);
         });
+
+        $app->put('/category/{id}', function ($id, $data){
+            return $this->handleUpdateCategory($id, $data);
+        });
     }
 
     private function handleAllCategories() {
@@ -81,6 +85,22 @@ class Routes extends Router
             $result = $controller->destroy($id);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
             return $this->createResponse(200, $success);
+        } catch (JsonException $e) {
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
+        }
+    }
+
+
+    private function handleUpdateCategory($id, $input)
+    {
+        $controller = new Controller($this->category);
+        try {
+            $data = [
+                'nombre' => $input['nombre'] ?? null
+            ];
+            $result = $controller->edit($id, $data);
+            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            return $this->createResponse(201, $success);
         } catch (JsonException $e) {
             return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }

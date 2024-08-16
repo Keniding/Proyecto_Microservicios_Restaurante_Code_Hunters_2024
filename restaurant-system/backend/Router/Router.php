@@ -2,10 +2,7 @@
 
 namespace Router;
 
-use GuzzleHttp\Psr7\ServerRequest;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 abstract class Router implements IRouter
 {
@@ -74,6 +71,12 @@ abstract class Router implements IRouter
                     call_user_func($routeInfo['middleware']);
                 }
 
+                // Conf para permitir peticiones PUT
+                if ($method === 'PUT' || $method === 'POST') {
+                    $inputData = $this->input();
+                    $matches[] = $inputData;
+                }
+
                 return call_user_func_array($routeInfo['action'], $matches);
             }
         }
@@ -85,7 +88,7 @@ abstract class Router implements IRouter
     public function header(): void
     {
         header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
+        header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
         header('Content-Type: application/json');

@@ -65,4 +65,25 @@ class Model extends BaseModel
             return false;
         }
     }
+
+    public function update(int $id, array $data): bool
+    {
+        try {
+            $query = "UPDATE categorias SET nombre = :nombre WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+
+            $stmt->bindParam(':nombre', $data['nombre'], \PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(PDOException $exception) {
+            error_log("Error: " . $exception->getMessage());
+            return false;
+        }
+    }
+
 }
