@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat en Tiempo Real</title>
-    <link rel="stylesheet" href="styles.css">
+<!--    <link rel="stylesheet" href="styles.css">-->
 </head>
 <body>
 <div id="chat-container">
@@ -14,13 +14,16 @@
     </select>
     <div id="chat-messages"></div>
     <div id="chat-input">
-        <label for="message-input"></label><input type="text" id="message-input" placeholder="Escribe un mensaje...">
         <button id="send-button">Enviar</button>
+        <label for="message-input"></label><input type="text" id="message-input" placeholder="Escribe un mensaje...">
     </div>
 </div>
 <div id="error-message" style="display: none; color: red;"></div>
 
-<script src="app.js"></script>
-<script src="chat-websocket.js"></script>
+<script src="http://localhost:8100/assets/dist/chat.bundle.js"></script>
+
+<!--<script type="module" src="app.js"></script>
+<script src="/assets/dist/chat.bundle.js"></script>
+<script src="chat-websocket.js"></script>-->
 </body>
 </html>

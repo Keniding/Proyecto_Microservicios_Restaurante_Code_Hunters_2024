@@ -14,6 +14,8 @@ module.exports = {
 
         getroles: './app/register/js/get_roles.js',
         register: './app/register/js/register.js',
+
+        chat: './app/message/fulsocket/app.js',
     },
     output: {
         filename: '[name].bundle.js',

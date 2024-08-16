@@ -9,4 +9,9 @@ class Controller extends BaseController
     public function __construct(Model $user) {
         parent::__construct($user);
     }
+
+    public function showForDni($id)
+    {
+        return $this->model->getByDni($id);
+    }
 }

@@ -23,6 +23,13 @@ class Model extends BaseModel
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    public function getByDni($id) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE dni = :id");
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
     public function create(array $data): bool
     {
         try {

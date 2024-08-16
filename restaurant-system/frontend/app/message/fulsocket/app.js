@@ -1,3 +1,5 @@
+import { ChatWebSocket } from './chat-websocket.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
@@ -5,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorElement = document.getElementById('error-message');
     const chatOptions = document.getElementById('chat-options');
 
-    const currentUserId = localStorage.getItem('user_id') || 5;
+    const currentUserId = localStorage.getItem('user_id');
     let currentChatId = null;
 
     let currentPage = 1;
@@ -78,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             chatOptions.onchange = () => {
                 currentChatId = chatOptions.value;
+                currentPage = 1; //Reinicia el estado del chat
                 if (currentChatId) {
                     loadMessages();
                 }
