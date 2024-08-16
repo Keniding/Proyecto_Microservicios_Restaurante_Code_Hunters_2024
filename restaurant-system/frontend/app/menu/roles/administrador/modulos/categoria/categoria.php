@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabla de Categorías</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
 <div class="container">
     <h1>Lista de Categorías</h1>
     <div class="agregar">
-        <label for="categoryName"></label><input id="categoryName" type="text" placeholder="Nombre de la categoría">
+        <label for="Name"></label><input id="categoryName" type="text" placeholder="Nombre de la categoría">
         <button id="addButton">Agregar Categoría</button>
     </div>
     <div class="tabla">

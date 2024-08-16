@@ -1,0 +1,13 @@
+.campos {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+}
+
+.campos:focus {
+    border: 2px solid #0056b3;
+}

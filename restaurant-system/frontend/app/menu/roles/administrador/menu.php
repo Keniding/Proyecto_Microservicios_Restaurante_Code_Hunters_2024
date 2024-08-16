@@ -8,7 +8,7 @@
     <title>Admin</title>
     <link rel="stylesheet" href="../../../../css/styles.css">
     <link rel="stylesheet" href="../../../../css/message.css">
-    <link rel="stylesheet" href="modulos/categoria/css/message.css">
+    <link rel="stylesheet" href="css/message.css">
     <link rel="stylesheet" href="../../../../css/datos.css">
 </head>
 <body>
@@ -24,6 +24,7 @@ include('../../../message/fulsocket/index.html');
 <div class="container  view-container">
     <div class="card-container">
         <a href="modulos/categoria/categoria.php" class="card">Gestionar Categorias de Comida</a>
+        <a href="modulos/comida/comida.php" class="card">Gestionar de Platos de Comida</a>
     </div>
 </div>
 
