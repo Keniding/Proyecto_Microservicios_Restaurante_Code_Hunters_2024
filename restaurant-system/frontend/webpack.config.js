@@ -11,6 +11,7 @@ module.exports = {
         mesas: './app/menu/roles/mesero/modulos/mesas/js/script.js',
         etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
         categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
+        comidaCRUD: './app/menu/roles/administrador/modulos/comida/js/script.js',
 
         title: './js/datos.js',
 

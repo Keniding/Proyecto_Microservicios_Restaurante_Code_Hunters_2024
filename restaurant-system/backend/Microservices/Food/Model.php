@@ -56,6 +56,44 @@ class Model extends BaseModel
 
     public function delete($id): bool
     {
-        // TODO: Implement delete() method.
+        try {
+            $query = "DELETE FROM comidas WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(PDOException $exception) {
+            error_log("Error: " . $exception->getMessage());
+            return false;
+        }
     }
+
+    public function update(int $id, array $data): bool
+    {
+        try {
+            $query = "UPDATE comidas SET nombre = :nombre, descripcion = :descripcion, precio = :precio, disponibilidad = :disponibilidad WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+
+            $stmt->bindParam(':nombre', $data['nombre'], \PDO::PARAM_STR);
+            $stmt->bindParam(':descripcion', $data['descripcion'], \PDO::PARAM_STR);
+            $stmt->bindParam(':precio', $data['precio'], \PDO::PARAM_STR);
+            $stmt->bindParam(':disponibilidad', $data['disponibilidad'], \PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(PDOException $exception) {
+            echo "Error: " . $exception->getMessage() . "<br>";
+            return false;
+        }
+    }
+
 }

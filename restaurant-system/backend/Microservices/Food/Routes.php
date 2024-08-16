@@ -40,6 +40,14 @@ class Routes extends Router
         $app->post('/food', function() {
             return $this->handleStoreFood($this->input());
         });
+
+        $app->delete('/food/{id}', function($id) {
+            return $this->handleDeleteFood($id);
+        });
+
+        $app->put('/food/{id}', function ($id, $data){
+            return $this->handleUpdateFood($id, $data);
+        });
     }
 
     private function handleAllFoods() {
@@ -86,6 +94,36 @@ class Routes extends Router
             $result = $controller->store($data);
             $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
             return $this->createResponse(201, $success);
+        } catch (JsonException $e) {
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
+        }
+    }
+
+    private function handleUpdateFood($id, $input)
+    {
+        $controller = new Controller($this->food);
+
+        try {
+            $data = [
+                'nombre' => $input['nombre'],
+                'descripcion' => $input['descripcion'],
+                'precio' => $input['precio'],
+                'disponibilidad' => $input['disponibilidad'],
+            ];
+            $result = $controller->edit($id, $data);
+            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            return $this->createResponse(201, $success);
+        } catch (JsonException $e) {
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
+        }
+    }
+
+    private function handleDeleteFood($id) {
+        $controller = new Controller($this->food);
+        try {
+            $result = $controller->destroy($id);
+            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            return $this->createResponse(200, $success);
         } catch (JsonException $e) {
             return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
