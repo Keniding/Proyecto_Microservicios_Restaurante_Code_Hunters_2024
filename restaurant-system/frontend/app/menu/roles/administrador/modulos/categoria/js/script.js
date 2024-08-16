@@ -110,8 +110,71 @@ document.getElementById('addButton').addEventListener('click', () => {
 });
 
 function editCategory(id) {
-    // Lógica para editar la categoría con el ID proporcionado
-    console.log('Editar categoría con ID:', id);
+
+    const row = document.querySelector(`tr[data-id="${id}"]`);
+
+    if (!row) {
+        console.error('Fila no encontrada para el id:', id);
+        return;
+    }
+
+    const actionCell = row.querySelector('td:last-child');
+
+    if (!actionCell) {
+        console.error('Celda de acción no encontrada.');
+        return;
+    }
+
+    const existingContainers = document.querySelectorAll('[id^="edit-container-"]');
+    existingContainers.forEach(container => container.remove());
+
+    const container = document.createElement('div');
+    container.id = `edit-container-${id}`;
+    container.style.margin = '20px';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Nuevo nombre de categoría';
+    input.id = `category-name-${id}`;
+    input.classList.add('input-button-style');
+
+    const button = document.createElement('button');
+    button.innerText = 'Guardar';
+    button.style.background = 'purple';
+    button.onclick = function() {
+        const newName = input.value;
+        if (newName) {
+            updateCategoryName(id, newName);
+        } else {
+            alert('El nombre no puede estar vacío');
+        }
+    };
+
+    container.appendChild(input);
+    container.appendChild(button);
+
+    actionCell.appendChild(container);
+}
+
+function updateCategoryName(id, newName) {
+    let editar = `/category/${id}`;
+
+    fetch(`${apiBase.apiBaseUrl}${editar}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nombre: newName })
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Categoría editada con éxito');
+                location.reload();
+            } else {
+                console.error('Error al editar la categoría');
+            }
+        })
+        .catch(error => console.error('Error al editar la categoría:', error));
 }
 
 function deleteCategory(id) {
