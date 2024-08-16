@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-07-2024 a las 10:18:37
+-- Tiempo de generación: 16-08-2024 a las 15:56:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -97,7 +97,7 @@ INSERT INTO `categorias` (`id`, `nombre`) VALUES
 (23, 'Navideños'),
 (24, 'Mariscos'),
 (26, 'Especialidad de la casa'),
-(27, 'Jueves');
+(27, 'Parrilla');
 
 -- --------------------------------------------------------
 
@@ -174,7 +174,8 @@ INSERT INTO `clientes` (`Dni`, `Nombre`, `Email`, `Telefono`, `Direccion`, `Tipo
 ('21223344', 'Pepe Pérez', '', '', '', 1, 0),
 ('72363424', 'LUZ MELINDA TOLENTINO ARANDA', '', '', '', 1, 0),
 ('72712421', 'MELANNY IVETT VILLEGAS CHAVEZ', '', '', '', 1, 0),
-('72893091', 'HENRY KENIDING TARAZONA LAZARO', '', '', '', 2, 15),
+('72893090', 'JANNETTE MILAGROS TUME REQUE', '', '', '', 1, 1),
+('72893091', 'HENRY KENIDING TARAZONA LAZARO', '', '', '', 2, 18),
 ('72893092', 'RODRIGO JUANDIEGO TEJADA GAITAN', '', '', '', 1, 1),
 ('72893099', 'EVITA NERY VELASQUEZ PABLO', '', '', '', 1, 0),
 ('72893301', 'GREG GIANCARLOS ARCELA SEDANO', '', '', '', 1, 0),
@@ -223,7 +224,8 @@ INSERT INTO `comidas` (`id`, `nombre`, `descripcion`, `precio`, `disponibilidad`
 (13, 'Combo Lomo Saltado', 'Lomo Saltado con arroz, papas fritas y una bebida.', 18.00, 1, 7),
 (14, 'Combo Pollo a la Brasa', 'Pollo a la brasa con papas fritas, ensalada y una bebida.', 20.00, 1, 7),
 (15, 'Promoción 2x1 Ceviche', 'Dos ceviches al precio de uno.', 15.00, 1, 8),
-(16, 'Promoción Postre Gratis', 'Un postre gratis por cada plato principal.', 0.00, 1, 8);
+(16, 'Promoción Postre Gratis', 'Un postre gratis por cada plato principal.', 0.00, 1, 8),
+(18, 'Ensalada César', 'Una ensalada clásica con lechuga romana, crutones y aderezo César.', 9.99, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -266,6 +268,10 @@ CREATE TABLE `facturas` (
 --
 
 INSERT INTO `facturas` (`id`, `Fecha`, `Total`, `dni_cliente`, `estado`) VALUES
+('020820240005172009QEEN8VH4J', '2024-08-02', 15.00, '72893091', 'Pendiente'),
+('02082024155210928ZH1IHPXVGG', '2024-08-02', 22.00, '72893090', 'Pendiente'),
+('16082024013659662EN4OKGSOEW', '2024-08-16', 10.00, '72893091', 'Pendiente'),
+('16082024014458573YGKFA6X3WU', '2024-08-16', 24.00, '72893091', 'Pendiente'),
 ('28072024000624557X9JNSGURVZ', '2024-07-28', 42.00, '72893091', 'Pendiente'),
 ('28072024001235568UU3ML6ZHL1', '2024-07-28', 42.00, '72893091', 'Pendiente'),
 ('280720240013286345WWCHUPWID', '2024-07-28', 14.00, '72893091', 'Pendiente'),
@@ -326,12 +332,12 @@ INSERT INTO `mesas` (`id_mesa`, `capacidad`, `id_estado_mesa`) VALUES
 (46, 4, 2),
 (47, 4, 1),
 (48, 4, 1),
-(49, 6, 1),
-(50, 6, 1),
-(51, 6, 1),
+(49, 6, 2),
+(50, 6, 2),
+(51, 6, 2),
 (52, 6, 1),
 (53, 8, 1),
-(54, 8, 1),
+(54, 8, 2),
 (55, 8, 2),
 (56, 10, 1),
 (57, 10, 1),
@@ -371,7 +377,18 @@ INSERT INTO `messages` (`id`, `chat_id`, `user_id`, `content`, `created_at`) VAL
 (44, 1, 3, 'hi', '2024-07-30 22:15:42'),
 (46, 1, 5, 'hi', '2024-07-30 22:17:04'),
 (48, 1, 5, 'q tal', '2024-07-30 22:29:20'),
-(125, 1, 5, 'hola', '2024-07-31 07:57:31');
+(125, 1, 5, 'hola', '2024-07-31 07:57:31'),
+(126, 1, 5, 'hiii', '2024-07-31 15:45:38'),
+(127, 1, 5, 'Hola soy henry', '2024-08-02 20:49:38'),
+(128, 4, 5, 'hola', '2024-08-02 20:55:45'),
+(129, 1, 5, 'el pepe2', '2024-08-15 18:15:21'),
+(130, 1, 5, 'q tal', '2024-08-16 05:17:46'),
+(131, 1, 2, 'nice', '2024-08-16 05:56:36'),
+(132, 1, 2, 'nice', '2024-08-16 06:32:33'),
+(133, 1, 2, 'pepe', '2024-08-16 07:43:45'),
+(134, 1, 37, 'hola', '2024-08-16 08:33:49'),
+(135, 1, 37, 'q tal', '2024-08-16 09:46:12'),
+(136, 1, 37, 'q tal', '2024-08-16 09:46:50');
 
 -- --------------------------------------------------------
 
@@ -392,21 +409,22 @@ CREATE TABLE `modificaciones_plato` (
 --
 
 INSERT INTO `modificaciones_plato` (`id`, `name`, `category`, `color`, `counter`) VALUES
-(1, 'Sin Sal', 'quitar', '#ff0000', 7),
+(1, 'Sin Sal', 'quitar', '#ff0000', 13),
 (2, 'Extra Picante', 'agregar', '#00ff00', 1),
-(3, 'Vegetariano', 'modificar', '#0000ff', 1),
+(3, 'Vegetariano', 'modificar', '#0000ff', 2),
 (4, 'Sin Gluten', 'quitar', '#ff0000', 2),
 (5, 'Papas', 'quitar', '#ff0000', 1),
 (10, 'Sal', 'agregar', '#00ff00', 1),
-(11, 'A lo pobre', 'modificar', '#0000ff', 1),
+(11, 'A lo pobre', 'modificar', '#0000ff', 2),
 (12, 'Salsa ostion', 'agregar', '#00ff00', 1),
 (13, 'Platano', 'quitar', '#ff0000', 0),
-(14, 'Taypa', 'modificar', '#0000ff', 5),
+(14, 'Taypa', 'modificar', '#0000ff', 8),
 (15, 'Tallarin', 'quitar', '#ff0000', 0),
-(16, 'Huevo', 'agregar', '#00ff00', 1),
+(16, 'Huevo', 'agregar', '#00ff00', 4),
 (17, 'Platano', 'agregar', '#00ff00', 0),
 (18, 'Jugoso', 'modificar', '#0000ff', 1),
-(19, 'Crocante', 'modificar', '#0000ff', 0);
+(19, 'Crocante', 'modificar', '#0000ff', 0),
+(20, 'Especial', 'modificar', '#0000ff', 1);
 
 -- --------------------------------------------------------
 
@@ -462,7 +480,16 @@ INSERT INTO `ordenes` (`id`, `FacturaID`, `hora_orden`, `ComidaID`, `Cantidad`, 
 (35, '29072024034806311VBC8FMA0AC', '2024-07-29 03:48:19', 8, 1, 7.00, 'Completada'),
 (36, '29072024035146964M1WRR5K631', '2024-07-29 03:52:08', 8, 1, 7.00, 'Completada'),
 (37, '29072024035341233184IZHCOR0', '2024-07-29 03:53:54', 8, 1, 7.00, 'Completada'),
-(38, '29072024035911462FYTY2X1DM3', '2024-07-29 03:59:26', 8, 1, 7.00, 'Completada');
+(38, '29072024035911462FYTY2X1DM3', '2024-07-29 03:59:26', 8, 1, 7.00, 'Completada'),
+(39, '28072024000624557X9JNSGURVZ', '2024-08-02 00:05:01', 1, 2, 19.99, 'Completada'),
+(40, '020820240005172009QEEN8VH4J', '2024-08-02 00:05:24', 15, 1, 15.00, 'Completada'),
+(41, '02082024155210928ZH1IHPXVGG', '2024-08-02 15:53:31', 6, 2, 22.00, 'Completada'),
+(42, '02082024155210928ZH1IHPXVGG', '2024-08-02 15:53:52', 6, 2, 22.00, 'Completada'),
+(43, '02082024155210928ZH1IHPXVGG', '2024-08-02 15:54:00', 6, 2, 22.00, 'Completada'),
+(44, '16082024013659662EN4OKGSOEW', '2024-08-16 01:37:12', 3, 1, 10.00, 'Completada'),
+(45, '16082024013659662EN4OKGSOEW', '2024-08-16 01:38:03', 3, 1, 10.00, 'Completada'),
+(46, '16082024013659662EN4OKGSOEW', '2024-08-16 01:38:50', 3, 1, 10.00, 'Completada'),
+(47, '16082024014458573YGKFA6X3WU', '2024-08-16 01:45:27', 4, 2, 24.00, 'Completada');
 
 -- --------------------------------------------------------
 
@@ -503,7 +530,22 @@ INSERT INTO `ordenes_modificaciones` (`id`, `orden_id`, `modificacion_id`) VALUE
 (30, 36, 11),
 (31, 36, 14),
 (32, 37, 1),
-(33, 38, 18);
+(33, 38, 18),
+(34, 40, 3),
+(35, 41, 1),
+(36, 41, 16),
+(37, 41, 14),
+(38, 42, 1),
+(39, 42, 16),
+(40, 42, 14),
+(41, 43, 1),
+(42, 43, 16),
+(43, 43, 14),
+(44, 44, 1),
+(45, 45, 1),
+(46, 46, 1),
+(47, 47, 11),
+(48, 47, 20);
 
 -- --------------------------------------------------------
 
@@ -622,7 +664,15 @@ INSERT INTO `users` (`id`, `dni`, `username`, `password`, `email`, `telefono`, `
 (9, '12345678', 'John Doe', '$2y$10$.n6kRwNVoRizL0tEcdP7h.OKoextUObMJ1fZ8u5kt42kRS58RMwm.', 'john@example.com', '1234567890', 2, 1),
 (10, '22345678', 'Johns Does', '$2y$10$PchLEGNtqKYgsACXpQtbr.FHoodiYYqi3K0WvVJ3uCV9YC.F/cj7e', 'johns@examples.com', '1234566580', 2, 1),
 (30, '32345678', 'Johana Martinez', '$2y$10$AJD.ullt825hEd40EvRlQudfHnM3jDuLGTHEpVb9dMyn.RxLRyRcS', 'johana@examples.com', '2434566580', 1, 0),
-(31, '728930912', 'keniding', '$2y$10$aWEEOm2Uqp1.5QRGUlIBeOoFTKfBpQsc3m50muQmZ3Gku4e0pJrJi', 'kenidingh@gmail.com', '51998760722', 1, 0);
+(31, '728930912', 'keniding', '$2y$10$aWEEOm2Uqp1.5QRGUlIBeOoFTKfBpQsc3m50muQmZ3Gku4e0pJrJi', 'kenidingh@gmail.com', '51998760722', 1, 0),
+(32, '22345678', 'Johan Marti', '$2y$10$CgR/jFe.I0NWGP1SWy4btep6RU7Q5P.n7I89i/qz6embos9ildf7G', 'johana@examples.comx', '2434566580', 1, 0),
+(33, '72893094', 'kenidingg', '$2y$10$0TWLIz/NTTNLBGbFZPryGe7sN7aPjOGWkYnpHRg.NTw8bXBVxPY.m', 'kenidingh@gmail.comm', '999666111', 11, 0),
+(34, '32345675', 'kenidingh', '$2y$10$gBiExDBvyzPjh95PFi4bbeDl1f9gjq8KNrNtVMtNBf1j2OSc/c6NW', 'kenidingh@gmail.con', '999666111', 11, 0),
+(35, '72893091', 'kenidinghh', '$2y$10$9QeDzx1FNivXqIp.lJ2N5.2w36e/HGlFSxwSNXv/xJTNd.IpKBINW', 'kenidingh@gmail.cob', '999666111', 13, 0),
+(36, '72896098', 'kenidinghh', '$2y$10$DB1gWAgiNo8TBp51AoHNlOXaqYKMHUW9GmOsrVg4wHJl2MqskIMuO', 'jaisan2030@gmail.cof', '999666111', 12, 0),
+(37, '11111198', 'user', '$2y$10$sp9sjwoIsYAgHgshNR0X/OycQDrWhxs3CP82nLya3Xsb/SuT0HTJS', 'jaisan2030@gmail.com', '51998760722', 1, 1),
+(38, '11111193', 'Administratorw', '$2y$10$HotJuvSQAIbA/1Qw4xOKDu2YQaRABbG7zeSNmmtFH5SjUjl4LZ6lK', 'jaisan2030@gmail.com', '51998760722', 13, 0),
+(39, '11111190', 'alfaaa', '$2y$10$glflTCJCSPB3XDZg50pkTudZTNGb2i3jJfEGdmOhqrEcqQHhD1qjq', 'jaisan2030@gmail.com', '999666111', 9, 0);
 
 -- --------------------------------------------------------
 
@@ -658,7 +708,15 @@ INSERT INTO `uso_mesa` (`id_uso`, `id_factura`, `id_mesa`, `hora_inicio`, `hora_
 (18, '28072024000624557X9JNSGURVZ', 41, '2024-07-29 03:44:52', NULL),
 (19, '29072024035146964M1WRR5K631', 45, '2024-07-29 03:52:09', NULL),
 (20, '29072024035341233184IZHCOR0', 46, '2024-07-29 03:53:54', NULL),
-(21, '29072024035911462FYTY2X1DM3', 55, '2024-07-29 03:59:27', NULL);
+(21, '29072024035911462FYTY2X1DM3', 55, '2024-07-29 03:59:27', NULL),
+(22, '020820240005172009QEEN8VH4J', 50, '2024-08-02 00:05:25', NULL),
+(23, '02082024155210928ZH1IHPXVGG', 54, '2024-08-02 15:53:31', NULL),
+(24, '02082024155210928ZH1IHPXVGG', 54, '2024-08-02 15:53:53', NULL),
+(25, '02082024155210928ZH1IHPXVGG', 54, '2024-08-02 15:54:00', NULL),
+(26, '16082024013659662EN4OKGSOEW', 49, '2024-08-16 01:37:13', NULL),
+(27, '16082024013659662EN4OKGSOEW', 49, '2024-08-16 01:38:04', NULL),
+(28, '16082024013659662EN4OKGSOEW', 49, '2024-08-16 01:38:51', NULL),
+(29, '16082024014458573YGKFA6X3WU', 51, '2024-08-16 01:45:27', NULL);
 
 --
 -- Disparadores `uso_mesa`
@@ -804,7 +862,7 @@ ALTER TABLE `uso_mesa`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `chats`
@@ -822,7 +880,7 @@ ALTER TABLE `chat_permissions`
 -- AUTO_INCREMENT de la tabla `comidas`
 --
 ALTER TABLE `comidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `estados_mesa`
@@ -840,25 +898,25 @@ ALTER TABLE `mesas`
 -- AUTO_INCREMENT de la tabla `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT de la tabla `modificaciones_plato`
 --
 ALTER TABLE `modificaciones_plato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `ordenes_modificaciones`
 --
 ALTER TABLE `ordenes_modificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `reservas`
@@ -882,13 +940,13 @@ ALTER TABLE `tiposclientes`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `uso_mesa`
 --
 ALTER TABLE `uso_mesa`
-  MODIFY `id_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Restricciones para tablas volcadas
