@@ -1,13 +1,6 @@
-.container_chat {
-    font-family: Arial, sans-serif;
-    margin-top: 100px;
-    padding: 0;
-}
-
 #chat-container {
-    width: 400px;
     max-width: 100%;
-    margin: 20px auto;
+    margin: 50px auto;
     background: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -20,7 +13,7 @@
     flex: 1;
     padding: 15px;
     overflow-y: auto;
-    max-height: 300px; 
+    max-height: 300px;
     border-bottom: 1px solid #e0e0e0;
 }
 
@@ -44,7 +37,7 @@
     outline: none;
 }
 
-#send-button, select {
+#send-button, select, button {
     font-size: 18px;
     padding: 10px 15px;
     background: #007bff;
@@ -55,7 +48,7 @@
     transition: background 0.3s;
 }
 
-#send-button:hover, select {
+#send-button:hover, select, button {
     background: #0056b3;
 }
 

@@ -156,6 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             throw new Error('Error en la creación de la modificación');
                         }
                     }
+
+                    window.location.href = 'http://localhost:8100/app/menu/roles/mesero/menu.php';
                 } catch (error) {
                     console.error('Error:', error);
                 }

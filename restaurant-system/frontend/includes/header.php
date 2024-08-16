@@ -9,12 +9,12 @@
     <header>
         <nav>
             <ul>
-                <li><a href="index.php">Inicio</a></li>
-                <li><a href="views/menu.php">Menú</a></li>
-                <li><a href="views/orders.php">Pedidos</a></li>
-                <li><a href="views/reservations.php">Reservas</a></li>
-                <li><a href="views/employees.php">Empleados</a></li>
-                <li><a href="views/reports.php">Reportes</a></li>
+                <li><a href="http://localhost:8100/">Inicio</a></li>
+                <li><a href="">Menú</a></li>
+                <li><a href="">Pedidos</a></li>
+                <li><a href="">Reservas</a></li>
+                <li><a href="">Empleados</a></li>
+                <li><a href="">Reportes</a></li>
             </ul>
         </nav>
     </header>

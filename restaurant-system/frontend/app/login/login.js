@@ -15,6 +15,10 @@ function getdata(dni) {
         .then(r => r.json())
         .then(data => {
             localStorage.setItem('user_id', data.id);
+            localStorage.setItem('rol', data.rol_id);
+            localStorage.setItem('name', data.username);
+
+            pageforRol(data.rol_id)
         })
 }
 
@@ -45,22 +49,10 @@ function login(dni, password) {
         });
 }
 
-function pageforRol() {
-    let id;
-    let nombre;
-    let url = `${apiBase.apiBaseUrl}/roles`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(rol => {
-                id = rol.id;
-                nombre = rol.nombre;
-                if (id === 1) {
-                    window.location.href = 'http://localhost:8100/app/menu/menu.php';
-                } else if (id === 9) {
-                    window.location.href = 'http://localhost:8100/app/menu/roles/mesero/menu.php';
-                }
-            });
-        })
-        .catch(error => console.error('Error:', error));
+function pageforRol(id) {
+    if (id === 1) {
+        window.location.href = 'http://localhost:8100/app/menu/roles/administrador/menu.php';
+    } else if (id === 9) {
+        window.location.href = 'http://localhost:8100/app/menu/roles/mesero/menu.php';
+    }
 }

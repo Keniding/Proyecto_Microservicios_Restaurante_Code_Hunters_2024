@@ -1,0 +1,12 @@
+.container_chat {
+    margin: 40px;
+}
+
+header {
+    position: relative;
+}
+
+.container {
+    padding-top: 0;
+    padding-bottom: 30px;
+}
