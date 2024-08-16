@@ -1,4 +1,4 @@
-import { ChatWebSocket } from './chat-websocket.js';
+import {ChatWebSocket} from './chat-websocket.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('message-input');
@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const username = message.username ? message.username : 'Unknown User';
+        const id = message.user_id ? message.user_id : 'Unknown Id';
 
         messageElement.innerHTML = `
             <div class="message-header">
@@ -162,6 +163,28 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="message-content">${message.content}</div>
         `;
+
+        function generatePastelColor(seed) {
+            const random = Math.sin(seed) * 10000;
+            const hue = random - Math.floor(random);
+
+            const saturation = 0.5;
+            const lightness = 0.85;
+
+            return `hsl(${hue * 360}, ${saturation * 100}%, ${lightness * 100}%)`;
+        }
+
+        const userColors = {};
+
+        function getUserColor(userId) {
+            if (!userColors[userId]) {
+                userColors[userId] = generatePastelColor(userId);
+            }
+            return userColors[userId];
+        }
+
+        messageElement.style.background = getUserColor(id);
+
         return messageElement;
     }
 
