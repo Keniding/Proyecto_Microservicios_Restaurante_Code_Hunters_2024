@@ -38,4 +38,11 @@ abstract class BaseController
         return $this->model->delete($id);
     }
 
+    /*
+    public function edit(mixed $id, array $data)
+    {
+        return $this->model->update($id, $data);
+    }
+    */
+
 }
