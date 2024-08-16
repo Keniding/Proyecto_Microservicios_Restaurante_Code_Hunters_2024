@@ -7,10 +7,12 @@ module.exports = {
         carta: './app/menu/roles/mesero/modulos/carta/carta.js',
         orden: './app/menu/roles/mesero/modulos/orden/js/script.js',
         order: './app/menu/roles/mesero/modulos/orden/js/order.js',
-        etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
         dni: './app/menu/roles/mesero/modulos/orden/js/verificarCliente.js',
-        categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
         mesas: './app/menu/roles/mesero/modulos/mesas/js/script.js',
+        etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
+        categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
+
+        title: './js/datos.js',
 
         getroles: './app/register/js/get_roles.js',
         register: './app/register/js/register.js',
