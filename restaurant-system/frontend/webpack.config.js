@@ -12,6 +12,7 @@ module.exports = {
         etiquetas: './app/menu/roles/mesero/modulos/orden/js/etiquetas.js',
         categoria: './app/menu/roles/administrador/modulos/categoria/js/script.js',
         comidaCRUD: './app/menu/roles/administrador/modulos/comida/js/script.js',
+        usuarioCRUD: './app/menu/roles/administrador/modulos/user/js/script.js',
 
         title: './js/datos.js',
 

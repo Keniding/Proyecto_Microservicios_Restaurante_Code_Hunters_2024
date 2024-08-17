@@ -14,4 +14,9 @@ class Controller extends BaseController
     {
         return $this->model->getByDni($id);
     }
+
+    public function editEstado($id)
+    {
+        return $this->model->updateEstado($id);
+    }
 }

@@ -70,4 +70,26 @@ class Model extends BaseModel
     {
         // TODO: Implement delete() method.
     }
+
+    public function updateEstado(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT estado FROM users WHERE id = :id");
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $currentState = $stmt->fetchColumn();
+
+            $newState = ($currentState == 1) ? 0 : 1;
+
+            $query = "UPDATE users SET estado = :estado WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            $stmt->bindParam(':estado', $newState, \PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch(PDOException $exception) {
+            echo "Error: " . $exception->getMessage() . "<br>";
+            return false;
+        }
+    }
 }

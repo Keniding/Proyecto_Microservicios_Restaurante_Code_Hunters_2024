@@ -25,6 +25,7 @@ include('../../../message/fulsocket/index.html');
     <div class="card-container">
         <a href="modulos/categoria/categoria.php" class="card">Gestionar Categorias de Comida</a>
         <a href="modulos/comida/comida.php" class="card">Gestionar de Platos de Comida</a>
+        <a href="modulos/user/user.php" class="card">Gestionar de Usuarios</a>
     </div>
 </div>
 
