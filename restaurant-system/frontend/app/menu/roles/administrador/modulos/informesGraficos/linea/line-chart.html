@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gráfico de Líneas</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+    <div class="container">
+        <button id="backButton">Volver</button>
+        <h1>Gráfico de Líneas</h1>
+        <div class="filters">
+            <select id="yearFilter">
+                <option value="">Seleccionar Año</option>
+            </select>
+            <select id="monthFilter">
+                <option value="">Seleccionar Mes</option>
+            </select>
+            <button id="applyFilters">Aplicar Filtros</button>
+        </div>
+        <canvas id="lineChart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script src="../script.js"></script>
+    </body>
+</html>
