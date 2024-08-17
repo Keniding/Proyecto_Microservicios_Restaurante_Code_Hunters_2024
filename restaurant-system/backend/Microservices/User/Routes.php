@@ -46,6 +46,10 @@ class Routes extends Router
         $app->post('/user', function() {
             return $this->handleStoreUser($this->input());
         });
+
+        $app->put('/userStatus/{id}', function ($id) {
+            return $this->handleUpdateStatus($id);
+        });
     }
 
     private function handleAllUsers() {
@@ -116,6 +120,18 @@ class Routes extends Router
             return $this->createResponse(500, json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         } catch (Exception $e) {
             return $this->createResponse(500, json_encode(['status' => 'error', 'message' => 'Error inesperado: ' . $e->getMessage()]));
+        }
+    }
+
+    private function handleUpdateStatus($id)
+    {
+        $controller = new Controller($this->user);
+        try {
+            $result = $controller->editEstado($id);
+            $success = json_encode(['success' => $result], JSON_THROW_ON_ERROR);
+            return $this->createResponse(201, $success);
+        } catch (JsonException $e) {
+            return $this->createResponse(500, json_encode(['error' => $e->getMessage()]));
         }
     }
 
